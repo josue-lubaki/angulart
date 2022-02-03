@@ -1,41 +1,47 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
+import { Address } from '../models/Address';
+import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignUpService {
-  signupInformation: any;
-  private informationComplete = new Subject<any>();
+  signupInformation: User;
+  private informationComplete = new Subject<User>();
   informationComplete$ = this.informationComplete.asObservable();
 
   constructor() {
-    this.clearSignUpInformation();
+    this.signupInformation =  this.clearSignUpInformation();
   }
 
   getSignUpInformation() {
     return this.signupInformation;
   }
 
-  setSignUpInformation(signupInformation: any) {
+  setSignUpInformation(signupInformation: User) {
     this.signupInformation = signupInformation;
   }
 
   clearSignUpInformation() {
-    this.signupInformation = {
+    let address: Address = {
+      street: '',
+      city: '',
+      state: '',
+      zip: '',
+      apartment: '',
+    };
+
+    return this.signupInformation = {
       fname: '',
       lname: '',
       email: '',
       password: '',
       imageURL: '',
-      dob: '',
-      address: {
-        street: '',
-        city: '',
-        state: '',
-        zip: '',
-        apartment: '',
-      },
+      dob: Date.now(),
+      reservations: [],
+      isClient: true,
+      address: address,
     };
   }
 
@@ -52,6 +58,6 @@ export class SignUpService {
   }
 
   complete() {
-    this.informationComplete.next(this.signupInformation.address);
+    this.informationComplete.next(this.signupInformation);
   }
 }

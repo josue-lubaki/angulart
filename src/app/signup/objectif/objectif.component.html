@@ -14,6 +14,7 @@
           <div class="p-toolbar-group-left">
             <button
               pButton
+              (click)="createClient()"
               type="button"
               label="Utilisateur"
               class="p-button-raised p-button-rounded"
@@ -28,9 +29,10 @@
           <div class="p-toolbar-group-right">
             <button
               pButton
+              (click)="createBarber()"
               type="button"
               label="Coiffeur"
-              class="p-button-raised p-button-rounded p-button-success"
+              class="p-button-raised p-button-rounded"
             >
               <img
                 alt="logo"
@@ -42,5 +44,17 @@
         </p-toolbar>
       </div>
     </div>
+    <ng-template pTemplate="footer">
+      <div class="grid grid-nogutter justify-content-end">
+        <p-button
+          styleClass="p-button-success"
+          [disabled]="isDisabled"
+          label="Next"
+          (onClick)="nextPage()"
+          icon="pi pi-angle-right"
+          iconPos="right"
+        ></p-button>
+      </div>
+    </ng-template>
   </p-card>
 </div>
