@@ -6,6 +6,18 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
+// Path of signup component
+import { ObjectifComponent } from './signup/objectif/objectif.component';
+import { ProfilComponent } from './signup/profil/profil.component';
+import { AdresseComponent } from './signup/adresse/adresse.component';
+
+// Primeng - Module
+import { StepsModule } from 'primeng/steps';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ToolbarModule } from 'primeng/toolbar';
+import { SignUpModule } from './signup/signup.module';
+
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomePageComponent },
@@ -23,13 +35,7 @@ const routes: Routes = [
   { path: '**', redirectTo: 'home' },
 ];
 
-// Primeng - Module
-import { StepsModule } from 'primeng/steps';
-import { ObjectifComponent } from './signup/objectif/objectif.component';
-import { ProfilComponent } from './signup/profil/profil.component';
-import { AdresseComponent } from './signup/adresse/adresse.component';
-
-const primengModules = [StepsModule];
+const primengModules = [StepsModule, ButtonModule, CardModule, ToolbarModule];
 
 @NgModule({
   declarations: [
@@ -39,7 +45,7 @@ const primengModules = [StepsModule];
     LoginComponent,
   ],
   providers: [FormBuilder],
-  imports: [RouterModule.forRoot(routes), primengModules],
-  exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes), ...primengModules, SignUpModule],
+  exports: [RouterModule, ...primengModules],
 })
 export class AppRoutingModule {}

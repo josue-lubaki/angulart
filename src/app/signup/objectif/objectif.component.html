@@ -1,1 +1,46 @@
-<p>objectif works!</p>
+<!-- Proposer deux buttons à l'utilisation (Button gauche et droite) -->
+<!-- Button gauche : "Client" -->
+<!-- Button droite : "Coiffeur" -->
+
+<div class="objectif">
+  <p-card
+    header=""
+    subheader="Choisissez le profil qui vous intéresse"
+    class="p-ml-3 p-text-center objectif-card"
+  >
+    <div class="p-grid p-jc-center p-p-1 objectif-card-body">
+      <div class="p-col-6 objectif-card-body-container">
+        <p-toolbar>
+          <div class="p-toolbar-group-left">
+            <button
+              pButton
+              type="button"
+              label="Utilisateur"
+              class="p-button-raised p-button-rounded"
+            >
+              <img
+                alt="logo"
+                src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
+                style="width: 2rem"
+              />
+            </button>
+          </div>
+          <div class="p-toolbar-group-right">
+            <button
+              pButton
+              type="button"
+              label="Coiffeur"
+              class="p-button-raised p-button-rounded p-button-success"
+            >
+              <img
+                alt="logo"
+                src="https://cdn-icons-png.flaticon.com/512/40/40756.png"
+                style="width: 2rem"
+              />
+            </button>
+          </div>
+        </p-toolbar>
+      </div>
+    </div>
+  </p-card>
+</div>

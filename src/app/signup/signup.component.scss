@@ -1,0 +1,53 @@
+// variable css pour la couleur de fond
+@import "../../styles/colors.scss";
+
+.card {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 50px;
+
+  .p-steps-item.p-steps-current .p-menuitem-link {
+    cursor: pointer;
+    padding: 0 1em;
+    overflow: visible;
+    color: $color-black-primary;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
+    box-shadow: none;
+  }
+
+  .p-steps-item .p-menuitem-link {
+    color: $color-black-primary;
+    font-size: 1.1rem;
+  }
+
+  .p-steps-item .p-menuitem-link:hover {
+    color: $color-blue-primary;
+    transition: all 0.5s ease-out;
+  }
+
+  .p-steps-item.p-steps-current .p-menuitem-link .p-steps-number {
+    background-color: $color-blue-primary;
+    color: $color-white-primary;
+    display: inline-block;
+    width: 1.5rem;
+    border-radius: 50%;
+    text-align: center;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .p-steps-item.p-steps-current .p-menuitem-link .p-steps-title {
+    color: $color-black-primary;
+  }
+
+  .p-steps-item .p-menuitem-link .p-steps-title:hover {
+    color: $color-blue-primary;
+  }
+
+  .p-steps-item.p-steps-current .p-menuitem-link .p-steps-title:hover {
+    color: $color-black-primary;
+  }
+}
