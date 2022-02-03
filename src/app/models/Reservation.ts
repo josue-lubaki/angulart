@@ -9,7 +9,7 @@ export class Reservation {
   description?: string;
   price?: number;
   duration?: number;
-  imgURL?: string;
+  imageURL?: string;
   haircut?: string;
   status?: string;
   client?: Client;
@@ -19,7 +19,7 @@ export class Reservation {
     description?: string,
     price?: number,
     duration?: number,
-    imgURL?: string,
+    imageURL?: string,
     haircut?: string,
     client?: Client,
     barber?: Barber
@@ -27,7 +27,7 @@ export class Reservation {
     this.description = description;
     this.price = price;
     this.duration = duration;
-    this.imgURL = imgURL;
+    this.imageURL = imageURL;
     this.haircut = haircut;
     this.status = STATUS.PENDING;
     this.client = client;
