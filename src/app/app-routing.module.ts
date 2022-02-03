@@ -26,6 +26,7 @@ const routes: Routes = [
     path: 'signup',
     component: SignupComponent,
     children: [
+      { path: '', redirectTo: 'objectif', pathMatch: 'full' },
       { path: 'objectif', component: ObjectifComponent },
       { path: 'profil', component: ProfilComponent },
       { path: 'adresse', component: AdresseComponent },
