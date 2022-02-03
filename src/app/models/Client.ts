@@ -4,7 +4,7 @@ import { Reservation } from './Reservation';
 export class Client {
   fname?: string;
   lname?: string;
-  imgURL?: string;
+  imageURL?: string;
   dob?: Date;
   address?: Address;
   reservations?: Reservation[];
@@ -12,14 +12,14 @@ export class Client {
   constructor(
     fname: string,
     lname: string,
-    imgURL: string,
+    imageURL: string,
     dob: Date,
     address: Address
   ) {
     this.reservations = [];
     this.fname = fname;
     this.lname = lname;
-    this.imgURL = imgURL;
+    this.imageURL = imageURL;
     this.dob = dob;
     this.address = address;
   }

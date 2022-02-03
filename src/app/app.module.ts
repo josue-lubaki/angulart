@@ -3,30 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { NavigationComponent } from './navigation/navigation.component';
 import { FooterComponent } from './footer/footer.component';
-import { LoginComponent } from './login/login.component';
-import { ContentComponent } from './content/content.component';
-import { SignupComponent } from './signup/signup.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { ObjectifComponent } from './signup/objectif/objectif.component';
+import { ProfilComponent } from './signup/profil/profil.component';
+import { AdresseComponent } from './signup/adresse/adresse.component';
+import { SignUpService } from './signup/signup.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent,
-    NavigationComponent,
     FooterComponent,
-    LoginComponent,
-    ContentComponent,
-    SignupComponent
+    NavigationComponent,
+    ObjectifComponent,
+    ProfilComponent,
+    AdresseComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [SignUpService],
   bootstrap: [AppComponent],
-  exports: [
-  ]
+  exports: [],
 })
-export class AppModule { }
+export class AppModule {}
