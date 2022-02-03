@@ -1,0 +1,24 @@
+@import "~primeflex/primeflex.css";
+@import "~primeng/resources/themes/saga-blue/theme.css";
+@import "~primeng/resources/primeng.min.css";
+@import "~primeicons/primeicons.css";
+@import "~boxicons/css/boxicons.css";
+
+// colors
+$color-red-primary: #ff0000;
+$color-black-primary: #000000;
+$color-white-primary: #ffffff;
+$color-grey-primary: #cccccc;
+$color-footer-primary: #a5a5a5;
+$color-navigation-primary: #f4f4f4;
+$color-blue-primary: #0081c2;
+
+:root {
+  --color-red-primary: #ff0000;
+  --color-black-primary: #000000;
+  --color-white-primary: #ffffff;
+  --color-grey-primary: #cccccc;
+  --color-footer-primary: #a5a5a5;
+  --color-navigation-primary: #f4f4f4;
+  --color-blue-primary: #0081c2;
+}

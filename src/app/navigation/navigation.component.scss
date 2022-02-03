@@ -1,21 +1,23 @@
+@import "../../styles/colors.scss";
+
 .navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  background-color: $color-navigation-primary;
+  padding: 1rem;
+
+  span {
+    align-self: center;
+  }
+
+  ul {
+    list-style: none;
     display: flex;
-    flex-direction : row;
-    justify-content: space-between;
-    align-content: center;
-    background-color : #f4f4f4;
-    padding: 1rem;
 
-    span {
-        align-self : center;
+    li {
+      margin-right: 1rem;
     }
-
-    ul {
-        list-style: none;
-        display : flex;
-        
-        li {
-            margin-right: 1rem;
-        }
-    }
+  }
 }
