@@ -22,25 +22,25 @@ export class ProfilComponent implements OnInit {
   constructor(
     private router: Router,
     private signupService: SignUpService,
-    private fb: FormBuilder,
-    private location: Location
+    private fb: FormBuilder
   ) {
     this.form = this._initUserForm();
     this.profilInformation = new PersonalInformationModel();
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
-    console.log(
-      'this.ticketSignUpInformation - constructor',
-      this.ticketSignUpInformation
-    );
   }
 
   ngOnInit() {
-    console.log(
-      'this.ticketSignUpInformation - ngOnInit',
-      this.ticketSignUpInformation
-    );
+    // Pré-remplir les données du formulaire
     if (this.ticketSignUpInformation.personalInformation) {
       this.form.patchValue(this.ticketSignUpInformation.personalInformation);
+    }
+
+    // Si l'utilisateur n'a aucun objectif, on le redirige vers la page d'objectif
+    if (
+      this.ticketSignUpInformation.objectif.isClient == false &&
+      this.ticketSignUpInformation.objectif.isBarber == false
+    ) {
+      this.router.navigate(['/signup/objectif']);
     }
   }
 
@@ -63,7 +63,14 @@ export class ProfilComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
       imageURL: [''],
       dob: [''],
-      phone: ['', Validators.required],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.pattern('[- +()0-9]+'),
+        ],
+      ],
     });
   }
 
@@ -76,6 +83,8 @@ export class ProfilComponent implements OnInit {
   }
 
   nextPage() {
+    this.submitted = true;
+
     if (this.form.invalid) {
       return;
     }
@@ -95,15 +104,13 @@ export class ProfilComponent implements OnInit {
       );
       this.router.navigate(['/signup/address']);
     }
-
-    this.submitted = true;
   }
 
   /**
-   * Methode qui permet de retourner en arrière au click du button "Cancel"
+   * Methode qui permet de retourner en arrière au click du button "Precedent"
    * @return void
    */
-  onCancel() {
-    this.location.back();
+  prevPage() {
+    this.router.navigate(['/signup/objectif']);
   }
 }

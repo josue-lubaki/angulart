@@ -2,34 +2,28 @@
   <div class="profil-header">
     <!-- Recueil des informations personnelles du User -->
     <p-card styleClass="p-mt-5">
-      <!-- <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://media.istockphoto.com/photos/white-round-podium-picture-id1288951376?b=1&k=20&m=1288951376&s=170667a&w=0&h=Eev_ow11HKvTTAYGTMhV8qnG1fJB9I05OufukNG0oDU="
-          height="100%"
-        />
-      </ng-template> -->
-      <!-- <div class="p-grid p-mb-4">
+      <div class="p-grid p-mb-4">
         <div class="p-col-12">
           <p-toolbar>
-            <div class="p-toolbar-group-left"></div>
+            <div class="p-toolbar-group-left">
+              <p-button
+                (click)="prevPage()"
+                label="Précedent"
+                icon="pi pi-arrow-circle-left"
+                styleClass="p-button-secondary p-mr-2 p-mb-1"
+              ></p-button>
+            </div>
             <div class="p-toolbar-group-right">
               <p-button
-                (click)="onCancel()"
-                label="Annuler"
-                icon="pi pi-arrow-circle-left"
-                styleClass="p-button-secondary p-mr-2"
-              ></p-button>
-              <p-button
-                [label]="'S\'inscrire'"
-                [icon]="'pi pi-plus'"
+                label="Suivant"
+                [icon]="'pi pi-arrow-circle-right'"
                 styleClass="p-button-success"
-                (click)="onSubmit()"
+                (onClick)="nextPage()"
               ></p-button>
             </div>
           </p-toolbar>
         </div>
-      </div> -->
+      </div>
       <div class="p-grid">
         <div class="p-col-12">
           <form [formGroup]="form">
@@ -78,9 +72,10 @@
                 />
                 <small
                   *ngIf="
-                    this.userForm['email'].invalid &&
-                    this.userForm['email'].dirty &&
-                    this.userForm['email'].touched
+                    (this.userForm['email'].invalid &&
+                      this.userForm['email'].dirty &&
+                      this.userForm['email'].touched) ||
+                    (this.userForm['email'].invalid && submitted)
                   "
                   class="p-error"
                   style="color: red"
@@ -95,9 +90,10 @@
                 ></p-password>
                 <small
                   *ngIf="
-                    this.userForm['password'].invalid &&
-                    this.userForm['password'].dirty &&
-                    this.userForm['password'].touched
+                    (this.userForm['password'].invalid &&
+                      this.userForm['password'].dirty &&
+                      this.userForm['password'].touched) ||
+                    (this.userForm['password'].invalid && submitted)
                   "
                   class="p-error"
                   style="color: red"
@@ -114,14 +110,14 @@
                     this.userForm['phone'].value !== '' &&
                     this.userForm['phone'].value !== undefined
                       ? this.userForm['phone'].value
-                      : '+ (code pays) 999-999-9999'
+                      : '+1 999 999 9999'
                   "
                 />
                 <small
                   *ngIf="this.userForm['phone'].invalid && submitted"
                   class="p-error"
                   style="color: red"
-                  >Phone est obligatoire</small
+                  >Téléphone est obligatoire</small
                 >
               </div>
             </div>
@@ -175,7 +171,7 @@
         </div>
       </div>
 
-      <ng-template pTemplate="footer">
+      <!-- <ng-template pTemplate="footer">
         <div class="grid grid-nogutter justify-content-end">
           <p-button
             styleClass="p-button-success"
@@ -185,7 +181,7 @@
             iconPos="right"
           ></p-button>
         </div>
-      </ng-template>
+      </ng-template> -->
     </p-card>
   </div>
 </div>

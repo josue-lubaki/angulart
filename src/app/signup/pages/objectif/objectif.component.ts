@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
 import { ObjectifModel, TicketSignUpModel } from '../../models/TicketSignUp';
 import { SignUpService } from '../../signup.service';
 

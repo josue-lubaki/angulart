@@ -29,18 +29,10 @@ const primengModules = [
   InputTextModule,
 ];
 
-const routes: Routes = [
-  { path: '', redirectTo: 'objectif', pathMatch: 'full' },
-  { path: 'objectif', component: ObjectifComponent },
-  { path: 'profil', component: ProfilComponent },
-  { path: 'address', component: AdresseComponent },
-];
-
 @NgModule({
   declarations: [AdresseComponent, ObjectifComponent, ProfilComponent],
   providers: [FormsModule, SignUpService],
   imports: [
-    RouterModule.forChild(routes),
     ...primengModules,
     FormsModule,
     ReactiveFormsModule,
