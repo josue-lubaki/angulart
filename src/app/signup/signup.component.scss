@@ -6,6 +6,7 @@
   max-width: 500px;
   margin: 0 auto;
   margin-top: 50px;
+  min-height: 22vh;
 
   .p-steps-item.p-steps-current .p-menuitem-link {
     cursor: pointer;
@@ -19,14 +20,15 @@
     box-shadow: none;
   }
 
-  .p-steps-item .p-menuitem-link {
+  .p-steps .p-steps-item .p-menuitem-link {
     color: $color-black-primary;
     font-size: 1.1rem;
+    background: transparent;
   }
 
   .p-steps-item .p-menuitem-link:hover {
     color: $color-blue-primary;
-    transition: all 0.5s ease-out;
+    transition: all 0.75s ease-out;
   }
 
   .p-steps-item.p-steps-current .p-menuitem-link .p-steps-number {
@@ -40,7 +42,13 @@
   }
 
   .p-steps-item.p-steps-current .p-menuitem-link .p-steps-title {
-    color: $color-black-primary;
+    color: $color-white-primary;
+    font-weight: bold;
+  }
+
+  .p-steps-item .p-menuitem-link .p-steps-title {
+    color: $color-gray-primary;
+    font-weight: bold;
   }
 
   .p-steps-item .p-menuitem-link .p-steps-title:hover {
@@ -48,6 +56,6 @@
   }
 
   .p-steps-item.p-steps-current .p-menuitem-link .p-steps-title:hover {
-    color: $color-black-primary;
+    color: $color-gray-primary;
   }
 }

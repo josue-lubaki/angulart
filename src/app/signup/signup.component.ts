@@ -16,6 +16,7 @@ export class SignupComponent implements OnInit {
   items: MenuItem[];
 
   subscription: any;
+  activeIndex: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,20 +33,29 @@ export class SignupComponent implements OnInit {
       {
         label: 'Objectif',
         routerLink: 'objectif',
+        command: () => {
+          this.activeIndex = 0;
+        },
       },
       {
         label: 'Profil',
         routerLink: 'profil',
+        command: () => {
+          this.activeIndex = 1;
+        },
       },
       {
         label: 'Adresse',
-        routerLink: 'adresse',
+        routerLink: 'address',
+        command: () => {
+          this.activeIndex = 2;
+        },
       },
     ];
 
-    this.subscription = this.signupService.informationComplete$.subscribe(
+    this.subscription = this.signupService.signupInformationComplete$.subscribe(
       (data) => {
-        console.log(data);
+        console.log('signupInformationComplete', data);
       }
     );
   }

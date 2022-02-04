@@ -1,5 +1,5 @@
-import { Address } from './Address';
-import { Reservation } from './Reservation';
+import { Address } from '../../models/Address';
+import { Reservation } from '../../models/Reservation';
 
 export class User {
   fname: string;
@@ -11,6 +11,7 @@ export class User {
   address: Address;
   reservations: Reservation[];
   isClient: boolean;
+  isAdmin: boolean;
 
   constructor(
     fname: string,
@@ -20,7 +21,8 @@ export class User {
     password: string,
     dob: number,
     address: Address,
-    isClient: boolean
+    isClient: boolean,
+    isAdmin: boolean
   ) {
     this.reservations = [];
     this.fname = fname;
@@ -31,5 +33,6 @@ export class User {
     this.dob = dob;
     this.address = address;
     this.isClient = isClient;
+    this.isAdmin = isAdmin;
   }
 }

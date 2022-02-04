@@ -7,9 +7,9 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
 // Path of signup component
-import { ObjectifComponent } from './signup/objectif/objectif.component';
-import { ProfilComponent } from './signup/profil/profil.component';
-import { AdresseComponent } from './signup/adresse/adresse.component';
+import { ObjectifComponent } from './signup/pages/objectif/objectif.component';
+import { ProfilComponent } from './signup/pages/profil/profil.component';
+import { AdresseComponent } from './signup/pages/adresse/adresse.component';
 
 // Primeng - Module
 import { StepsModule } from 'primeng/steps';
@@ -29,7 +29,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'objectif', pathMatch: 'full' },
       { path: 'objectif', component: ObjectifComponent },
       { path: 'profil', component: ProfilComponent },
-      { path: 'adresse', component: AdresseComponent },
+      { path: 'address', component: AdresseComponent },
     ],
   },
   { path: 'content', component: ContentComponent },
