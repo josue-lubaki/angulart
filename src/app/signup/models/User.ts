@@ -2,27 +2,31 @@ import { Address } from '../../models/Address';
 import { Reservation } from '../../models/Reservation';
 
 export class User {
-  fname: string;
-  lname: string;
-  image: string;
-  email: string;
-  password: string;
-  dob: number;
-  address: Address;
-  reservations: Reservation[];
-  isClient: boolean;
-  isAdmin: boolean;
+  fname?: string;
+  lname?: string;
+  image?: string;
+  email?: string;
+  password?: string;
+  dob?: Date;
+  phone?: string;
+  address?: Address;
+  reservations?: Reservation[];
+  isClient?: boolean;
+  isBarber?: boolean;
+  isAdmin?: boolean;
 
   constructor(
-    fname: string,
-    lname: string,
-    image: string,
-    email: string,
-    password: string,
-    dob: number,
-    address: Address,
-    isClient: boolean,
-    isAdmin: boolean
+    fname?: string,
+    lname?: string,
+    image?: string,
+    email?: string,
+    password?: string,
+    dob?: Date,
+    phone?: string,
+    address?: Address,
+    isClient?: boolean,
+    isBarber?: boolean,
+    isAdmin?: boolean
   ) {
     this.reservations = [];
     this.fname = fname;
@@ -31,8 +35,10 @@ export class User {
     this.email = email;
     this.password = password;
     this.dob = dob;
+    this.phone = phone;
     this.address = address;
     this.isClient = isClient;
+    this.isBarber = isBarber;
     this.isAdmin = isAdmin;
   }
 }

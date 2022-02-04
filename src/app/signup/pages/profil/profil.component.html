@@ -16,6 +16,7 @@
                   type="text"
                   pInputText
                   autocomplete
+                  placeholder="Prénom"
                 />
                 <small
                   *ngIf="this.userForm['fname'].invalid && submitted"
@@ -32,6 +33,7 @@
                   type="text"
                   pInputText
                   autocomplete
+                  placeholder="Nom de famille"
                 />
                 <small
                   *ngIf="this.userForm['lname'].invalid && submitted"
@@ -47,6 +49,7 @@
                   id="email"
                   type="text"
                   pInputText
+                  placeholder="johnDoe@gmail.com"
                 />
                 <small
                   *ngIf="
@@ -123,57 +126,11 @@
                     [(ngModel)]="value"
                     [showIcon]="true"
                     inputId="icon"
-                    dateFormat="dd.mm.yy"
+                    dateFormat="dd/mm/yy"
                   ></p-calendar>
                 </div>
               </div>
             </div>
-
-            <!-- <div
-            style="
-              font-size: 1.1rem;
-              font-weight: 600;
-              text-align: center;
-              text-decoration: underline;
-              padding: 1.2rem 0;
-            "
-          >
-            Informations Importantes en cas d'oublie de mot de passe
-          </div>
-          <div class="p-fluid p-formgrid p-grid">
-            <div class="p-field p-col-12">
-              <label for="question">Question de Sécurité</label><br />
-              <input
-                formControlName="question"
-                id="question"
-                type="text"
-                pInputText
-                placeholder="Entrer une question de votre choix"
-              />
-              <small
-                *ngIf="userForm.question.invalid && isSubmitted"
-                class="p-error"
-                style="color: red"
-                >Question de sécurité est obligatoire</small
-              >
-            </div>
-            <div class="p-field p-col-9">
-              <label for="reponse">Réponse</label><br />
-              <input
-                formControlName="reponse"
-                id="reponse"
-                type="text"
-                pInputText
-                placeholder="Entrer la réponse à la question"
-              />
-              <small
-                *ngIf="userForm.reponse.invalid && isSubmitted"
-                class="p-error"
-                style="color: red"
-                >Réponse est obligatoire</small
-              >
-            </div>
-          </div> -->
           </form>
         </div>
       </div>
@@ -199,18 +156,6 @@
           </p-toolbar>
         </div>
       </div>
-
-      <!-- <ng-template pTemplate="footer">
-        <div class="grid grid-nogutter justify-content-end">
-          <p-button
-            styleClass="p-button-success"
-            label="Next"
-            (onClick)="nextPage()"
-            icon="pi pi-angle-right"
-            iconPos="right"
-          ></p-button>
-        </div>
-      </ng-template> -->
     </p-card>
   </div>
 </div>

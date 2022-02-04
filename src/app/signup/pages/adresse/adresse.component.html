@@ -1,1 +1,119 @@
-<p>adresse works!</p>
+<div class="address">
+  <div class="address-header">
+    <!-- Recueil des informations personnelles du User -->
+    <p-card styleClass="p-mt-5">
+      <div class="p-grid">
+        <div class="p-col-12">
+          <form [formGroup]="form">
+            <div
+              class="p-fluid p-formgrid p-grid p-jc-center p-flex-xl-row p-flex-lg-row p-flex-md-row p-flex-column"
+            >
+              <div class="p-field p-sm-6">
+                <label for="street">La Rue et numéro</label>
+                <input
+                  formControlName="street"
+                  id="street"
+                  type="text"
+                  pInputText
+                  autocomplete
+                  placeholder="#23, Rue Provencher"
+                />
+                <small
+                  *ngIf="this.adresseForm['street'].invalid && submitted"
+                  class="p-error"
+                  style="color: red"
+                  >La Rue est obligatoire</small
+                >
+              </div>
+              <div class="p-field p-sm-6">
+                <label for="apartment">Appartement</label>
+                <input
+                  formControlName="apartment"
+                  id="apartment"
+                  type="text"
+                  pInputText
+                  autocomplete
+                  placeholder="app 4B"
+                />
+              </div>
+              <div class="p-field p-sm-6">
+                <label for="city">Ville</label>
+                <input
+                  formControlName="city"
+                  id="city"
+                  type="text"
+                  pInputText
+                  placeholder="Trois-Rivières"
+                />
+                <small
+                  *ngIf="
+                    (this.adresseForm['city'].invalid &&
+                      this.adresseForm['city'].dirty &&
+                      this.adresseForm['city'].touched) ||
+                    (this.adresseForm['city'].invalid && submitted)
+                  "
+                  class="p-error"
+                  style="color: red"
+                  >Une ville valide obligatoire</small
+                >
+              </div>
+              <div class="p-field p-sm-6">
+                <label>Code Postal</label>
+                <input
+                  formControlName="zip"
+                  id="zip"
+                  type="text"
+                  pInputText
+                  placeholder="G1V 0A1"
+                />
+                <small
+                  *ngIf="
+                    (this.adresseForm['zip'].invalid &&
+                      this.adresseForm['zip'].dirty &&
+                      this.adresseForm['zip'].touched) ||
+                    (this.adresseForm['zip'].invalid && submitted)
+                  "
+                  class="p-error"
+                  style="color: red"
+                  >Code Postal doit avoir au moins 6 caractères</small
+                >
+              </div>
+              <div class="p-field p-sm-6">
+                <label>Province</label>
+                <input formControlName="state" pInputText placeholder="QC" />
+                <small
+                  *ngIf="this.adresseForm['state'].invalid && submitted"
+                  class="p-error"
+                  style="color: red"
+                  >Province est obligatoire</small
+                >
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12">
+          <p-toolbar>
+            <div class="p-toolbar-group-left">
+              <p-button
+                (click)="prevPage()"
+                label="Précedent"
+                icon="pi pi-arrow-circle-left"
+                styleClass="p-button-secondary p-mr-2 p-mb-1"
+              ></p-button>
+            </div>
+            <div class="p-toolbar-group-right">
+              <p-button
+                label="Suivant"
+                [icon]="'pi pi-arrow-circle-right'"
+                styleClass="p-button-success"
+                (onClick)="nextPage()"
+              ></p-button>
+            </div>
+          </p-toolbar>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
