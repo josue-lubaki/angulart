@@ -15,6 +15,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { PasswordModule } from 'primeng/password';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
 
 // service
 import { SignUpService } from './signup.service';
@@ -27,6 +28,7 @@ const primengModules = [
   PasswordModule,
   DropdownModule,
   InputTextModule,
+  CalendarModule,
 ];
 
 @NgModule({

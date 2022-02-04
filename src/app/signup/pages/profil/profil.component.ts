@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignUpService } from '../../signup.service';
 import {
@@ -18,6 +17,9 @@ export class ProfilComponent implements OnInit {
   profilInformation: PersonalInformationModel;
   submitted: boolean = false;
   ticketSignUpInformation: TicketSignUpModel;
+  imageDisplay: string | ArrayBuffer | null | undefined;
+
+  value: Date;
 
   constructor(
     private router: Router,
@@ -27,6 +29,7 @@ export class ProfilComponent implements OnInit {
     this.form = this._initUserForm();
     this.profilInformation = new PersonalInformationModel();
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
+    this.value = new Date();
   }
 
   ngOnInit() {
@@ -42,6 +45,20 @@ export class ProfilComponent implements OnInit {
     ) {
       this.router.navigate(['/signup/objectif']);
     }
+  }
+
+  /**
+   * methode qui calcule l'âge précise de l'utilisateur
+   * @param dob : date de naissance
+   * @returns number[], [0] = age, [1] = mois restant, [2] = jour restant
+   *  */
+  private _calculateAge(date: Date): number[] {
+    const today = new Date();
+    const birthDate = new Date(date);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    const d = today.getDate() - birthDate.getDate();
+    return [age, m, d];
   }
 
   /**
@@ -61,7 +78,7 @@ export class ProfilComponent implements OnInit {
         ],
       ],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      imageURL: [''],
+      image: [''],
       dob: [''],
       phone: [
         '',
@@ -112,5 +129,26 @@ export class ProfilComponent implements OnInit {
    */
   prevPage() {
     this.router.navigate(['/signup/objectif']);
+  }
+
+  /**
+   * Methode qui pemet de uploader une image
+   * @method patchValue() ajouter un champ une valeur dans un FormGroup
+   * @method updateValueAndValidity notifie s'il y a eu changement dans le formulaire
+   * @param event : le fichier image à upload
+   */
+  onImageUpdload(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.form.patchValue({ image: file });
+      this.form.get('image')?.updateValueAndValidity();
+      console.log('this.form.value', this.form.value);
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        this.imageDisplay = fileReader.result as string;
+        console.log('this.imageDisplay', this.imageDisplay);
+      };
+    }
   }
 }

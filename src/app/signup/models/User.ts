@@ -4,7 +4,7 @@ import { Reservation } from '../../models/Reservation';
 export class User {
   fname: string;
   lname: string;
-  imageURL: string;
+  image: string;
   email: string;
   password: string;
   dob: number;
@@ -16,7 +16,7 @@ export class User {
   constructor(
     fname: string,
     lname: string,
-    imageURL: string,
+    image: string,
     email: string,
     password: string,
     dob: number,
@@ -27,7 +27,7 @@ export class User {
     this.reservations = [];
     this.fname = fname;
     this.lname = lname;
-    this.imageURL = imageURL;
+    this.image = image;
     this.email = email;
     this.password = password;
     this.dob = dob;
