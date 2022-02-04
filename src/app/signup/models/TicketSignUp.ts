@@ -27,7 +27,7 @@ export class ObjectifModel {
 export class PersonalInformationModel {
   fname?: string;
   lname?: string;
-  imageURL?: string;
+  image?: string;
   email?: string;
   password?: string;
   dob?: Date;
@@ -36,7 +36,7 @@ export class PersonalInformationModel {
   constructor(
     fname?: string,
     lname?: string,
-    imageURL?: string,
+    image?: string,
     email?: string,
     password?: string,
     dob?: Date,
@@ -44,7 +44,7 @@ export class PersonalInformationModel {
   ) {
     this.fname = fname;
     this.lname = lname;
-    this.imageURL = imageURL;
+    this.image = image;
     this.email = email;
     this.password = password;
     this.dob = dob;

@@ -120,6 +120,35 @@
                   >Téléphone est obligatoire</small
                 >
               </div>
+
+              <div class="p-field p-sm-6">
+                <label for="name">Photo de profil</label><br />
+                <input
+                  type="file"
+                  class="p-inputtext"
+                  accept="image/*"
+                  (change)="onImageUpdload($event)"
+                />
+                <small
+                  *ngIf="userForm['image'].invalid && submitted"
+                  class="p-error"
+                  >Image is required</small
+                >
+                <div class="p-col-3 p-mt-2 p-pl-0">
+                  <img [src]="imageDisplay" style="width: 100%" />
+                </div>
+
+                <div class="p-field p-col-12 p-md:col-4">
+                  <label for="icon">Icon</label>
+                  <p-calendar
+                    formControlName="dob"
+                    [(ngModel)]="value"
+                    [showIcon]="true"
+                    inputId="icon"
+                    dateFormat="dd.mm.yy"
+                  ></p-calendar>
+                </div>
+              </div>
             </div>
 
             <!-- <div
