@@ -46,7 +46,11 @@ const primengModules = [StepsModule, ButtonModule, CardModule, ToolbarModule];
     LoginComponent,
   ],
   providers: [FormBuilder],
-  imports: [RouterModule.forRoot(routes), ...primengModules, SignUpModule],
+  imports: [
+    RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
+    ...primengModules,
+    SignUpModule,
+  ],
   exports: [RouterModule, ...primengModules],
 })
 export class AppRoutingModule {}
