@@ -2,28 +2,6 @@
   <div class="profil-header">
     <!-- Recueil des informations personnelles du User -->
     <p-card styleClass="p-mt-5">
-      <div class="p-grid p-mb-4">
-        <div class="p-col-12">
-          <p-toolbar>
-            <div class="p-toolbar-group-left">
-              <p-button
-                (click)="prevPage()"
-                label="Précedent"
-                icon="pi pi-arrow-circle-left"
-                styleClass="p-button-secondary p-mr-2 p-mb-1"
-              ></p-button>
-            </div>
-            <div class="p-toolbar-group-right">
-              <p-button
-                label="Suivant"
-                [icon]="'pi pi-arrow-circle-right'"
-                styleClass="p-button-success"
-                (onClick)="nextPage()"
-              ></p-button>
-            </div>
-          </p-toolbar>
-        </div>
-      </div>
       <div class="p-grid">
         <div class="p-col-12">
           <form [formGroup]="form">
@@ -197,6 +175,28 @@
             </div>
           </div> -->
           </form>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12">
+          <p-toolbar>
+            <div class="p-toolbar-group-left">
+              <p-button
+                (click)="prevPage()"
+                label="Précedent"
+                icon="pi pi-arrow-circle-left"
+                styleClass="p-button-secondary p-mr-2 p-mb-1"
+              ></p-button>
+            </div>
+            <div class="p-toolbar-group-right">
+              <p-button
+                label="Suivant"
+                [icon]="'pi pi-arrow-circle-right'"
+                styleClass="p-button-success"
+                (onClick)="nextPage()"
+              ></p-button>
+            </div>
+          </p-toolbar>
         </div>
       </div>
 

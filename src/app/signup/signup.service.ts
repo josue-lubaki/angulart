@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
-import { Address } from '../models/Address';
-import { ObjectifModel, TicketSignUpModel } from './models/TicketSignUp';
-import { User } from './models/User';
+import { TicketSignUpModel } from './models/TicketSignUp';
 
 @Injectable({
   providedIn: 'root',
