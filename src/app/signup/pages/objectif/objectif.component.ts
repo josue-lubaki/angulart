@@ -17,6 +17,8 @@ export class ObjectifComponent implements OnInit {
 
   ngOnInit(): void {
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
+
+    // identifier si l'utilisateur veut modifier son type de compte
     this.isModified =
       this.objectifInformation.isClient != this.objectifInformation.isBarber;
   }
