@@ -1,0 +1,191 @@
+<div class="profil">
+  <div class="profil-header">
+    <!-- Recueil des informations personnelles du User -->
+    <p-card styleClass="p-mt-5">
+      <!-- <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="https://media.istockphoto.com/photos/white-round-podium-picture-id1288951376?b=1&k=20&m=1288951376&s=170667a&w=0&h=Eev_ow11HKvTTAYGTMhV8qnG1fJB9I05OufukNG0oDU="
+          height="100%"
+        />
+      </ng-template> -->
+      <!-- <div class="p-grid p-mb-4">
+        <div class="p-col-12">
+          <p-toolbar>
+            <div class="p-toolbar-group-left"></div>
+            <div class="p-toolbar-group-right">
+              <p-button
+                (click)="onCancel()"
+                label="Annuler"
+                icon="pi pi-arrow-circle-left"
+                styleClass="p-button-secondary p-mr-2"
+              ></p-button>
+              <p-button
+                [label]="'S\'inscrire'"
+                [icon]="'pi pi-plus'"
+                styleClass="p-button-success"
+                (click)="onSubmit()"
+              ></p-button>
+            </div>
+          </p-toolbar>
+        </div>
+      </div> -->
+      <div class="p-grid">
+        <div class="p-col-12">
+          <form [formGroup]="form">
+            <div
+              class="p-fluid p-formgrid p-grid p-jc-center p-flex-xl-row p-flex-lg-row p-flex-md-row p-flex-column"
+            >
+              <div class="p-field p-sm-6">
+                <label for="fname">Prénom</label>
+                <input
+                  formControlName="fname"
+                  id="fname"
+                  type="text"
+                  pInputText
+                  autocomplete
+                />
+                <small
+                  *ngIf="this.userForm['fname'].invalid && submitted"
+                  class="p-error"
+                  style="color: red"
+                  >Prénom est obligatoire</small
+                >
+              </div>
+              <div class="p-field p-sm-6">
+                <label for="lname">Nom</label>
+                <input
+                  formControlName="lname"
+                  id="lname"
+                  type="text"
+                  pInputText
+                  autocomplete
+                />
+                <small
+                  *ngIf="this.userForm['lname'].invalid && submitted"
+                  class="p-error"
+                  style="color: red"
+                  >Nom est obligatoire</small
+                >
+              </div>
+              <div class="p-field p-sm-6">
+                <label for="email">Email</label>
+                <input
+                  formControlName="email"
+                  id="email"
+                  type="text"
+                  pInputText
+                />
+                <small
+                  *ngIf="
+                    this.userForm['email'].invalid &&
+                    this.userForm['email'].dirty &&
+                    this.userForm['email'].touched
+                  "
+                  class="p-error"
+                  style="color: red"
+                  >Email valide obligatoire</small
+                >
+              </div>
+              <div class="p-field p-sm-6">
+                <label>Mot de passe</label>
+                <p-password
+                  formControlName="password"
+                  [toggleMask]="true"
+                ></p-password>
+                <small
+                  *ngIf="
+                    this.userForm['password'].invalid &&
+                    this.userForm['password'].dirty &&
+                    this.userForm['password'].touched
+                  "
+                  class="p-error"
+                  style="color: red"
+                  >Mot de passe doit avoir au moins 8 caractères</small
+                >
+              </div>
+              <div class="p-field p-sm-6">
+                <label>Téléphone</label>
+                <input
+                  formControlName="phone"
+                  pInputText
+                  [placeholder]="
+                    this.userForm['phone'] &&
+                    this.userForm['phone'].value !== '' &&
+                    this.userForm['phone'].value !== undefined
+                      ? this.userForm['phone'].value
+                      : '+ (code pays) 999-999-9999'
+                  "
+                />
+                <small
+                  *ngIf="this.userForm['phone'].invalid && submitted"
+                  class="p-error"
+                  style="color: red"
+                  >Phone est obligatoire</small
+                >
+              </div>
+            </div>
+
+            <!-- <div
+            style="
+              font-size: 1.1rem;
+              font-weight: 600;
+              text-align: center;
+              text-decoration: underline;
+              padding: 1.2rem 0;
+            "
+          >
+            Informations Importantes en cas d'oublie de mot de passe
+          </div>
+          <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12">
+              <label for="question">Question de Sécurité</label><br />
+              <input
+                formControlName="question"
+                id="question"
+                type="text"
+                pInputText
+                placeholder="Entrer une question de votre choix"
+              />
+              <small
+                *ngIf="userForm.question.invalid && isSubmitted"
+                class="p-error"
+                style="color: red"
+                >Question de sécurité est obligatoire</small
+              >
+            </div>
+            <div class="p-field p-col-9">
+              <label for="reponse">Réponse</label><br />
+              <input
+                formControlName="reponse"
+                id="reponse"
+                type="text"
+                pInputText
+                placeholder="Entrer la réponse à la question"
+              />
+              <small
+                *ngIf="userForm.reponse.invalid && isSubmitted"
+                class="p-error"
+                style="color: red"
+                >Réponse est obligatoire</small
+              >
+            </div>
+          </div> -->
+          </form>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="grid grid-nogutter justify-content-end">
+          <p-button
+            styleClass="p-button-success"
+            label="Next"
+            (onClick)="nextPage()"
+            icon="pi pi-angle-right"
+            iconPos="right"
+          ></p-button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
