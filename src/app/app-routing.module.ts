@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentComponent } from './content/content.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -17,6 +17,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
 import { SignUpModule } from './signup/signup.module';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -45,10 +46,12 @@ const primengModules = [StepsModule, ButtonModule, CardModule, ToolbarModule];
     ContentComponent,
     LoginComponent,
   ],
-  providers: [FormBuilder],
+  providers: [FormBuilder, ...primengModules],
   imports: [
     RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
     ...primengModules,
+    ReactiveFormsModule,
+    CommonModule,
     SignUpModule,
   ],
   exports: [RouterModule, ...primengModules],

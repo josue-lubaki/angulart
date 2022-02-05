@@ -1,2 +1,125 @@
 // import Variable
 @import "../../styles/colors.scss";
+
+.login {
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+  color: $color-black-primary;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  height: 72vh;
+  justify-content: space-between;
+
+  &::before {
+    content: "";
+    position: absolute;
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.25);
+    z-index: -1;
+  }
+
+  &-left {
+    width: 75%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px 0 0 10px;
+      transition: all 0.5s ease;
+    }
+  }
+
+  &-right {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 0 10px 10px 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    &-bottom {
+      width: 100%;
+      #login-field {
+        width: 65%;
+        transition: all 0.5s ease;
+      }
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    hr {
+      border: 1px thick $color-black-primary;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      input {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid $color-black-primary;
+        background-color: $color-white-primary;
+      }
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .login {
+    &-left {
+      img {
+        border-radius: 10px 0 0 10px;
+      }
+    }
+
+    &-right {
+      &-bottom {
+        #login-field {
+          width: 85%;
+          transition: all 0.5s ease;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .login {
+    flex-direction: column-reverse;
+    height: 75vh;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(5px);
+    &-left {
+      display: none;
+    }
+
+    &-right {
+      padding: 0;
+      height: 100%;
+      &-bottom {
+        #login-field {
+          width: 100%;
+          transition: all 0.5s ease;
+        }
+      }
+    }
+  }
+}
