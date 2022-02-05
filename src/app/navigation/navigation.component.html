@@ -1,10 +1,17 @@
 <div class="navigation">
-    <span>Angulart</span>
-    <img src="https://image.freepik.com/vecteurs-libre/logo-salon-coiffure-retro_23-2148420012.jpg" width="60px"/>
-    <div class="navigation-list">
-        <ul>
-            <li [routerLink]="['/content']" routerLinkActive="router-link-active" >Coupes</li>
-            <li>menu</li>
-        </ul>
-    </div>
+  <span routerLink="/" style="cursor: pointer">Angulart</span>
+  <img
+    src="https://image.freepik.com/vecteurs-libre/logo-salon-coiffure-retro_23-2148420012.jpg"
+    width="60px"
+    routerLink="/"
+    style="cursor: pointer; clip-path: circle()"
+  />
+  <div class="navigation-list">
+    <ul>
+      <li [routerLink]="['/content']" routerLinkActive="router-link-active">
+        Coupes
+      </li>
+      <li>menu</li>
+    </ul>
+  </div>
 </div>
