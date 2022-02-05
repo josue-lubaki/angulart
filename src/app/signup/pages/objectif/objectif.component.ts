@@ -35,7 +35,7 @@ export class ObjectifComponent implements OnInit {
    * No two choices simultaneously
    */
   nextPage() {
-    if (!this.submitted && !this.isDisabled) {
+    if (!this.submitted) {
       this.ticketSignUpInformation.objectif = this.objectifInformation;
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
       this.router.navigate(['/signup/profil']);
@@ -48,29 +48,31 @@ export class ObjectifComponent implements OnInit {
    * Method to create a Client's objectif
    */
   createClient() {
-    this.isDisabled = false;
 
     if (this.isModified) {
       this.objectifInformation = new ObjectifModel();
       this.objectifInformation.isClient = true;
+      this.nextPage();
       return;
     }
 
     this.objectifInformation.isClient = true;
+    this.nextPage();
   }
 
   /**
    * Method to create a Barber's objectif
    */
   createBarber() {
-    this.isDisabled = false;
 
     if (this.isModified) {
       this.objectifInformation = new ObjectifModel();
       this.objectifInformation.isBarber = true;
+      this.nextPage();
       return;
     }
 
     this.objectifInformation.isBarber = true;
+    this.nextPage();
   }
 }
