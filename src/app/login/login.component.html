@@ -1,2 +1,72 @@
-<p>{{ users[0].fname }}</p>
-<img [src]="imageURL" width="100%" />
+<div class="login">
+  <div class="login-left">
+    <img
+      src="https://images.unsplash.com/photo-1502899576159-f224dc2349fa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80"
+      alt="Register-image"
+    />
+  </div>
+  <div class="login-right">
+    <div class="login-right-top">
+      <h1>Login</h1>
+      <hr />
+    </div>
+    <div class="login-right-bottom">
+      <div class="p-col-12">
+        <form [formGroup]="form">
+          <div class="p-fluid p-formgrid p-grid p-flex-column" id="login-field">
+            <div class="p-field p-sm-12">
+              <label for="email">Email</label>
+              <input
+                formControlName="email"
+                id="email"
+                type="text"
+                pInputText
+                placeholder="johnDoe@gmail.com"
+              />
+              <small
+                *ngIf="
+                  (this.loginForm['email'].invalid &&
+                    this.loginForm['email'].dirty &&
+                    this.loginForm['email'].touched) ||
+                  (this.loginForm['email'].invalid && submitted)
+                "
+                class="p-error"
+                style="color: red"
+                >Email valide obligatoire</small
+              >
+            </div>
+            <div class="p-field p-sm-12">
+              <label>Mot de passe</label>
+              <p-password
+                formControlName="password"
+                [toggleMask]="true"
+              ></p-password>
+              <small
+                *ngIf="
+                  (this.loginForm['password'].invalid &&
+                    this.loginForm['password'].dirty &&
+                    this.loginForm['password'].touched) ||
+                  (this.loginForm['password'].invalid && submitted)
+                "
+                class="p-error"
+                style="color: red"
+                >Mot de passe doit avoir au moins 8 caractères</small
+              >
+            </div>
+            <div
+              class="p-field p-md-8 p-md-offset-2 p-xl-offset-3 p-xl-6 p-jc-center"
+            >
+              <button
+                type="submit"
+                pButton
+                label="Se Connecter"
+                class="p-button-raised p-button-rounded p-button-success"
+                (click)="onSubmit()"
+              ></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
