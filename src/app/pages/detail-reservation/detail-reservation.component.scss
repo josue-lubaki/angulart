@@ -1,7 +1,7 @@
 // variable css pour la couleur de fond
 @import "../../../styles/colors.scss";
 
-.card- {
+.card {
   text-align: center;
   display: flex;
   box-sizing: border-box;
@@ -37,7 +37,7 @@
   border-radius: 25% 10%;
 }
 @media (max-width: 750px) {
-  .card-,
+  .card,
   .list-button {
     height: 100%;
     flex-direction: column;

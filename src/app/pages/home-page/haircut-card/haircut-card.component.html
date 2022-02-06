@@ -1,8 +1,8 @@
-<div class="haircut-card">
-  <img [src]="data.mainImageUrl" />
+<div class="haircut-card" (click)="haircutSelected(haircut.id)">
+  <img [src]="haircut.imageURL" />
   <div class="haircut-card-info">
     <div></div>
-    <div>{{ data.title }}</div>
-    <h3>{{ data.price }} $</h3>
+    <div>{{ haircut.title }}</div>
+    <h3>{{ haircut.price }} $</h3>
   </div>
 </div>
