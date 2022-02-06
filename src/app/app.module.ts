@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.component';
 import { FooterComponent } from './pages/footer/footer.component';
-import { MyReservationComponent } from './pages/my-reservation/my-reservation.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 
@@ -13,7 +12,6 @@ import { MyProfileComponent } from './pages/my-profile/my-profile.component';
     AppComponent,
     FooterComponent,
     NavigationComponent,
-    MyReservationComponent,
     DetailHaircutComponent,
     MyProfileComponent,
   ],
