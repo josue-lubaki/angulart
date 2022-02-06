@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Haircut } from 'src/app/models/Haircut';
 
 @Component({
@@ -9,7 +10,7 @@ import { Haircut } from 'src/app/models/Haircut';
 export class HaircutCardComponent implements OnInit {
   @Input()
   haircut!: Haircut;
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -18,6 +19,6 @@ export class HaircutCardComponent implements OnInit {
    * @param id the id of the card
    */
   haircutSelected(id: string): void {
-    console.log('Selected haircut: ', id);
+    this.router.navigate(['/details', id]);
   }
 }

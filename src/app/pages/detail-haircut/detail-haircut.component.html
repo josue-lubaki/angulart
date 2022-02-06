@@ -1,0 +1,34 @@
+<div class="container p-fluid p-formgrid p-grid p-flex-column">
+  <div class="card" *ngIf="haircut">
+    <div class="card-left">
+      <img
+        class="card-left-img"
+        [src]="haircut.imageURL"
+        alt="{{ haircut.title }} image"
+        width="250px"
+        height="175px"
+      />
+      <div class="card-left-title">
+        <h5>{{ haircut.title }}</h5>
+      </div>
+    </div>
+    <div class="card-right">
+      <!-- <span>{{ haircut.heure }}<br /></span> -->
+      <span>{{ haircut.description }}</span>
+      <p class="card-right-price">${{ haircut.price }}</p>
+      <p>Temps estimé : {{ haircut.estimatingTime }}</p>
+    </div>
+  </div>
+  <div class="card" *ngIf="!haircut">Nous n'avons aucune information.</div>
+  <div
+    class="p-field p-md-4 p-md-offset-4 p-xl-offset-4 p-xl-4 p-sm-8 p-sm-offset-2 p-jc-center"
+  >
+    <button
+      pButton
+      [disabled]="!haircut"
+      type="button"
+      label="Envoyer une demande"
+      class="p-button-success Button-i"
+    ></button>
+  </div>
+</div>
