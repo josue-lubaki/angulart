@@ -55,7 +55,7 @@ export class AuthUserService {
       new User(
         'Ismael', // firstname
         'Coulibaly', // lastname
-        'https://static.wikia.nocookie.net/marvel-cinematic/images/3/32/Steve_Rogers_2.jpg/revision/latest?cb=20131025030358' as string, // image
+        'https://static.wikia.nocookie.net/marvel-cinematic/images/3/32/Steve_Rogers_2.jpg' as string, // image
         'ismaelcoulibal@gmail.com', // email
         'Ismael2022', // password
         new Date(), // Dob

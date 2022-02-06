@@ -21,7 +21,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SignUpModule } from './pages/signup/signup.module';
 import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.component';
-import { MyReservationComponent } from './pages/my-reservation/my-reservation.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 
 const routes: Routes = [
@@ -29,7 +28,6 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: DetailHaircutComponent },
-  { path: 'reservations', component: MyReservationComponent },
   { path: 'profile', component: MyProfileComponent },
   {
     path: 'signup',
