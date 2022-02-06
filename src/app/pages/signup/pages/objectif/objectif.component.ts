@@ -38,7 +38,7 @@ export class ObjectifComponent implements OnInit {
     if (!this.submitted) {
       this.ticketSignUpInformation.objectif = this.objectifInformation;
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
-      this.router.navigate(['/signup/profil']);
+      this.router.navigate(['/signup/profile']);
     }
 
     this.submitted = true;
