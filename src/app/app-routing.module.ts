@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 // Path of signup component
 // Primeng - Module
 import { StepsModule } from 'primeng/steps';
+import { DividerModule } from 'primeng/divider';
+import { FieldsetModule } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -20,6 +22,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { SignUpModule } from './pages/signup/signup.module';
 import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.component';
 import { MyReservationComponent } from './pages/my-reservation/my-reservation.component';
+import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,13 +30,14 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: DetailHaircutComponent },
   { path: 'reservations', component: MyReservationComponent },
+  { path: 'profile', component: MyProfileComponent },
   {
     path: 'signup',
     component: SignupComponent,
     children: [
       { path: '', redirectTo: 'objectif', pathMatch: 'full' },
       { path: 'objectif', component: ObjectifComponent },
-      { path: 'profil', component: ProfilComponent },
+      { path: 'profile', component: ProfilComponent },
       { path: 'address', component: AdresseComponent },
     ],
   },
@@ -41,7 +45,14 @@ const routes: Routes = [
   { path: '**', redirectTo: 'home' },
 ];
 
-const primengModules = [StepsModule, ButtonModule, CardModule, ToolbarModule];
+const primengModules = [
+  StepsModule,
+  ButtonModule,
+  CardModule,
+  ToolbarModule,
+  DividerModule,
+  FieldsetModule,
+];
 
 @NgModule({
   declarations: [

@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
     console.log('Formulaire Login', user);
 
     if (this.authUserService.login(user)) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/profile']);
     } else {
       this.isDisabled = false;
     }
