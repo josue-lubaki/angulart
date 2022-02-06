@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Address } from '../models/Address';
 import { loginModel } from '../pages/login/models/loginModel';
 import { User } from '../pages/signup/models/User';
@@ -77,8 +78,12 @@ export class AuthUserService {
   }
 
   // get users
-  getUsers() {
+  getUsers(): User[] {
     return this.users;
+  }
+
+  getUserById(idUser: string | number) {
+    return this.users.find((user) => user.id === idUser);
   }
 
   /**
@@ -137,6 +142,8 @@ export class AuthUserService {
         console.log('Information User connected', userFound);
         // setter l'ID de l'utilisateur connecté dans le localStorage
         this.localStorage.setUserCurrent(userFound.id);
+        // setter l'email de l'utilisateur
+        this.localStorage.setVariable('email', userFound.email);
         return true;
       }
     }

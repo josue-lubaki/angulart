@@ -1,0 +1,59 @@
+<div class="card-profile">
+  <!-- Mes informations -->
+  <p-fieldset
+    legend="Mes Informations"
+    [toggleable]="true"
+    styleClass="p-my-4"
+    class="card-profile-compte"
+    *ngIf="user"
+  >
+    <div class="card">
+      <div class="p-grid">
+        <div class="p-col-5">
+          <div class="card-profile-compte-content">
+            <p-divider type="dashed" align="center">
+              <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-user p-mr-2"></i>
+                <b>Profil</b>
+              </div>
+            </p-divider>
+            <img
+              [src]="user.image"
+              alt="image de {{ user.fname }}"
+              width="90px"
+              height="90px"
+              style="clip-path: circle()"
+            />
+            <p><span>ID Client</span> : {{ user.id }}</p>
+            <p><span>Prénom</span> : {{ user.fname }}</p>
+            <p><span>Nom</span> : {{ user.lname }}</p>
+            <p><span>Email</span> : {{ user.email }}</p>
+            <p><span>Téléphone</span> : {{ user.phone }}</p>
+          </div>
+        </div>
+
+        <div class="p-col-2">
+          <p-divider layout="vertical"> </p-divider>
+        </div>
+
+        <div class="p-col-5" *ngIf="user.address">
+          <div class="card-profile-compte-content">
+            <p-divider type="dashed" align="center">
+              <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-map-marker p-mr-2"></i>
+                <b>Adresse</b>
+              </div>
+            </p-divider>
+            <p>
+              <span>Rue</span> : #{{ user.address.apartment }}
+              {{ user.address.street }}
+            </p>
+            <p><span>Ville</span>: {{ user.address.city }}</p>
+            <p><span>Code Postal</span> : {{ user.address.zip }}</p>
+            <p><span>Province</span> : {{ user.address.state }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-fieldset>
+</div>

@@ -6,6 +6,7 @@ import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.co
 import { FooterComponent } from './pages/footer/footer.component';
 import { MyReservationComponent } from './pages/my-reservation/my-reservation.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
+import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { NavigationComponent } from './pages/navigation/navigation.component';
     NavigationComponent,
     MyReservationComponent,
     DetailHaircutComponent,
+    MyProfileComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
