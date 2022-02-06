@@ -2,17 +2,6 @@
 @import "../styles/colors.scss";
 @import "../app/signup/pages/objectif/objectif.component.scss";
 
-$image0: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
-$image1: "https://images.unsplash.com/photo-1596362601603-b74f6ef166e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=726&q=80";
-$image2: "https://images.unsplash.com/photo-1621605810691-86520f5b5262?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
-$image3: "https://images.unsplash.com/photo-1621607505833-616916c46a25?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80";
-
 .container {
   margin: 0 auto;
-  // background-image: url("https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80");
-  //background-image: url($image0);
-  background-size: 100% 100%;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
 }

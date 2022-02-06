@@ -3,18 +3,20 @@
 @import "~primeng/resources/primeng.min.css";
 @import "~primeicons/primeicons.css";
 @import "~boxicons/css/boxicons.css";
-@import "~tailwindcss/base.css";
 
 // colors
 $color-red-primary: #ff0000;
 $color-black-primary: #000000;
 $color-white-primary: #ffffff;
-$color-grey-primary: #cccccc;
 $color-footer-primary: #a5a5a5;
-$color-navigation-primary: #f4f4f4;
+$color-navigation-primary: linear-gradient(to right, #243949 0%, #517fa4 100%);
 $color-blue-primary: #0081c2;
 $color-gray-primary: #cccccca4;
 $color-green-primary: #118311;
+$color-black-secondary: #333333bd;
+$color-primary: linear-gradient(60deg, #29323c 0%, #485563 100%);
+$color-primary-hover: linear-gradient(-160deg, #107dbd 0%, #80d0c7 100%);
+$color-yellow-primary: #e8c05a;
 
 :root {
   --color-red-primary: #ff0000;

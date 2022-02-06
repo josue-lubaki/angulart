@@ -45,10 +45,16 @@ export class ObjectifComponent implements OnInit {
   }
 
   /**
+   *
+   */
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  /**
    * Method to create a Client's objectif
    */
   createClient() {
-
     if (this.isModified) {
       this.objectifInformation = new ObjectifModel();
       this.objectifInformation.isClient = true;
@@ -64,7 +70,6 @@ export class ObjectifComponent implements OnInit {
    * Method to create a Barber's objectif
    */
   createBarber() {
-
     if (this.isModified) {
       this.objectifInformation = new ObjectifModel();
       this.objectifInformation.isBarber = true;
