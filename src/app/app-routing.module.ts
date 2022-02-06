@@ -18,6 +18,8 @@ import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
 import { SignUpModule } from './signup/signup.module';
 import { CommonModule } from '@angular/common';
+import { HomePageModule } from './home-page/home-page.module';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -53,6 +55,7 @@ const primengModules = [StepsModule, ButtonModule, CardModule, ToolbarModule];
     ReactiveFormsModule,
     CommonModule,
     SignUpModule,
+    HomePageModule
   ],
   exports: [RouterModule, ...primengModules],
 })
