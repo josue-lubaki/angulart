@@ -2,17 +2,11 @@
 @import "~boxicons/css/boxicons.css";
 @import "~primeicons/primeicons.css";
 @import "~animate.css/animate.css";
-@import "../app/signup/signup.component.scss";
+@import "../app/pages/signup/signup.component.scss";
 
 body {
   margin: 0 8px;
   font-family: "poppins", sans-serif;
-  // background-image: linear-gradient(
-  //   to top,
-  //   #c4c5c7 0%,
-  //   #dcdddf 52%,
-  //   #ebebeb 100%
-  // );
   background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
     radial-gradient(
       at top left,
