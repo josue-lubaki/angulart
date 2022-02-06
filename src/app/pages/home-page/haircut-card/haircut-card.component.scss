@@ -1,0 +1,51 @@
+@import "../../../../styles/colors.scss";
+
+.haircut-card {
+  width: 100%;
+  border: 2px solid black;
+  box-shadow: inset 1px 1px 10px rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: inset -1px -1px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.6s ease;
+    background-color: $color-yellow-primary;
+    box-shadow: inset -1px -1px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  &-info {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    background-image: $color-primary;
+    transition: all 0.6s ease-in-out;
+
+    &:hover {
+      transition: all 0.6s ease;
+      background-image: $color-primary-hover;
+      box-shadow: inset -1px -1px 10px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 350px;
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+@media only screen and (max-width: 426px) {
+  .haircut-card {
+    width: 100%;
+    height: 350px;
+    min-height: 396px;
+
+    img {
+      height: 320px;
+      max-height: 350px;
+    }
+  }
+}

@@ -1,0 +1,72 @@
+// variable css pour la couleur de fond
+@import "../../../styles/colors.scss";
+
+$image0: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
+
+.card {
+  background-image: url($image0);
+  background-size: 100% 100%;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  padding: 20px;
+
+  &-body {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+    min-height: 10vh;
+
+    .p-steps-item.p-steps-current .p-menuitem-link {
+      cursor: pointer;
+      padding: 0 1em;
+      overflow: visible;
+      color: $color-black-primary;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
+      box-shadow: none;
+    }
+
+    .p-steps .p-steps-item .p-menuitem-link {
+      color: $color-black-primary;
+      font-size: 1.1rem;
+      background: transparent;
+    }
+
+    .p-steps-item .p-menuitem-link:hover {
+      color: $color-blue-primary;
+      transition: all 0.75s ease-out;
+    }
+
+    .p-steps-item.p-steps-current .p-menuitem-link .p-steps-number {
+      background-color: $color-blue-primary;
+      color: $color-white-primary;
+      display: inline-block;
+      width: 1.5rem;
+      border-radius: 50%;
+      text-align: center;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .p-steps-item.p-steps-current .p-menuitem-link .p-steps-title {
+      color: $color-white-primary;
+      font-weight: bold;
+    }
+
+    .p-steps-item .p-menuitem-link .p-steps-title {
+      color: $color-gray-primary;
+      font-weight: bold;
+    }
+
+    .p-steps-item .p-menuitem-link .p-steps-title:hover {
+      color: $color-blue-primary;
+    }
+
+    .p-steps-item.p-steps-current .p-menuitem-link .p-steps-title:hover {
+      color: $color-gray-primary;
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { Address } from './Address';
 import { Reservation } from './Reservation';
 
 export class Client {
+  id!: string;
   fname: string;
   lname: string;
   imageURL: string;
