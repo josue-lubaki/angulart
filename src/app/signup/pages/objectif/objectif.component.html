@@ -1,12 +1,8 @@
-<!-- Proposer deux buttons à l'utilisation (Button gauche et droite) -->
-<!-- Button gauche : "Client" -->
-<!-- Button droite : "Coiffeur" -->
-
 <div class="objectif">
   <p-card
     header=""
     subheader="Choisissez le profil qui vous intéresse"
-    class="p-ml-3 p-text-center objectif-card"
+    class="p-text-center objectif-card"
   >
     <div class="p-grid p-jc-center p-p-1 objectif-card-body">
       <div class="p-col-6 objectif-card-body-container">
@@ -17,7 +13,7 @@
               (click)="createClient()"
               type="button"
               label="Utilisateur"
-              class="p-button-raised p-button-rounded"
+              class="p-button-raised p-button-rounded p-button-info"
             >
               <img
                 alt="logo"
@@ -32,7 +28,7 @@
               (click)="createBarber()"
               type="button"
               label="Coiffeur"
-              class="p-button-raised p-button-rounded"
+              class="p-button-raised p-button-rounded p-button-info"
             >
               <img
                 alt="logo"
@@ -44,13 +40,21 @@
         </p-toolbar>
       </div>
     </div>
+    <div class="objectif-card-footer">
+      <p-button
+        type="button"
+        styleClass="p-button-warning"
+        label="Vous avez déjà un compte ?"
+        class="p-button-rounded p-button-warning"
+        (click)="goToLogin()"
+      ></p-button>
+    </div>
     <!-- <ng-template pTemplate="footer">
       <div class="grid grid-nogutter justify-content-end">
         <p-button
           styleClass="p-button-success"
-          [disabled]="isDisabled"
-          label="Suivant"
-          (onClick)="nextPage()"
+          label="Vous avez déjà un compte ?"
+          (onClick)="goToLogin()"
           icon="pi pi-angle-right"
           iconPos="right"
         ></p-button>

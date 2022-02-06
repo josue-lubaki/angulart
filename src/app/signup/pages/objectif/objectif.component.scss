@@ -1,28 +1,40 @@
 @import "../../../../styles/colors.scss";
 
 .objectif {
-  &-card-body {
-    span {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
+  &-card {
+    &-body {
+      span {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
 
-    &-container {
-      width: 75%;
-      p-toolbar {
-        .p-toolbar-group-left {
-          button {
-            img {
-              width: 50px !important;
-              padding-right: 0.6rem;
+      &-container {
+        width: 75%;
+        p-toolbar {
+          .p-toolbar-group-left {
+            button {
+              img {
+                width: 50px !important;
+                padding-right: 0.6rem;
+              }
+            }
+            &:hover {
+              button {
+                background-color: $color-green-primary;
+              }
             }
           }
-        }
-        .p-toolbar-group-right {
-          button {
-            img {
-              width: 50px !important;
-              padding-right: 0.6rem;
+          .p-toolbar-group-right {
+            button {
+              img {
+                width: 50px !important;
+                padding-right: 0.6rem;
+              }
+            }
+            &:hover {
+              button {
+                background-color: $color-green-primary;
+              }
             }
           }
         }

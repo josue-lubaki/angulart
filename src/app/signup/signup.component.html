@@ -1,8 +1,10 @@
 <div class="card">
-  <p-steps
-    [model]="items"
-    [readonly]="true"
-    [(activeIndex)]="activeIndex"
-  ></p-steps>
+  <div class="card-body">
+    <p-steps
+      [model]="items"
+      [readonly]="true"
+      [(activeIndex)]="activeIndex"
+    ></p-steps>
+  </div>
 </div>
 <router-outlet></router-outlet>

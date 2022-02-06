@@ -33,7 +33,7 @@
                   type="text"
                   pInputText
                   autocomplete
-                  placeholder="app 4B"
+                  placeholder="4B"
                 />
               </div>
               <div class="p-field p-sm-6">
@@ -80,7 +80,11 @@
               </div>
               <div class="p-field p-sm-6">
                 <label>Province</label>
-                <input formControlName="state" pInputText placeholder="QC" />
+                <input
+                  formControlName="state"
+                  pInputText
+                  placeholder="Québec"
+                />
                 <small
                   *ngIf="this.adresseForm['state'].invalid && submitted"
                   class="p-error"

@@ -3,12 +3,21 @@
 @import "~primeicons/primeicons.css";
 @import "~animate.css/animate.css";
 @import "../app/signup/signup.component.scss";
-@import "~tailwindcss/base.css";
-@import "~tailwindcss/components.css";
-@import "~tailwindcss/utilities.css";
 
 body {
   margin: 0 8px;
   font-family: "poppins", sans-serif;
-  background-color: $color-gray-primary;
+  // background-image: linear-gradient(
+  //   to top,
+  //   #c4c5c7 0%,
+  //   #dcdddf 52%,
+  //   #ebebeb 100%
+  // );
+  background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
+    radial-gradient(
+      at top left,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  background-blend-mode: screen;
 }
