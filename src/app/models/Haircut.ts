@@ -1,7 +1,10 @@
-import { HAIRCUT } from "./constantes/Haircut";
+import { HAIRCUT } from './constantes/Haircut';
 
 export interface Haircut {
-    mainImageUrl: string;
-    title: string;
-    price: number;
-  }
+  id: string;
+  imageURL: string;
+  title: string;
+  price: number;
+  estimatingTime: string;
+  description: string;
+}

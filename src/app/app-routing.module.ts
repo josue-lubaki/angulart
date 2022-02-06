@@ -18,11 +18,15 @@ import { HomePageModule } from './pages/home-page/home-page.module';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SignUpModule } from './pages/signup/signup.module';
+import { DetailReservationComponent } from './pages/detail-reservation/detail-reservation.component';
+import { MyReservationComponent } from './pages/my-reservation/my-reservation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'details', component: DetailReservationComponent },
+  { path: 'reservations', component: MyReservationComponent },
   {
     path: 'signup',
     component: SignupComponent,
