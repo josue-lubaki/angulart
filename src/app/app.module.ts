@@ -5,9 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import {MyReservationComponent} from "./my-reservation/my-reservation.component";
+import {DetailReservationComponent} from "./detail-reservation/detail-reservation.component";
 
 @NgModule({
-  declarations: [AppComponent, FooterComponent, NavigationComponent],
+  declarations: [AppComponent, FooterComponent, NavigationComponent, MyReservationComponent, DetailReservationComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],

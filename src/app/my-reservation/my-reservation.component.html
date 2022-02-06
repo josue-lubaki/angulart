@@ -1,0 +1,28 @@
+<p>my-reservation works!</p>
+
+<div class="conteneur">
+
+    <div *ngFor="let s of data.coupe" class="card-reservation">
+        <div class="left">
+          <img [src]="s.url" alt="Denim Jeans" >
+          <h4>{{s.titre}}</h4>
+        </div>
+      <div class="right">
+        <span>{{s.heure}}<br></span>
+        <span>{{s.description}}</span>
+        <p class="price">${{s.price}}</p>
+        <p>{{s.estimating}}</p>
+
+        <div class="list-button">
+          <button pButton type="button" label="Accepters"> </button>
+          <button pButton type="button" label="Accepter" class="p-button-danger"></button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+

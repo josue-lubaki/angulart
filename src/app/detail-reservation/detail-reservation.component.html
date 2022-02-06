@@ -1,0 +1,35 @@
+<p>my-reservation works!</p>
+
+<div class="conteneur">
+
+  <div  class="card-">
+    <div class="left">
+      <img  class="img-radui" [src]="s.url" alt="Denim Jeans" >
+      <h4>{{s.titre}}</h4>
+    </div>
+    <div class="right">
+      <span>{{s.heure}}<br></span>
+      <span>{{s.description}}</span>
+      <p class="price">${{s.price}}</p>
+      <p>{{s.estimating}}</p>
+    </div>
+  </div>
+  <div  class="card-">
+    <div class="left">
+      <img [src]="s.url" alt="Denim Jeans" >
+      <h4>{{s.titre}}</h4>
+    </div>
+    <div class="right">
+      <span>{{s.heure}}<br></span>
+      <span>{{s.description}}</span>
+      <p class="price">${{s.price}}</p>
+      <p>{{s.estimating}}</p>
+    </div>
+  </div>
+</div>
+<div class="Button">
+  <button pButton type="button" label="Accepter" class="p-button-danger Button-i"></button>
+</div>
+
+
+
