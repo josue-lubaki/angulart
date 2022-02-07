@@ -1,22 +1,30 @@
 @import "../../../styles/colors.scss";
 
-
 .card-profile {
   width: 100%;
-  min-height: 75vh;
+  min-height: 70vh;
   &-compte-content {
     img {
-      width: 30%;
       height: 30%;
+      min-width: 35%;
       object-fit: cover;
       border-radius: 50%;
       margin: 0 auto;
       display: block;
+      clip-path: circle();
+      border: 2px solid $color-yellow-primary;
     }
 
     p {
       span {
         font-weight: bold;
+        .infoAge {
+          font-weight: normal;
+        }
+        .infoAgeEmpty {
+          font-weight: normal;
+          color: $color-red-primary;
+        }
       }
     }
   }
@@ -81,7 +89,7 @@
         width: 100%;
         img {
           max-height: 380px;
-          min-height: 380px;
+          //min-height: 380px;
           width: 100%;
         }
       }
@@ -119,3 +127,37 @@
   }
 }
 
+@media screen and (max-width: 425px) {
+  .card {
+    // &-left {
+    //   &-image {
+    //     img {
+    //       max-height: 200px;
+    //       min-height: 200px;
+    //     }
+    //   }
+    // }
+    // &-right {
+    //   &-price {
+    //     font-size: 1.2rem;
+    //   }
+    // }
+    .p-grid {
+      flex-direction: column;
+
+      img {
+        max-height: 200px;
+        max-width: 30%;
+        //clip-path: unset;
+      }
+
+      .p-col-5 {
+        width: 100%;
+      }
+
+      .p-col-2 {
+        display: none;
+      }
+    }
+  }
+}
