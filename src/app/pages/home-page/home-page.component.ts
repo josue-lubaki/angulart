@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Haircut } from 'src/app/models/Haircut';
 import { DataImService } from 'src/app/services/data-im.service';
 
@@ -10,7 +11,11 @@ import { DataImService } from 'src/app/services/data-im.service';
 export class HomePageComponent implements OnInit {
   haircuts: Haircut[] = [];
 
-  constructor(private dataImService: DataImService) {
+  constructor(
+    private dataImService: DataImService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.haircuts = this.dataImService.getHaircuts();
   }
 

@@ -1,16 +1,9 @@
 import { NgModule } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 // Path of signup component
-// Primeng - Module
-import { StepsModule } from 'primeng/steps';
-import { DividerModule } from 'primeng/divider';
-import { FieldsetModule } from 'primeng/fieldset';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { ToolbarModule } from 'primeng/toolbar';
-import { CommonModule } from '@angular/common';
 import { AdresseComponent } from './pages/signup/pages/adresse/adresse.component';
 import { ObjectifComponent } from './pages/signup/pages/objectif/objectif.component';
 import { ProfilComponent } from './pages/signup/pages/profil/profil.component';
@@ -22,6 +15,16 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { SignUpModule } from './pages/signup/signup.module';
 import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
+
+// Primeng - Module
+import { StepsModule } from 'primeng/steps';
+import { DividerModule } from 'primeng/divider';
+import { FieldsetModule } from 'primeng/fieldset';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ToolbarModule } from 'primeng/toolbar';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -50,6 +53,8 @@ const primengModules = [
   ToolbarModule,
   DividerModule,
   FieldsetModule,
+  AvatarModule,
+  AvatarGroupModule,
 ];
 
 @NgModule({

@@ -1,10 +1,62 @@
 <div class="navigation">
-  <span routerLink="/">Angulart</span>
-  <img [src]="image" width="60px" routerLink="/" />
-  <div class="navigation-list">
-    <ul>
-      <li routerLink="/" routerLinkActive="active">Accueil</li>
-      <li>menu</li>
+  <div>
+    <span routerLink="/">Angulart</span>
+  </div>
+  <div>
+    <img [src]="image" width="60px" routerLink="/" />
+  </div>
+  <div class="navigation-list hide-desktop" id="blocMenu">
+    <ul id="nav" class="navigation-list-container">
+      <li
+        class="exit-btn hide-desktop navigation-list-container-item"
+        id="exit"
+        (click)="openMenuBar()"
+      >
+        <a> <i class="pi pi-times"></i></a>
+      </li>
+      <li class="navigation-list-container-item" *ngIf="user && avatar">
+        <p-avatar
+          [image]="avatar"
+          size="xlarge"
+          shape="circle"
+          routerLink="/profile"
+        ></p-avatar>
+      </li>
+      <li class="navigation-list-container-item" *ngIf="!user?.id">
+        <p-avatar label="L" size="large" shape="circle"></p-avatar>
+      </li>
+      <li
+        routerLink="/home"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="navigation-list-container-item"
+      >
+        Accueil
+      </li>
+      <li
+        class="navigation-list-container-item"
+        routerLink="/login"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *ngIf="!user?.id"
+      >
+        Login
+      </li>
+      <li
+        class="navigation-list-container-item"
+        (click)="logoutUser()"
+        *ngIf="!user || user.id"
+      >
+        Deconnexion
+      </li>
     </ul>
+  </div>
+  <div class="hide-desktop show-mobile menu">
+    <i
+      class="pi pi-bars"
+      style="font-size: 2rem"
+      id="menu"
+      (click)="openMenuBar()"
+    ></i>
   </div>
 </div>

@@ -1,13 +1,43 @@
 @import "../../../styles/colors.scss";
 
+.hide-desktop,
+.hide-menu {
+  display: none;
+}
+
 .navigation {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-content: center;
+  align-items: center;
   background-image: $color-navigation-primary;
   padding: 0.5rem;
   color: $color-white-primary;
+
+  & > div {
+    min-width: 30%;
+
+    &:nth-child(2) {
+      text-align: center;
+    }
+
+    &:nth-child(3) {
+      text-align: right;
+
+      ul {
+        //justify-content: flex-end;
+
+        & > li {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+  }
+
+  &-list {
+    display: block;
+  }
 
   @keyframes rotateAvatar {
     0% {
@@ -57,8 +87,10 @@
     padding-left: 0;
 
     li {
-      margin-right: 1rem;
+      margin-right: 0.5rem;
       cursor: pointer;
+      align-self: center;
+
       &:hover {
         transition: all 0.3s ease-in-out;
         color: $color-yellow-primary;
@@ -71,6 +103,11 @@
         transform: scale(1.2);
       }
     }
+
+    li:nth-child(2) {
+      clip-path: circle();
+      color: $color-black-primary;
+    }
   }
 }
 
@@ -79,6 +116,93 @@
     ul {
       li {
         font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navigation {
+    &-list {
+      &-container {
+        &:last-child {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 620px) {
+  .show-menu {
+    display: block;
+  }
+
+  .show-mobile {
+    display: inline-block;
+  }
+
+  .hide-desktop {
+    display: none;
+  }
+
+  .navigation {
+    //justify-content: flex-start;
+    & > div {
+      &:nth-child(1) {
+        span {
+          font-size: 1rem;
+        }
+      }
+
+      // correspond au boutton Hamburger
+      &:last-child {
+        display: inline-block;
+        text-align: right;
+        margin-right: 0.5rem;
+      }
+    }
+
+    &-list {
+      position: fixed;
+      width: 45%;
+      top: 0;
+      right: 0;
+      text-align: left;
+      background-color: rgba(36, 41, 44, 0.3);
+      height: 100%;
+      z-index: 25;
+      padding-top: 2.5em;
+      backdrop-filter: blur(10px);
+
+      &-container {
+        flex-direction: column;
+
+        .exit-btn {
+          display: block;
+          color: white;
+          margin: 1em;
+          margin-top: -1.3em;
+          margin-bottom: 1.1em;
+          text-align: right;
+          padding: 0 1.2em;
+          margin-left: 60% !important;
+
+          a {
+            padding-left: 90%;
+          }
+        }
+
+        &-item {
+          position: relative;
+          //display: table;
+          display: inline-block;
+          margin: 15px 10px;
+          padding: 10px;
+          font-size: 1rem;
+          // margin-right: 0 !important;
+          // margin-left: 1rem !important;
+        }
       }
     }
   }
