@@ -18,6 +18,13 @@
   & > div {
     min-width: 30%;
 
+    &:first-child {
+      span {
+        transition: all 0.6s ease;
+        padding-left: 2rem;
+      }
+    }
+
     &:nth-child(2) {
       text-align: center;
     }
@@ -29,7 +36,7 @@
         //justify-content: flex-end;
 
         & > li {
-          margin-left: 0.5rem;
+          margin-left: 1rem;
         }
       }
     }
@@ -85,9 +92,10 @@
     list-style: none;
     display: flex;
     padding-left: 0;
+    justify-content: center;
 
     li {
-      margin-right: 0.5rem;
+      margin-right: 1rem;
       cursor: pointer;
       align-self: center;
 
@@ -136,22 +144,26 @@
 @media (max-width: 620px) {
   .show-menu {
     display: block;
+    transition: all 0.6s ease;
   }
 
   .show-mobile {
-    display: inline-block;
+    display: inline-block !important;
+    transition: all 0.6s ease;
   }
 
   .hide-desktop {
     display: none;
+    transition: all 0.6s ease;
   }
 
   .navigation {
-    //justify-content: flex-start;
     & > div {
       &:nth-child(1) {
         span {
+          transition: all 0.6s ease;
           font-size: 1rem;
+          padding-left: 0.5rem;
         }
       }
 
@@ -160,6 +172,7 @@
         display: inline-block;
         text-align: right;
         margin-right: 0.5rem;
+        transition: all 0.6s ease;
       }
     }
 
@@ -174,6 +187,7 @@
       z-index: 25;
       padding-top: 2.5em;
       backdrop-filter: blur(10px);
+      transition: all 0.6s ease;
 
       &-container {
         flex-direction: column;

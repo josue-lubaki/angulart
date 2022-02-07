@@ -2,9 +2,7 @@
   <div>
     <span routerLink="/">Angulart</span>
   </div>
-  <div>
-    <img [src]="image" width="60px" routerLink="/" />
-  </div>
+  <div><img [src]="image" width="60px" routerLink="/" /></div>
   <div class="navigation-list hide-desktop" id="blocMenu">
     <ul id="nav" class="navigation-list-container">
       <li
@@ -14,7 +12,11 @@
       >
         <a> <i class="pi pi-times"></i></a>
       </li>
-      <li class="navigation-list-container-item" *ngIf="user && avatar">
+      <li
+        class="navigation-list-container-item"
+        *ngIf="user && avatar"
+        (click)="closeMenuBar()"
+      >
         <p-avatar
           [image]="avatar"
           size="xlarge"
@@ -22,7 +24,11 @@
           routerLink="/profile"
         ></p-avatar>
       </li>
-      <li class="navigation-list-container-item" *ngIf="!user?.id">
+      <li
+        class="navigation-list-container-item"
+        *ngIf="!user?.id"
+        (click)="closeMenuBar()"
+      >
         <p-avatar label="L" size="large" shape="circle"></p-avatar>
       </li>
       <li
@@ -30,6 +36,7 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         class="navigation-list-container-item"
+        (click)="closeMenuBar()"
       >
         Accueil
       </li>
@@ -39,6 +46,7 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         *ngIf="!user?.id"
+        (click)="closeMenuBar()"
       >
         Login
       </li>
@@ -51,7 +59,7 @@
       </li>
     </ul>
   </div>
-  <div class="hide-desktop show-mobile menu">
+  <div class="hide-desktop show-mobile">
     <i
       class="pi pi-bars"
       style="font-size: 2rem"
