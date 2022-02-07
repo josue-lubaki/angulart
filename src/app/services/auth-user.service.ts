@@ -20,11 +20,11 @@ export class AuthUserService {
         'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg' as string, // image
         'josuelubaki@gmail.com', // email
         'Josue2022', // password
-        new Date(), // Dob
+        new Date('Sept 2 1964'), // Dob
         '+1 873 873 8738', // phone
         new Address(
           '1010 Rue Richard',
-          'app 09',
+          '13C',
           'G8Z 1V5',
           'Trois-Rivières',
           'Québec'
@@ -36,14 +36,14 @@ export class AuthUserService {
       new User(
         'Jonathan', // firstname
         'Kanyinda', // lastname
-        'https://static.wikia.nocookie.net/marvelcentral/images/4/4a/Tony-Stark-iron-man-11234572-1485-2061.jpg/revision/latest?cb=20110219055106' as string, // image
+        'https://static.wikia.nocookie.net/marvelcentral/images/4/4a/Tony-Stark-iron-man-11234572-1485-2061.jpg' as string, // image
         'jonathankanyinda@gmail.com', // email
         'Jonathan2022', // password
-        new Date(), // Dob
+        new Date('April 04 1965'), // Dob
         '+1 873 873 8738', // phone
         new Address(
           '1011 Rue Charles',
-          'app 12B',
+          '12B',
           'G8Z 1V4',
           'Trois-Rivières',
           'Québec'
@@ -58,11 +58,11 @@ export class AuthUserService {
         'https://static.wikia.nocookie.net/marvel-cinematic/images/3/32/Steve_Rogers_2.jpg' as string, // image
         'ismaelcoulibal@gmail.com', // email
         'Ismael2022', // password
-        new Date(), // Dob
+        new Date('June 13 1981'), // Dob
         '+1 873 873 8738', // phone
         new Address(
           '1010 Rue Saint-Patrick',
-          'app 3',
+          '3',
           'G8Z 1P4',
           'Trois-Rivières',
           'Québec'

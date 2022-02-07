@@ -48,20 +48,6 @@ export class ProfilComponent implements OnInit {
   }
 
   /**
-   * methode qui calcule l'âge précise de l'utilisateur
-   * @param dob : date de naissance
-   * @returns number[], [0] = age, [1] = mois restant, [2] = jour restant
-   *  */
-  private _calculateAge(date: Date): number[] {
-    const today = new Date();
-    const birthDate = new Date(date);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    const d = today.getDate() - birthDate.getDate();
-    return [age, m, d];
-  }
-
-  /**
    * Methode qui permet d'initialiser les contenus du formulaire dont on a besoin
    * @see Validators : permet de spécifier les validations de nos champs (required, email, etc...)
    * @return FormGroup

@@ -9,11 +9,31 @@
   padding: 0.5rem;
   color: $color-white-primary;
 
-  img {
-    transition: all 0s ease-out;
-    &:hover {
+  @keyframes rotateAvatar {
+    0% {
+      transform: rotate(0deg);
+      border: 2px solid $color-yellow-primary;
+    }
+    45% {
+      border: 2px solid $color-gray-primary;
+    }
+    100% {
       transform: rotate(360deg);
-      transition: all 2.5s ease-out;
+      border: 2px solid $color-yellow-primary;
+    }
+  }
+
+  img {
+    transition: all 0s ease;
+    cursor: pointer;
+    border-radius: 50%;
+    clip-path: circle();
+    border: 2px solid $color-yellow-primary;
+    object-fit: cover;
+    &:hover {
+      animation: 3s ease infinite rotateAvatar;
+      transition: all 2.5s ease;
+      border: 2px solid $color-white-primary;
     }
   }
 

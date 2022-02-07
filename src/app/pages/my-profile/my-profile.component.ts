@@ -38,7 +38,6 @@ export class MyProfileComponent implements OnInit {
       this.authUserService.getUsers().find((user) => {
         if (user.id === this.idUserCurrent) {
           this.user = user;
-          console.log('user', this.user);
         }
       });
     } else {

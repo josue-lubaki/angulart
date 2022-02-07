@@ -6,6 +6,7 @@ import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.co
 import { FooterComponent } from './pages/footer/footer.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
+import { AgePipe } from './age.pipe';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MyProfileComponent } from './pages/my-profile/my-profile.component';
     NavigationComponent,
     DetailHaircutComponent,
     MyProfileComponent,
+    AgePipe,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
