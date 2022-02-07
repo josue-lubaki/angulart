@@ -74,6 +74,10 @@ export class LocalStorageService {
     localStorage.removeItem(IDUSER);
   }
 
+  removeVariable(key: string) {
+    localStorage.removeItem(key);
+  }
+
   /**
    * Methode qui permet de supprimer tous les tokens dans le localStorage de l'utilisateur
    */

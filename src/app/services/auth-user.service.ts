@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Address } from '../models/Address';
 import { loginModel } from '../pages/login/models/loginModel';
 import { User } from '../pages/signup/models/User';
@@ -10,6 +10,10 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class AuthUserService {
   private users: User[] = [];
+  userConnected: User = new User();
+  private userConnectedSuccefully = new Subject<any>();
+  userConnected$ =
+    this.userConnectedSuccefully.asObservable() as Observable<any>;
 
   constructor(private localStorage: LocalStorageService) {
     // Créer les utilisateurs
@@ -75,6 +79,29 @@ export class AuthUserService {
 
     this.createUsers(...usersRandom);
     console.log('Services : Users List', this.users);
+
+    // get user from local storage, if exist
+    let email = this.localStorage.getVariable('email');
+    if (email) {
+      let userConnectedStorage = this.getUserByEmail(email) as User;
+
+      if (userConnectedStorage) {
+        // informer les autres services que l'utilisateur est connecté
+        this.userConnectedSuccefully.next(userConnectedStorage);
+
+        // set userConnected, conserver l'information
+        // pour une utilisation ultérieure par la methode getCurrentUser()
+        this.userConnected = userConnectedStorage;
+      }
+    }
+  }
+
+  /**
+   * Get information of the user connected
+   * @returns User
+   */
+  getUserConnected(): User {
+    return this.userConnected;
   }
 
   // get users
@@ -84,6 +111,14 @@ export class AuthUserService {
 
   getUserById(idUser: string | number) {
     return this.users.find((user) => user.id === idUser);
+  }
+
+  /**
+   * Obtenir les informations de l'utilisateur connecté
+   * @returns User
+   */
+  getCurrentUser(): User {
+    return this.userConnected;
   }
 
   /**
@@ -136,14 +171,18 @@ export class AuthUserService {
   login(user: loginModel): boolean {
     // Chercher l'utilisateur dans la liste
     const userFound = this.getUserByEmail(user.email);
+
     if (userFound) {
       // Vérifier le mot de passe
       if (userFound.password === user.password) {
-        console.log('Information User connected', userFound);
         // setter l'ID de l'utilisateur connecté dans le localStorage
         this.localStorage.setUserCurrent(userFound.id);
         // setter l'email de l'utilisateur
         this.localStorage.setVariable('email', userFound.email);
+
+        // informer les observateurs que l'utilisateur est connecté
+        this.userConnectedSuccefully.next(userFound);
+
         return true;
       }
     }
@@ -173,5 +212,16 @@ export class AuthUserService {
   // get user by email
   getUserByEmail(email: string) {
     return this.users.find((user) => user.email === email);
+  }
+
+  /**
+   * Method to logout user, delete the userId and email from the localStorage
+   */
+  logoutUser() {
+    this.localStorage.removeVariable('email');
+    this.localStorage.removeUserCurrent();
+
+    // informer les observateurs que l'utilisateur est déconnecté
+    this.userConnectedSuccefully.next(new User());
   }
 }

@@ -11,7 +11,6 @@ import { loginModel } from './models/loginModel';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  users: User[];
   form: FormGroup;
   isDisabled: boolean = false;
   submitted: boolean;
@@ -21,7 +20,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router
   ) {
-    this.users = [];
     this.submitted = false;
     this.form = this._initLoginForm();
   }
@@ -71,7 +69,8 @@ export class LoginComponent implements OnInit {
     console.log('Formulaire Login', user);
 
     if (this.authUserService.login(user)) {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/']);
+      console.log('User logged in');
     } else {
       this.isDisabled = false;
     }
