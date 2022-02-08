@@ -7,6 +7,7 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { AgePipe } from './age.pipe';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { AgePipe } from './age.pipe';
     MyProfileComponent,
     AgePipe,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
   exports: [],
