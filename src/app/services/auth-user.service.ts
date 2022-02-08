@@ -114,14 +114,6 @@ export class AuthUserService {
   }
 
   /**
-   * Obtenir les informations de l'utilisateur connecté
-   * @returns User
-   */
-  getCurrentUser(): User {
-    return this.userConnected;
-  }
-
-  /**
    * create user into the array
    * @param user User to create
    */
@@ -182,6 +174,7 @@ export class AuthUserService {
 
         // informer les observateurs que l'utilisateur est connecté
         this.userConnectedSuccefully.next(userFound);
+        this.userConnected = userFound;
 
         return true;
       }
