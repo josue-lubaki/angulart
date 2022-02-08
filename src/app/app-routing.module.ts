@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Path of signup component
 import { AdresseComponent } from './pages/signup/pages/adresse/adresse.component';
 import { ObjectifComponent } from './pages/signup/pages/objectif/objectif.component';
@@ -27,6 +27,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-page.component';
 import {GMapModule} from 'primeng/gmap';
+import { CalendarModule } from 'primeng/calendar';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -58,7 +59,8 @@ const primengModules = [
   FieldsetModule,
   AvatarModule,
   AvatarGroupModule,
-  GMapModule
+  GMapModule,
+  CalendarModule
 ];
 
 @NgModule({
@@ -74,6 +76,8 @@ const primengModules = [
     RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
     ...primengModules,
     ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
     CommonModule,
     SignUpModule,
     HomePageModule,

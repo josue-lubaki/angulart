@@ -20,15 +20,24 @@
     </div>
   </div>
   <div class="card" *ngIf="!haircut">Nous n'avons aucune information.</div>
+
+  <form [formGroup]="form">
+    <div class="p-field p-col-5  p-md-6 p-md-offset-3">
+      <p-calendar formControlName="reservationDate" [(ngModel)]="value" [showTime]="true" [showSeconds]="true" inputId="time" [showIcon]="true"></p-calendar>
+    </div>
+  </form>
   <div
     class="p-field p-md-4 p-md-offset-4 p-xl-offset-4 p-xl-4 p-sm-8 p-sm-offset-2 p-jc-center"
   >
+
+
     <button
       pButton
       [disabled]="!haircut"
       type="button"
       label="Réserver"
       class="p-button-success Button-i"
+      (click)="createReservation()"
     ></button>
   </div>
 </div>
