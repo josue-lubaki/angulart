@@ -9,7 +9,6 @@ import { DataImService } from 'src/app/services/data-im.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { User } from '../signup/models/User';
 
-
 @Component({
   selector: 'app-detail-haircut',
   templateUrl: './detail-haircut.component.html',
@@ -29,8 +28,8 @@ export class DetailHaircutComponent implements OnInit {
   ) {
     this.value = new Date();
     this.form = this.fb.group({
-      reservationDate: ['']
-    })
+      reservationDate: [''],
+    });
   }
 
   ngOnInit(): void {
@@ -42,29 +41,30 @@ export class DetailHaircutComponent implements OnInit {
     });
   }
 
-  createReservation(){
+  createReservation() {
     const timeString = this.form.controls['reservationDate'].value;
     const hour = new Date(timeString).getHours();
     const mn = new Date(timeString).getMinutes();
-    const time: string = hour + ':' + mn; 
-    console.log('time', time);
+    const reservationTime: Time = {
+      hours: hour,
+      minutes: mn,
+    } as Time;
 
-    console.log('user', this.authUserService.getCurrentUser());
-    if(this.authUserService.getCurrentUser().id){
+    console.log('user', this.authUserService.getUserConnected());
+    if (this.authUserService.getUserConnected().id) {
       const reservation = new Reservation(
         this.haircut,
-        this.authUserService.getCurrentUser(),
+        this.authUserService.getUserConnected(),
         new User(),
         timeString,
-        time)
+        reservationTime
+      );
 
-        this.reservationService.addReservation(reservation);
-        console.log('reservation', this.reservationService.reservations);
-    }
-
-    else{
-      this.router.navigate(['/login'])
+      this.reservationService.createReservation(reservation);
+      console.log('reservation', this.reservationService.reservations);
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['/login']);
     }
   }
-
 }

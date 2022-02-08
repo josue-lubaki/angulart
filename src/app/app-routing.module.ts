@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormBuilder,FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,8 +26,9 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-page.component';
-import {GMapModule} from 'primeng/gmap';
+import { GMapModule } from 'primeng/gmap';
 import { CalendarModule } from 'primeng/calendar';
+import { BarberHomePageModule } from './pages/barber-home-page/home-page.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -60,7 +61,7 @@ const primengModules = [
   AvatarModule,
   AvatarGroupModule,
   GMapModule,
-  CalendarModule
+  CalendarModule,
 ];
 
 @NgModule({
@@ -69,7 +70,7 @@ const primengModules = [
     HomePageComponent,
     ContentComponent,
     LoginComponent,
-    BarberHomePageComponent
+    BarberHomePageComponent,
   ],
   providers: [FormBuilder, ...primengModules],
   imports: [
@@ -81,7 +82,8 @@ const primengModules = [
     CommonModule,
     SignUpModule,
     HomePageModule,
-    GMapModule
+    BarberHomePageModule,
+    GMapModule,
   ],
   exports: [RouterModule, ...primengModules],
 })

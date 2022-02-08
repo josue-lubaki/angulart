@@ -7,7 +7,8 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { NavigationComponent } from './pages/navigation/navigation.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { AgePipe } from './age.pipe';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BarberCardComponent } from './pages/barber-home-page/barber-card/barber-card.component';
 
 @NgModule({
   declarations: [
