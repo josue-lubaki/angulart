@@ -25,6 +25,8 @@ import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-page.component';
+import {GMapModule} from 'primeng/gmap';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -32,6 +34,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: DetailHaircutComponent },
   { path: 'profile', component: MyProfileComponent },
+  { path: 'barber', component: BarberHomePageComponent },
   {
     path: 'signup',
     component: SignupComponent,
@@ -55,6 +58,7 @@ const primengModules = [
   FieldsetModule,
   AvatarModule,
   AvatarGroupModule,
+  GMapModule
 ];
 
 @NgModule({
@@ -63,6 +67,7 @@ const primengModules = [
     HomePageComponent,
     ContentComponent,
     LoginComponent,
+    BarberHomePageComponent
   ],
   providers: [FormBuilder, ...primengModules],
   imports: [
@@ -72,6 +77,7 @@ const primengModules = [
     CommonModule,
     SignUpModule,
     HomePageModule,
+    GMapModule
   ],
   exports: [RouterModule, ...primengModules],
 })

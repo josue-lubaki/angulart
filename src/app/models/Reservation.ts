@@ -2,6 +2,8 @@ import { Time } from '@angular/common';
 import { Client } from './Client';
 import { Barber } from './Barber';
 import { STATUS } from './constantes/Status';
+import { User } from '../pages/signup/models/User';
+import { Haircut } from './Haircut';
 
 export class Reservation {
   date?: Date;
@@ -10,19 +12,19 @@ export class Reservation {
   price?: number;
   duration?: number;
   imageURL?: string;
-  haircut?: string;
+  haircut?: Haircut;
   status?: string;
-  client?: Client;
-  barber?: Barber;
+  client?: User;
+  barber?: User;
 
   constructor(
     description?: string,
     price?: number,
     duration?: number,
     imageURL?: string,
-    haircut?: string,
-    client?: Client,
-    barber?: Barber
+    haircut?: Haircut,
+    client?: User,
+    barber?: User
   ) {
     this.description = description;
     this.price = price;

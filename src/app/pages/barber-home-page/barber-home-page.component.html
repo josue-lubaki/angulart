@@ -1,0 +1,36 @@
+
+<div class="container">
+    <div
+      *ngFor="let reservation of reservations"
+      class="p-col-6 p-md-4 p-lg-3 p-xl-3 p-mb-3 card-reservation"
+    >
+      <div class="card-reservation-left">
+        <div class="card-reservation-left-image">
+          <img
+            [src]="reservation.haircut?.imageURL"
+            alt="{{ reservation.haircut?.imageURL}} image"
+            width="250px"
+            height="175px"
+          />
+        </div>
+        <div class="card-reservation-left-title">
+          <h5>{{ reservation.haircut?.title }}</h5>
+        </div>
+      </div>
+      <div class="card-reservation-right">
+        <span>{{reservation.haircut?.price}}<br></span>
+        <span>{{ reservation.haircut?.description }}</span>
+        <p class="card-reservation-right-price">${{ reservation.haircut?.price }}</p>
+        <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
+
+        <div class="card-reservation-right-list-button">
+          <button
+            pButton
+            type="button"
+            label="Voir"
+            class="p-button-info"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
