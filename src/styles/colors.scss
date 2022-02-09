@@ -17,6 +17,8 @@ $color-black-secondary: #333333bd;
 $color-primary: linear-gradient(60deg, #29323c 0%, #485563 100%);
 $color-primary-hover: linear-gradient(-160deg, #107dbd 0%, #80d0c7 100%);
 $color-yellow-primary: #e8c05a;
+$color-dark-blue: #25262e;
+$color-dark-blue-hover: #25262e;
 
 :root {
   --color-red-primary: #ff0000;
@@ -27,4 +29,11 @@ $color-yellow-primary: #e8c05a;
   --color-navigation-primary: #f4f4f4;
   --color-blue-primary: #0081c2;
   --color-gray-primary: #cccccc;
+  --color-green-primary: #118311;
+  --color-black-secondary: #333333bd;
+  --color-primary: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  --color-primary-hover: linear-gradient(-160deg, #107dbd 0%, #80d0c7 100%);
+  --color-yellow-primary: #e8c05a;
+  --color-dark-blue: #25262e;
+  --color-dark-blue-hover: #25262e;
 }

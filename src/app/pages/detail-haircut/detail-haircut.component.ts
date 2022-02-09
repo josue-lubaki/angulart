@@ -42,15 +42,14 @@ export class DetailHaircutComponent implements OnInit {
   }
 
   createReservation() {
-    const timeString = this.form.controls['reservationDate'].value;
-    const hour = new Date(timeString).getHours();
-    const mn = new Date(timeString).getMinutes();
+    const timeString = this.form.controls['reservationDate'].value as Date;
+    const hour = new Date(timeString).getHours() as number;
+    const minutes = new Date(timeString).getMinutes() as number;
     const reservationTime: Time = {
       hours: hour,
-      minutes: mn,
+      minutes: minutes,
     } as Time;
 
-    console.log('user', this.authUserService.getUserConnected());
     if (this.authUserService.getUserConnected().id) {
       const reservation = new Reservation(
         this.haircut,
