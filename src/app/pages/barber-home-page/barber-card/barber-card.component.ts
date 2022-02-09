@@ -19,6 +19,6 @@ export class BarberCardComponent implements OnInit {
    * @param id id of the reservation
    */
   reservationSelected(id: string): void {
-    this.router.navigate(['/details', id]);
+    this.router.navigate(['/reservations', id]);
   }
 }

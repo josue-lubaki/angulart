@@ -29,12 +29,14 @@ import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-pa
 import { GMapModule } from 'primeng/gmap';
 import { CalendarModule } from 'primeng/calendar';
 import { BarberHomePageModule } from './pages/barber-home-page/home-page.module';
+import { BarberDetailsPageComponent } from './pages/barber-details-page/barber-details-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: DetailHaircutComponent },
+  { path: 'reservations/:id', component: BarberDetailsPageComponent },
   { path: 'profile', component: MyProfileComponent },
   { path: 'barber', component: BarberHomePageComponent },
   {
@@ -71,6 +73,7 @@ const primengModules = [
     ContentComponent,
     LoginComponent,
     BarberHomePageComponent,
+    BarberDetailsPageComponent,
   ],
   providers: [FormBuilder, ...primengModules],
   imports: [
