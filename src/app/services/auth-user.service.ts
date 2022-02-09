@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Address } from '../models/Address';
 import { loginModel } from '../pages/login/models/loginModel';
-import { User } from '../pages/signup/models/User';
+import { User } from '../models/User';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -34,7 +34,7 @@ export class AuthUserService {
           'Québec'
         ), // address
         true, // isClient
-        false, // isAdmin
+        false, // isBarber
         false // isAdmin
       ),
       new User(
@@ -53,8 +53,8 @@ export class AuthUserService {
           'Québec'
         ), // address
         false, // isClient
-        true, // isAdmin
-        false // isAdmin
+        false, // isBarber
+        true // isAdmin
       ),
       new User(
         'Ismael', // firstname
@@ -71,9 +71,9 @@ export class AuthUserService {
           'Trois-Rivières',
           'Québec'
         ), // address
-        true, // isClient
-        false, // isAdmin
-        true // isAdmin
+        false, // isClient
+        true, // isBarber
+        false // isAdmin
       ),
     ];
 
@@ -213,6 +213,7 @@ export class AuthUserService {
   logoutUser() {
     this.localStorage.removeVariable('email');
     this.localStorage.removeUserCurrent();
+    this.localStorage.removeToken()
 
     // informer les observateurs que l'utilisateur est déconnecté
     this.userConnectedSuccefully.next(new User());

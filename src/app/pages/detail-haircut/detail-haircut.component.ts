@@ -7,7 +7,8 @@ import { Reservation } from 'src/app/models/Reservation';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { DataImService } from 'src/app/services/data-im.service';
 import { ReservationService } from 'src/app/services/reservation.service';
-import { User } from '../signup/models/User';
+import { User } from '../../models/User';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-detail-haircut',
@@ -24,7 +25,8 @@ export class DetailHaircutComponent implements OnInit {
     private fb: FormBuilder,
     private authUserService: AuthUserService,
     private reservationService: ReservationService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.value = new Date();
     this.form = this.fb.group({
@@ -60,9 +62,19 @@ export class DetailHaircutComponent implements OnInit {
       );
 
       this.reservationService.createReservation(reservation);
-      console.log('reservation', this.reservationService.reservations);
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Réservation',
+        detail: 'Réservation enregistrée',
+      });
+
       this.router.navigate(['/home']);
     } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Réservation',
+        detail: 'Désolé, Vous n\'êtes pas connecté,'
+      });
       this.router.navigate(['/login']);
     }
   }

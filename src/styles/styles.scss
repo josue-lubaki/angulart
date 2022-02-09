@@ -5,7 +5,7 @@
 @import "../app/pages/signup/signup.component.scss";
 
 body {
-  margin: 3px;
+  margin: 3px 8px;
   font-family: "poppins", sans-serif;
   scroll-behavior: smooth;
   background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
@@ -15,4 +15,12 @@ body {
       rgba(0, 0, 0, 0.3) 100%
     );
   background-blend-mode: screen;
+}
+
+// Réduire la taille du Toast pour la version mobile
+@media (max-width: 426px) {
+  .p-toast-top-center{
+    left: 50% !important;
+    width: 85% !important;
+  }
 }
