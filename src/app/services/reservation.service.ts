@@ -19,15 +19,43 @@ export class ReservationService {
 
   reservations: Reservation[] = [];
   constructor() {
-    console.log('Haircut', this.haircut);
+    this.reservations = [];
 
-    this.reservations = [
-      new Reservation(this.haircut, new User(), new User()),
+    this.createReservation(
+      new Reservation(this.haircut, new User(), new User(), new Date())
+    );
+    this.createReservation(
+      new Reservation(this.haircut, new User(), new User(), new Date())
+    );
 
-      new Reservation(this.haircut, new User(), new User()),
-    ];
+    // see all reservations
+    console.log('Reservations', this.reservations);
   }
 
+  /**
+   * Get All Reservations
+   * @returns Reservation[]
+   */
+  getReservations(): Reservation[] {
+    return this.reservations;
+  }
+
+  /**
+   * Get an reservation by id
+   * @param idReservation id de la réservation à récupérer
+   * @return Reservation
+   */
+  getReservation(idReservation: string) {
+    console.log('idReservation - Service : ', idReservation);
+    return this.reservations.find(
+      (reservation) => reservation.id === idReservation
+    );
+  }
+
+  /**
+   * Methode qui permet de créer une réservation
+   * @param reservation reservation à créer
+   */
   createReservation(reservation: Reservation) {
     reservation.id = this._generateUUID();
     this.reservations.push(reservation);

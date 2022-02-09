@@ -41,6 +41,16 @@
         Accueil
       </li>
       <li
+        routerLink="/profile"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="navigation-list-container-item"
+        (click)="closeMenuBar()"
+        *ngIf="!user || user.id"
+      >
+        Profil
+      </li>
+      <li
         class="navigation-list-container-item"
         routerLink="/login"
         routerLinkActive="active"

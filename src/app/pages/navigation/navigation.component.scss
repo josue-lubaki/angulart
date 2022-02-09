@@ -33,8 +33,6 @@
       text-align: right;
 
       ul {
-        //justify-content: flex-end;
-
         & > li {
           margin-left: 1rem;
         }
@@ -115,6 +113,17 @@
     li:nth-child(2) {
       clip-path: circle();
       color: $color-black-primary;
+
+      // p-avatar {
+      //   border-radius: 50%;
+      //   border: 2px solid $color-yellow-primary;
+      //   object-fit: cover;
+
+      //   img {
+      //     background-color: red !important;
+      //     transform: translateY(100px) !important;
+      //   }
+      // }
     }
   }
 }
@@ -209,13 +218,10 @@
 
         &-item {
           position: relative;
-          //display: table;
           display: inline-block;
           margin: 15px 10px;
           padding: 10px;
           font-size: 1rem;
-          // margin-right: 0 !important;
-          // margin-left: 1rem !important;
         }
       }
     }
