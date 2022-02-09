@@ -36,6 +36,7 @@
             </p>
             <p><span>Email</span> : {{ user.email }}</p>
             <p><span>Téléphone</span> : {{ user.phone }}</p>
+            <p><span>Type de compte</span> : {{ user.isClient ? 'Client' : user.isBarber ? 'Coiffeur' : 'Admin' }}</p>
           </div>
         </div>
 
@@ -67,36 +68,39 @@
     </div>
   </p-fieldset>
 
+  <!--  Réservations dans le cas d'un client -->
   <p-fieldset
     legend="Mes Réservations"
     [toggleable]="true"
     styleClass="p-my-4"
     class="card-profile-compte"
-    *ngIf="user"
+    *ngIf="user.isClient && !user.isBarber"
   >
     <div class="container">
       <div
-        *ngFor="let haircut of haircuts"
+        *ngFor="let reservation of reservations"
         class="p-col-6 p-md-4 p-lg-3 p-xl-3 p-mb-3 card-reservation"
       >
         <div class="card-reservation-left">
           <div class="card-reservation-left-image">
             <img
-              [src]="haircut.imageURL"
-              alt="{{ haircut.title }} image"
+              [src]="reservation.haircut?.imageURL"
+              alt="{{ reservation.haircut?.title }} image"
               width="250px"
               height="175px"
             />
           </div>
           <div class="card-reservation-left-title">
-            <h5>{{ haircut.title }}</h5>
+            <h5>{{ reservation.haircut?.title }}</h5>
           </div>
         </div>
         <div class="card-reservation-right">
           <!-- <span>{{haircut.heure}}<br></span> -->
-          <span>{{ haircut.description }}</span>
-          <p class="card-reservation-right-price">${{ haircut.price }}</p>
-          <p>Temps estimé : {{ haircut.estimatingTime }}</p>
+          <span>{{ reservation.haircut?.description }}</span>
+          <p class="card-reservation-right-price">
+            ${{ reservation.haircut?.price }}
+          </p>
+          <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
 
           <div class="card-reservation-right-list-button">
             <button
@@ -104,6 +108,7 @@
               type="button"
               label="Voir"
               class="p-button-info"
+              (click)="viewDetails(reservation.id)"
             ></button>
             <button
               pButton
@@ -116,4 +121,60 @@
       </div>
     </div>
   </p-fieldset>
+
+  <!-- Commande dans le cas d'un coiffeur  -->
+  <p-fieldset
+    legend="Mes Missions"
+    [toggleable]="true"
+    styleClass="p-my-4"
+    class="card-profile-compte"
+    *ngIf="user.isBarber && !user.isClient"
+  >
+    <div class="container">
+      <div
+        *ngFor="let reservation of reservations"
+        class="p-col-6 p-md-4 p-lg-3 p-xl-3 p-mb-3 card-reservation"
+      >
+        <div class="card-reservation-left">
+          <div class="card-reservation-left-image">
+            <img
+              [src]="reservation.haircut?.imageURL"
+              alt="{{ reservation.haircut?.title }} image"
+              width="250px"
+              height="175px"
+            />
+          </div>
+          <div class="card-reservation-left-title">
+            <h5>{{ reservation.haircut?.title }}</h5>
+          </div>
+        </div>
+        <div class="card-reservation-right">
+          <!-- <span>{{haircut.heure}}<br></span> -->
+          <span>{{ reservation.haircut?.description }}</span>
+          <p class="card-reservation-right-price">
+            ${{ reservation.haircut?.price }}
+          </p>
+          <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
+
+          <div class="card-reservation-right-list-button">
+            <button
+              pButton
+              type="button"
+              label="Voir"
+              class="p-button-info"
+              (click)="viewDetails(reservation.id)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Supprimer"
+              class="p-button-danger"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-fieldset>
+
+
 </div>

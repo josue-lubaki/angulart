@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { User } from '../signup/models/User';
+import { User } from '../../models/User';
 
 /* Fonction qui permet à l'icône "Hamburger" d'afficher la barre de menu */
 declare function showMenuBar(): void;
@@ -46,11 +46,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
    */
   logoutUser() {
     this.authUserService.logoutUser();
+    this.closeMenuBar();
+    this.router.navigate(['/']);
   }
 
-  ngOnDestroy(): void {
-    //this.authUserService.userConnected$.subscribe().unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   /**
    * Cette Methode appelle la fonction showMenuBar() qui est declarée dans le fichier header.js
@@ -73,5 +73,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.localStorage.removeToken();
     this.localStorage.removeUserCurrent();
     this.router.navigate(['/']);
+  }
+
+  /**
+   * Methode qui permet de conduire l'utilisateur vers la page profile
+   * @return void
+   */
+  goToProfile() {
+    this.closeMenuBar()
+    this.router.navigate(['/profile']);
   }
 }

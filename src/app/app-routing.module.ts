@@ -3,6 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // Path of signup component
 import { AdresseComponent } from './pages/signup/pages/adresse/adresse.component';
 import { ObjectifComponent } from './pages/signup/pages/objectif/objectif.component';
@@ -28,8 +29,12 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-page.component';
 import { GMapModule } from 'primeng/gmap';
 import { CalendarModule } from 'primeng/calendar';
-import { BarberHomePageModule } from './pages/barber-home-page/home-page.module';
+import {ToastModule} from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
+import { BarberHomePageModule } from './pages/barber-home-page/barber-home-page.module';
 import { BarberDetailsPageComponent } from './pages/barber-details-page/barber-details-page.component';
+import {RippleModule} from "primeng/ripple";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -64,6 +69,7 @@ const primengModules = [
   AvatarGroupModule,
   GMapModule,
   CalendarModule,
+  ToastModule
 ];
 
 @NgModule({
@@ -75,19 +81,20 @@ const primengModules = [
     BarberHomePageComponent,
     BarberDetailsPageComponent,
   ],
-  providers: [FormBuilder, ...primengModules],
-  imports: [
-    RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
-    ...primengModules,
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    SignUpModule,
-    HomePageModule,
-    BarberHomePageModule,
-    GMapModule,
-  ],
+  providers: [FormBuilder, ...primengModules, MessageService],
+    imports: [
+        RouterModule.forRoot(routes, {initialNavigation: 'enabled'}),
+        ...primengModules,
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        SignUpModule,
+        HomePageModule,
+        BarberHomePageModule,
+        GMapModule,
+        RippleModule,
+    ],
   exports: [RouterModule, ...primengModules],
 })
 export class AppRoutingModule {}

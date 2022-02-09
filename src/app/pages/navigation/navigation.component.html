@@ -29,7 +29,12 @@
         *ngIf="!user?.id"
         (click)="closeMenuBar()"
       >
-        <p-avatar label="L" size="large" shape="circle"></p-avatar>
+        <p-avatar
+          label="L"
+          size="large"
+          shape="circle"
+          routerLink="/profile"
+        ></p-avatar>
       </li>
       <li
         routerLink="/home"
@@ -41,11 +46,10 @@
         Accueil
       </li>
       <li
-        routerLink="/profile"
+        (click)="goToProfile()"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         class="navigation-list-container-item"
-        (click)="closeMenuBar()"
         *ngIf="!user || user.id"
       >
         Profil

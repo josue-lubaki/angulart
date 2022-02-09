@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
-import { User } from '../signup/models/User';
 import { loginModel } from './models/loginModel';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authUserService: AuthUserService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.submitted = false;
     this.form = this._initLoginForm();
@@ -66,12 +67,20 @@ export class LoginComponent implements OnInit {
 
     this.isDisabled = true;
     const user: loginModel = this.form.value;
-    console.log('Formulaire Login', user);
 
     if (this.authUserService.login(user)) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Login',
+        detail: `Bienvenue`,
+      });
       this.router.navigate(['/']);
-      console.log('User logged in');
     } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Login',
+        detail: 'Email ou mot de passe incorrect',
+      });
       this.isDisabled = false;
     }
   }

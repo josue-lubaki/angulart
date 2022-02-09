@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Address } from 'src/app/models/Address';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
-import { User } from '../../models/User';
+import { User } from '../../../../models/User';
 import { SignUpService } from '../../signup.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Time } from '@angular/common';
 import { STATUS } from './constantes/Status';
-import { User } from '../pages/signup/models/User';
+import { User } from './User';
 import { Haircut } from './Haircut';
 
 export class Reservation {
