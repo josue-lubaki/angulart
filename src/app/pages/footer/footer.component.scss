@@ -17,76 +17,90 @@
     flex-direction: column;
     padding: 0 2em;
     min-height: 15em;
-  }
+    text-align: center;
 
+    h3 {
+      text-align: center !important;
+    }
+  }
 
   .row.primary {
     display: grid;
-    grid-template-columns: 2fr  2fr;
+    grid-template-columns: 2fr 2fr;
     align-items: stretch;
-      h3 {
-        width: 100%;
-        text-align: left;
-        color: $color-yellow-primary;
-        font-size: 1.6em;
-        white-space: nowrap;
-      }
-      ul {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-        li {
-          margin-top: 0.8em;
-          a {
-            color:$color-white-primary;
-            text-decoration: none;
-            &:hover{
-              color: $color-yellow-primary;
-            }
+    h3 {
+      width: 100%;
+      text-align: left;
+      color: $color-yellow-primary;
+      font-size: 1.6em;
+      white-space: nowrap;
+    }
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      margin: 0;
+      li {
+        margin-top: 0.8em;
+        &:first-child {
+          margin-top: 0;
+        }
+        a {
+          color: $color-white-primary;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.4s ease-in-out;
+
+          &:hover {
+            color: $color-yellow-primary;
+            transition: all 0.4s ease-in-out;
           }
         }
       }
-      .about p {
-        text-align: justify;
-        line-height: 2;
-        margin: 0;
-      }
+    }
+    .about p {
+      text-align: justify;
+      line-height: 2;
+      margin: 0;
+    }
   }
   .secondary {
     display: flex;
     justify-content: space-around;
     text-align: center;
     & div {
-      padding: 1em 0;
+      padding: 0.5em 0;
+      margin: 0.5em 0;
       width: 100%;
-      &:hover{
-        background-color: #243949;
+      transition: all 0.6s ease-in-out;
+      &:hover {
+        transition: all 0.6s ease-in-out;
+        color: $color-yellow-primary;
       }
     }
   }
   .copyright {
     padding: 0.3em 1em;
-    background-color: #25262e;
+    background-color: $color-dark-blue;
   }
   .copyright p {
     font-size: 0.9em;
     text-align: center;
   }
-
 }
+
 @media screen and (max-width: 850px) {
-.footer{
-  .row.primary {
-    grid-template-columns: 2fr  ;
-    text-align: center;
-    h3{
+  .footer {
+    .row.primary {
+      grid-template-columns: 2fr;
       text-align: center;
+      h3 {
+        text-align: center;
+      }
+    }
+    .row.secondary {
+      flex-direction: column;
     }
   }
-  .row.secondary {
-    flex-direction: column;
-  }
-}
 }
