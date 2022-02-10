@@ -19,18 +19,19 @@
       >
         <p-avatar
           [image]="avatar"
-          size="xlarge"
+          size="large"
           shape="circle"
           routerLink="/profile"
         ></p-avatar>
       </li>
+
       <li
         class="navigation-list-container-item"
-        *ngIf="!user?.id"
+        *ngIf="!user?.id || !user?.imageURL"
         (click)="closeMenuBar()"
       >
         <p-avatar
-          label="L"
+          label="U"
           size="large"
           shape="circle"
           routerLink="/profile"

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { User } from '../../models/User';
+import { MessageService } from 'primeng/api';
 
 /* Fonction qui permet à l'icône "Hamburger" d'afficher la barre de menu */
 declare function showMenuBar(): void;
@@ -22,7 +23,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(
     private authUserService: AuthUserService,
     private router: Router,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private messageService: MessageService
   ) {
     // enregistrer variable user comme observer de userConnected$ du service authUserService
     // Dès qu'il y a une modification sur userConnected$, il sera notifier
@@ -34,7 +36,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Pendant la navigation si jamais on perdait les infos de l'utilisateur connecté
-    // On récupère les infos de l'utilisateur connecté via la methode getUserConnected()
+    // On récupère les infos de l'utilisateur connecté via la Fonction getUserConnected()
     if (!this.user && this.authUserService.getUserConnected()) {
       this.user = this.authUserService.getUserConnected();
       this.avatar = this.user.imageURL;
@@ -48,12 +50,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.authUserService.logoutUser();
     this.closeMenuBar();
     this.router.navigate(['/']);
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Déconnexion',
+      detail: 'Déconnexion réussi',
+    });
   }
 
   ngOnDestroy(): void {}
 
   /**
-   * Cette Methode appelle la fonction showMenuBar() qui est declarée dans le fichier header.js
+   * Cette Fonction appelle la fonction showMenuBar() qui est declarée dans le fichier header.js
    * Elle permet d'afficher la barre de menu
    */
   openMenuBar() {
@@ -61,7 +68,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Cette Methode appelle la fonction linkAction() qui est declarée dans le fichier header.js
+   * Cette Fonction appelle la fonction linkAction() qui est declarée dans le fichier header.js
    * Elle permet de fermer la barre de menu
    */
   closeMenuBar() {
@@ -76,11 +83,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Methode qui permet de conduire l'utilisateur vers la page profile
+   * Fonction qui permet de conduire l'utilisateur vers la page profile
    * @return void
    */
   goToProfile() {
-    this.closeMenuBar()
+    this.closeMenuBar();
     this.router.navigate(['/profile']);
   }
 }

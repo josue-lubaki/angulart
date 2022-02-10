@@ -74,7 +74,7 @@
     [toggleable]="true"
     styleClass="p-my-4"
     class="card-profile-compte"
-    *ngIf="user.isClient && !user.isBarber"
+    *ngIf="user?.isClient && !user?.isBarber"
   >
     <div class="container">
       <div
@@ -128,7 +128,7 @@
     [toggleable]="true"
     styleClass="p-my-4"
     class="card-profile-compte"
-    *ngIf="user.isBarber && !user.isClient"
+    *ngIf="user?.isBarber && !user?.isClient"
   >
     <div class="container">
       <div

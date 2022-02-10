@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Address } from 'src/app/models/Address';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
-import { User } from '../../../../models/User';
 import { SignUpService } from '../../signup.service';
+import { User } from '../../../../models/User';
 
 @Component({
   selector: 'app-adresse',
@@ -15,7 +15,7 @@ import { SignUpService } from '../../signup.service';
 export class AdresseComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
-  addressInformation: Address;
+  addressInformation?: Address;
   ticketSignUpInformation: TicketSignUpModel;
 
   constructor(
@@ -25,7 +25,6 @@ export class AdresseComponent implements OnInit {
     private authUserService: AuthUserService
   ) {
     this.form = this._initAdresseForm();
-    this.addressInformation = new Address();
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
   }
 
@@ -80,25 +79,29 @@ export class AdresseComponent implements OnInit {
    * @returns void
    */
   createUser(ticketSignUpInformation: TicketSignUpModel) {
-    let user = {
-      fname: ticketSignUpInformation.personalInformation.fname,
-      lname: ticketSignUpInformation.personalInformation.lname,
-      imageURL: ticketSignUpInformation.personalInformation.image,
-      email: ticketSignUpInformation.personalInformation.email,
-      password: ticketSignUpInformation.personalInformation.password,
-      dob: ticketSignUpInformation.personalInformation.dob,
-      phone: ticketSignUpInformation.personalInformation.phone,
-      address: ticketSignUpInformation.address,
-      isClient: ticketSignUpInformation.objectif.isClient,
-      isBarber: ticketSignUpInformation.objectif.isBarber,
-      isAdmin : false
-    };
-
-    this.authUserService.createUser(user);
+    if (
+      ticketSignUpInformation.personalInformation &&
+      ticketSignUpInformation.objectif
+    ) {
+      let user: User = {
+        fname: ticketSignUpInformation.personalInformation.fname,
+        lname: ticketSignUpInformation.personalInformation.lname,
+        imageURL: ticketSignUpInformation.personalInformation.image,
+        email: ticketSignUpInformation.personalInformation.email,
+        password: ticketSignUpInformation.personalInformation.password,
+        dob: ticketSignUpInformation.personalInformation.dob,
+        phone: ticketSignUpInformation.personalInformation.phone,
+        address: ticketSignUpInformation.address,
+        isClient: ticketSignUpInformation.objectif.isClient,
+        isBarber: ticketSignUpInformation.objectif.isBarber,
+        isAdmin: false,
+      };
+      this.authUserService.createUser(user);
+    }
   }
 
   /**
-   * Methode qui permet de retourner en arrière au click du button "Precedent"
+   * Fonction qui permet de retourner en arrière au click du button "Precedent"
    * @return void
    */
   prevPage() {
@@ -114,16 +117,16 @@ export class AdresseComponent implements OnInit {
     // Si l'utilisateur n'a aucun objectif, on le redirige vers la page d'objectif
     // sinon si une information personnelle est manquante, on le redirige vers la page d'information personnelle
     if (
-      this.ticketSignUpInformation.objectif.isClient == false &&
-      this.ticketSignUpInformation.objectif.isBarber == false
+      this.ticketSignUpInformation.objectif?.isClient == false &&
+      this.ticketSignUpInformation.objectif?.isBarber == false
     ) {
       this.router.navigate(['/signup/objectif']);
     } else if (
-      this.ticketSignUpInformation.personalInformation.fname == undefined ||
-      this.ticketSignUpInformation.personalInformation.lname == undefined ||
-      this.ticketSignUpInformation.personalInformation.email == undefined ||
-      this.ticketSignUpInformation.personalInformation.password == undefined ||
-      this.ticketSignUpInformation.personalInformation.phone == undefined
+      this.ticketSignUpInformation.personalInformation?.fname == undefined ||
+      this.ticketSignUpInformation.personalInformation?.lname == undefined ||
+      this.ticketSignUpInformation.personalInformation?.email == undefined ||
+      this.ticketSignUpInformation.personalInformation?.password == undefined ||
+      this.ticketSignUpInformation.personalInformation?.phone == undefined
     ) {
       this.router.navigate(['/signup/profil']);
     }
