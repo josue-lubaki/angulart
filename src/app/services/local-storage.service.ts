@@ -35,10 +35,10 @@ export class LocalStorageService {
 
   /**
    * Methode qui permet de setter l'ID de l'utilisateur courant
-   * @param id l'ID de l'utilisateur courant
    * @return void
+   * @param userId
    */
-  setUserCurrent(userId: string) {
+  setUserCurrent(userId: any) {
     localStorage.setItem(IDUSER, userId);
   }
 

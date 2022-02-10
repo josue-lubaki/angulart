@@ -28,7 +28,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     // Dès qu'il y a une modification sur userConnected$, il sera notifier
     this.authUserService.userConnected$.subscribe((user: User) => {
       this.user = user;
-      this.avatar = user?.image;
+      this.avatar = user?.imageURL;
     });
   }
 
@@ -37,7 +37,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     // On récupère les infos de l'utilisateur connecté via la methode getUserConnected()
     if (!this.user && this.authUserService.getUserConnected()) {
       this.user = this.authUserService.getUserConnected();
-      this.avatar = this.user.image;
+      this.avatar = this.user.imageURL;
     }
   }
 

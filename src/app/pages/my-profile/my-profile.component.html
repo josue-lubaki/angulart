@@ -18,7 +18,7 @@
               </div>
             </p-divider>
             <img
-              [src]="user.image"
+              [src]="user.imageURL"
               alt="image de {{ user.fname }}"
               width="90px"
               height="90px"
@@ -162,7 +162,7 @@
               type="button"
               label="Voir"
               class="p-button-info"
-              (click)="viewDetails(reservation.id)"
+              (click)="viewDetails(reservation?.id)"
             ></button>
             <button
               pButton

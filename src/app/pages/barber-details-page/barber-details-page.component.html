@@ -16,13 +16,13 @@
       <span>{{ reservation.haircut?.description }}</span>
       <p class="card-right-price">${{ reservation.haircut?.price }}</p>
       <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
-      <p *ngIf="reservation.status == STATUS.PENDING" style="width: 15%; margin: 0 auto;">
+      <p *ngIf="reservation.status == STATUS.PENDING" style="margin: 0 auto;">
         <button pButton pRipple type="button" label="En Attente" class="p-button-rounded p-button-info"></button>
       </p>
-      <p *ngIf="reservation.status == STATUS.ACCEPTED" style="width: 15%; margin: 0 auto;">
+      <p *ngIf="reservation.status == STATUS.ACCEPTED" style="margin: 0 auto;">
         <button pButton pRipple type="button" label="Acceptée" class="p-button-rounded p-button-success"></button>
       </p>
-      <p *ngIf="reservation.status == STATUS.FINISHED" style="width: 15%; margin: 0 auto;">
+      <p *ngIf="reservation.status == STATUS.FINISHED" style="margin: 0 auto;">
         <button pButton pRipple type="button" label="Terminée" class="p-button-rounded p-button-danger"></button>
       </p>
     </div>
