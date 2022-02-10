@@ -16,14 +16,38 @@
       <span>{{ reservation.haircut?.description }}</span>
       <p class="card-right-price">${{ reservation.haircut?.price }}</p>
       <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
-      <p *ngIf="reservation.status == STATUS.PENDING" style="margin: 0 auto;">
-        <button pButton pRipple type="button" label="En Attente" class="p-button-rounded p-button-info"></button>
+      <p>
+        Date Prévue : {{ reservation.reservationDate }}
+        {{ reservation.reservationTime?.hours }}:{{
+          reservation.reservationTime?.minutes
+        }}
       </p>
-      <p *ngIf="reservation.status == STATUS.ACCEPTED" style="margin: 0 auto;">
-        <button pButton pRipple type="button" label="Acceptée" class="p-button-rounded p-button-success"></button>
+      <p *ngIf="reservation?.status == STATUS.PENDING" style="margin: 0 auto">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="En Attente"
+          class="p-button-rounded p-button-info"
+        ></button>
       </p>
-      <p *ngIf="reservation.status == STATUS.FINISHED" style="margin: 0 auto;">
-        <button pButton pRipple type="button" label="Terminée" class="p-button-rounded p-button-danger"></button>
+      <p *ngIf="reservation.status == STATUS.ACCEPTED" style="margin: 0 auto">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Acceptée"
+          class="p-button-rounded p-button-success"
+        ></button>
+      </p>
+      <p *ngIf="reservation.status == STATUS.FINISHED" style="margin: 0 auto">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Terminée"
+          class="p-button-rounded p-button-danger"
+        ></button>
       </p>
     </div>
   </div>
@@ -40,7 +64,11 @@
       type="button"
       label="Accepter la Mission"
       class="p-button-success Button-i"
-      [ngClass]="(!canAcceptReservation || hide) ? 'dn': ''"
+      [ngClass]="
+        !canAcceptReservation || hide || reservation?.status === STATUS.ACCEPTED
+          ? 'dn'
+          : ''
+      "
       (click)="acceptMission()"
     ></button>
 
@@ -50,7 +78,7 @@
       type="button"
       label="Modifier Ma Réservation"
       class="p-button-success Button-i"
-      [ngClass]="(!canAcceptReservation || hide) ? '': 'dn'"
+      [ngClass]="!canAcceptReservation || hide ? '' : 'dn'"
       (click)="modifyReservation()"
     ></button>
   </div>

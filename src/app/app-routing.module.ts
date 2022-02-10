@@ -29,12 +29,12 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-page.component';
 import { GMapModule } from 'primeng/gmap';
 import { CalendarModule } from 'primeng/calendar';
-import {ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
 import { BarberHomePageModule } from './pages/barber-home-page/barber-home-page.module';
 import { BarberDetailsPageComponent } from './pages/barber-details-page/barber-details-page.component';
-import {RippleModule} from "primeng/ripple";
+import { RippleModule } from 'primeng/ripple';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -69,7 +69,7 @@ const primengModules = [
   AvatarGroupModule,
   GMapModule,
   CalendarModule,
-  ToastModule
+  ToastModule,
 ];
 
 @NgModule({
@@ -82,19 +82,19 @@ const primengModules = [
     BarberDetailsPageComponent,
   ],
   providers: [FormBuilder, ...primengModules, MessageService],
-    imports: [
-        RouterModule.forRoot(routes, {initialNavigation: 'enabled'}),
-        ...primengModules,
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        SignUpModule,
-        HomePageModule,
-        BarberHomePageModule,
-        GMapModule,
-        RippleModule,
-    ],
+  imports: [
+    RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
+    ...primengModules,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    SignUpModule,
+    HomePageModule,
+    BarberHomePageModule,
+    GMapModule,
+    RippleModule,
+  ],
   exports: [RouterModule, ...primengModules],
 })
 export class AppRoutingModule {}

@@ -40,15 +40,15 @@ export class ProfilComponent implements OnInit {
 
     // Si l'utilisateur n'a aucun objectif, on le redirige vers la page d'objectif
     if (
-      this.ticketSignUpInformation.objectif.isClient == false &&
-      this.ticketSignUpInformation.objectif.isBarber == false
+      !this.ticketSignUpInformation.objectif.isClient &&
+      !this.ticketSignUpInformation.objectif.isBarber
     ) {
       this.router.navigate(['/signup/objectif']);
     }
   }
 
   /**
-   * Methode qui permet d'initialiser les contenus du formulaire dont on a besoin
+   * Fonction qui permet d'initialiser les contenus du formulaire dont on a besoin
    * @see Validators : permet de spécifier les validations de nos champs (required, email, etc...)
    * @return FormGroup
    */
@@ -110,7 +110,7 @@ export class ProfilComponent implements OnInit {
   }
 
   /**
-   * Methode qui permet de retourner en arrière au click du button "Precedent"
+   * Fonction qui permet de retourner en arrière au click du button "Precedent"
    * @return void
    */
   prevPage() {
@@ -118,7 +118,7 @@ export class ProfilComponent implements OnInit {
   }
 
   /**
-   * Methode qui pemet de uploader une image
+   * Fonction qui pemet de uploader une image
    * @method patchValue() ajouter un champ une valeur dans un FormGroup
    * @method updateValueAndValidity notifie s'il y a eu changement dans le formulaire
    * @param event : le fichier image à upload

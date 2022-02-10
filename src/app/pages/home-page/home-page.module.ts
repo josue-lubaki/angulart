@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HaircutCardComponent } from './haircut-card/haircut-card.component';
+import { HomeCardComponent } from './home-card/home-card.component';
 
 
 
 @NgModule({
-  declarations: [HaircutCardComponent],
+  declarations: [HomeCardComponent],
   imports: [
     CommonModule
   ],
   exports: [
-    HaircutCardComponent
+    HomeCardComponent
   ]
 })
 export class HomePageModule { }

@@ -10,7 +10,7 @@ export class LocalStorageService {
   constructor() {}
 
   /**
-   * methode qui permet de sauvergarder le token de l'utilisateur authentifié
+   * Fonction qui permet de sauvergarder le token de l'utilisateur authentifié
    * @param data le token de l'Utilisateur reçu lors d'une success connexion
    * @return void
    */
@@ -19,7 +19,7 @@ export class LocalStorageService {
   }
 
   /**
-   * Methode qui permet de récupérer le token de l'utilsateur current
+   * Fonction qui permet de récupérer le token de l'utilsateur current
    * @returns string
    */
   getToken() {
@@ -27,14 +27,14 @@ export class LocalStorageService {
   }
 
   /**
-   * Methode qui permet de récupèrer l'Id de l'utilisateur courant
+   * Fonction qui permet de récupèrer l'Id de l'utilisateur courant
    */
   getUserCurrent() {
     return localStorage.getItem(IDUSER);
   }
 
   /**
-   * Methode qui permet de setter l'ID de l'utilisateur courant
+   * Fonction qui permet de setter l'ID de l'utilisateur courant
    * @return void
    * @param userId
    */
@@ -43,7 +43,7 @@ export class LocalStorageService {
   }
 
   /**
-   * Methode qui permet de sauvergarder un token dans le localStorage
+   * Fonction qui permet de sauvergarder un token dans le localStorage
    * @param key la clé de l'objet à sauvergarder
    * @param value la valeur de l'objet à sauvergarder
    */
@@ -52,7 +52,7 @@ export class LocalStorageService {
   }
 
   /**
-   * Methode qui permet de récupérer un token dans le localStorage
+   * Fonction qui permet de récupérer un token dans le localStorage
    * @param key la clé de l'objet à récupérer
    * @param value la valeur de l'objet à récupérer
    */
@@ -61,14 +61,14 @@ export class LocalStorageService {
   }
 
   /**
-   * Methode qui permet de supprimer le token de l'utilisateur current
+   * Fonction qui permet de supprimer le token de l'utilisateur current
    */
   removeToken() {
     localStorage.removeItem(TOKEN);
   }
 
   /**
-   * Methode qui permet de supprimer l'ID de l'utilisateur current
+   * Fonction qui permet de supprimer l'ID de l'utilisateur current
    */
   removeUserCurrent() {
     localStorage.removeItem(IDUSER);
@@ -79,7 +79,7 @@ export class LocalStorageService {
   }
 
   /**
-   * Methode qui permet de supprimer tous les tokens dans le localStorage de l'utilisateur
+   * Fonction qui permet de supprimer tous les tokens dans le localStorage de l'utilisateur
    */
   clearToken() {
     localStorage.clear();

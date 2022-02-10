@@ -64,7 +64,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   /**
-   * Méthode qui permet de se rédiriger vers la description de la reservation
+   * Fonction qui permet de se rédiriger vers la description de la reservation
    *
    * @param id ID de la réservation à consulter
    * @return void

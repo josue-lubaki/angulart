@@ -35,6 +35,8 @@
       ul {
         & > li {
           margin-left: 1rem;
+
+
         }
       }
     }
@@ -113,10 +115,22 @@
     li:nth-child(2) {
       clip-path: circle();
       color: $color-black-primary;
+      //p-avatar {
+      //  div{
+      //    img{
+      //      height: 50% !important;
+      //      width: 50% !important;
+      //    }
+      //  }
+      //}
        //
        //p-avatar {
+       //  img{
+       //    width: 0;
+       //    height: 0;
+       //  }
        //  border-radius: 48%;
-       //  border: 2px solid $color-black-primary;
+       //  border: 2px solid $color-yellow-primary;
        //  object-fit: cover;
        //}
     }

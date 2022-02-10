@@ -32,6 +32,18 @@ export class ReservationService {
   }
 
   /**
+   * Fonction qui permet de modifier une réservation
+   * @param idReservation id de la réservation à modifier
+   * @param timeString heure de la réservation
+   */
+  modifyReservation(idReservation: any, timeString: Date) {
+    const reservation = this.getReservation(idReservation);
+    console.log('reservation Avant modification', reservation);
+    reservation!.reservationDate = timeString;
+    console.log('reservation Modifiée', reservation);
+  }
+
+  /**
    * Get an reservation by id
    * @param idReservation id de la réservation à récupérer
    * @return Reservation
@@ -43,7 +55,7 @@ export class ReservationService {
   }
 
   /**
-   * Methode qui permet de créer une réservation
+   * Fonction qui permet de créer une réservation
    * @param reservation reservation à créer
    */
   createReservation(reservation: Reservation) {
@@ -51,7 +63,7 @@ export class ReservationService {
     this.reservations.push(reservation);
   }
 
-  // methode qui permet de générer un UUID
+  // Fonction qui permet de générer un UUID
   private _generateUUID(): string {
     return 'xxxx-xxxxxxxx-4xyx-yxxxyxxxx-xxxxxxxxyyyy'.replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;

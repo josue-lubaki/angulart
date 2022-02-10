@@ -3,13 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Haircut } from 'src/app/models/Haircut';
-import { Reservation } from 'src/app/models/Reservation';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { DataImService } from 'src/app/services/data-im.service';
 import { ReservationService } from 'src/app/services/reservation.service';
-import { User } from '../../models/User';
 import { MessageService } from 'primeng/api';
-import {STATUS} from "../../models/constantes/Status";
+import { STATUS } from '../../models/constantes/Status';
 
 @Component({
   selector: 'app-detail-haircut',
@@ -46,38 +44,56 @@ export class DetailHaircutComponent implements OnInit {
 
   createReservation() {
     const timeString = this.form.controls['reservationDate'].value as Date;
-    const hour = new Date(timeString).getHours() as number;
-    const minutes = new Date(timeString).getMinutes() as number;
-    const reservationTime: Time = {
-      hours: hour,
-      minutes: minutes,
-    } as Time;
 
-    if (this.authUserService.getUserConnected().id) {
-      const reservation = {
-        id: null,
-        haircut : this.haircut,
-        client : this.authUserService.getUserConnected(),
-        status: STATUS.PENDING,
-        reservationDate: timeString,
-        reservationTime : reservationTime
-      };
+    this.route.queryParamMap.subscribe((params) => {
+      // Modification de la réservation
+      if (params.get('modifyreservation')) {
+        let idReservation = params.get('modifyreservation');
+        this.reservationService.modifyReservation(idReservation, timeString);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Modification Réservation',
+          detail: 'Votre réservation a bien été modifiée',
+        });
+        this.router.navigate(['/reservations', idReservation]);
+      }
+      
+      else {
+        // Création de la réservation
+        const hour = new Date(timeString).getHours() as number;
+        const minutes = new Date(timeString).getMinutes() as number;
+        const reservationTime: Time = {
+          hours: hour,
+          minutes: minutes,
+        } as Time;
 
-      this.reservationService.createReservation(reservation);
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Réservation',
-        detail: 'Réservation enregistrée',
-      });
+        if (this.authUserService.getUserConnected().id) {
+          const reservation = {
+            id: '',
+            haircut: this.haircut,
+            client: this.authUserService.getUserConnected(),
+            status: STATUS.PENDING,
+            reservationDate: timeString,
+            reservationTime: reservationTime,
+          };
 
-      this.router.navigate(['/home']);
-    } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Réservation',
-        detail: 'Désolé, Vous n\'êtes pas connecté,'
-      });
-      this.router.navigate(['/login']);
-    }
+          this.reservationService.createReservation(reservation);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Réservation',
+            detail: 'Réservation enregistrée',
+          });
+
+          this.router.navigate(['/home']);
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Réservation',
+            detail: "Désolé, Vous n'êtes pas connecté,",
+          });
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 }

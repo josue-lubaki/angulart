@@ -16,64 +16,67 @@ export class AuthUserService {
     this.userConnectedSuccefully.asObservable() as Observable<User>;
 
   constructor(private localStorage: LocalStorageService) {
-
     // créer un tableau d'utilisateurs
     this.createUsers(
       {
         fname: 'Ismael',
         lname: 'Coulibaly',
         email: 'ismaelcoulibal@gmail.com',
-        imageURL: 'https://static.wikia.nocookie.net/marvel-cinematic/images/3/32/Steve_Rogers_2.jpg',
+        imageURL:
+          'https://static.wikia.nocookie.net/marvel-cinematic/images/3/32/Steve_Rogers_2.jpg',
         password: 'Ismael2022',
         dob: new Date('June 13 1981'),
-        address:  new Address(
-          '1010 Rue Saint-Patrick',
-          '3',
-          'G8Z 1P4',
-          'Trois-Rivières',
-          'Québec'
-        ),
+        address: {
+          street: '1010 Rue Saint-Patrick',
+          apartment: '3',
+          zip: 'G8Z 1P4',
+          city: 'Trois-Rivières',
+          state: 'Québec',
+        },
         phone: '+1 873 873 8738',
         isAdmin: false,
         isClient: false,
-        isBarber: true
+        isBarber: true,
       },
       {
         fname: 'Josue',
         lname: 'Lubaki',
-        imageURL: 'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg',
+        imageURL:
+          'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg',
         email: 'josuelubaki@gmail.com',
         password: 'Josue2022',
         dob: new Date('Sept 2 1964'),
-        address: new Address(
-          '1010 Rue Richard',
-          '13C',
-          'G8Z 1V5',
-          'Trois-Rivières',
-          'Québec'),
+        address: {
+          street: '1010 Rue Richard',
+          apartment: '13C',
+          zip: 'G8Z 1V5',
+          city: 'Trois-Rivières',
+          state: 'Québec',
+        },
         phone: '+1 873 873 8738',
         isAdmin: false,
         isClient: true,
-        isBarber: false
+        isBarber: false,
       },
       {
         fname: 'Jonathan',
         lname: 'Kanyinda',
         email: 'jonathankanyinda@gmail.com',
-        imageURL: 'https://static.wikia.nocookie.net/marvelcentral/images/4/4a/Tony-Stark-iron-man-11234572-1485-2061.jpg',
+        imageURL:
+          'https://static.wikia.nocookie.net/marvelcentral/images/4/4a/Tony-Stark-iron-man-11234572-1485-2061.jpg',
         password: 'Jonathan2022',
         dob: new Date('April 04 1965'),
-        address:  new Address(
-          '1011 Rue Charles',
-          '12B',
-          'G8Z 1V4',
-          'Trois-Rivières',
-          'Québec'
-        ),
+        address: {
+          street: '1011 Rue Charles',
+          apartment: '12B',
+          zip: 'G8Z 1V4',
+          city: 'Trois-Rivières',
+          state: 'Québec',
+        },
         phone: '+1 873 873 8738',
         isAdmin: false,
         isClient: true,
-        isBarber: false
+        isBarber: false,
       }
     );
 
@@ -89,7 +92,7 @@ export class AuthUserService {
         this.userConnectedSuccefully.next(userConnectedStorage);
 
         // set userConnected, conserver l'information
-        // pour une utilisation ultérieure par la methode getCurrentUser()
+        // pour une utilisation ultérieure par la Fonction getCurrentUser()
         this.userConnected = userConnectedStorage;
       }
     }
