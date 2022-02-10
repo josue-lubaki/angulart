@@ -18,6 +18,8 @@ export class DetailHaircutComponent implements OnInit {
   haircut?: Haircut;
   value: Date;
   form: FormGroup;
+  invalidDates: Array<Date>;
+
   constructor(
     public dataImService: DataImService,
     private route: ActivatedRoute,
@@ -31,6 +33,14 @@ export class DetailHaircutComponent implements OnInit {
     this.form = this.fb.group({
       reservationDate: [''],
     });
+
+    // invalider toutes les dates avant today + 1 jour
+    this.invalidDates = [];
+    const today = new Date();
+    for (let i = 0; i < 25600; i++) {
+      const date = new Date(today.setDate(today.getDate()));
+      this.invalidDates.push(date);
+    }
   }
 
   ngOnInit(): void {
@@ -56,9 +66,7 @@ export class DetailHaircutComponent implements OnInit {
           detail: 'Votre réservation a bien été modifiée',
         });
         this.router.navigate(['/reservations', idReservation]);
-      }
-      
-      else {
+      } else {
         // Création de la réservation
         const hour = new Date(timeString).getHours() as number;
         const minutes = new Date(timeString).getMinutes() as number;

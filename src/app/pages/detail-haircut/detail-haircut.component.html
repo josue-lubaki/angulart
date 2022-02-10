@@ -23,14 +23,20 @@
 
   <form [formGroup]="form">
     <div class="p-field p-col-12 p-md-6 p-md-offset-3 p-xl-6 p-xl-offset-3">
-      <p-calendar formControlName="reservationDate" [(ngModel)]="value" [showTime]="true" [showSeconds]="true" inputId="time" [showIcon]="true"></p-calendar>
+      <p-calendar
+        formControlName="reservationDate"
+        [(ngModel)]="value"
+        [showTime]="true"
+        [showSeconds]="false"
+        inputId="time"
+        [showIcon]="true"
+        [disabledDates]="invalidDates"
+      ></p-calendar>
     </div>
   </form>
   <div
     class="p-field p-md-4 p-md-offset-4 p-xl-offset-4 p-xl-4 p-sm-8 p-sm-offset-2 p-jc-center"
   >
-
-
     <button
       pButton
       [disabled]="!haircut"
