@@ -58,7 +58,7 @@ export class DetailHaircutComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       // Modification de la réservation
       if (params.get('modifyreservation')) {
-        let idReservation = params.get('modifyreservation');
+        const idReservation = params.get('modifyreservation');
         this.reservationService.modifyReservation(idReservation, timeString);
         this.messageService.add({
           severity: 'success',

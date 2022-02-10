@@ -6,7 +6,6 @@ import { MessageService } from 'primeng/api';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { STATUS } from '../../models/constantes/Status';
 import { User } from '../../models/User';
-import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-barber-details-page',
@@ -18,7 +17,7 @@ export class BarberDetailsPageComponent implements OnInit {
   canAcceptReservation?: boolean = true;
   STATUS = STATUS;
   user?: User;
-  hide: boolean = false;
+  hide = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +49,7 @@ export class BarberDetailsPageComponent implements OnInit {
    * Fonction qui permet au coiffeur d'accepter une requête (mission)
    */
   acceptMission() {
-    let isBarber = this.authUserService.getUserConnected().isBarber;
+    const isBarber = this.authUserService.getUserConnected().isBarber;
 
     // vérifier si l'utilisateur est un coiffeur et si la réservation existe
     if (isBarber && this.reservation) {
@@ -80,14 +79,16 @@ export class BarberDetailsPageComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ngOnInit Method
+  }
 
   /**
    * Fonction qui permettra à un utilisateur de modifier la date de sa réservation
    *
    * */
   modifyReservation() {
-    let idHaircut = this.reservation?.haircut?.id;
+    const idHaircut = this.reservation?.haircut?.id;
     this.router.navigate(['/details', idHaircut], {
       queryParams: { modifyreservation: this.reservation?.id },
     });

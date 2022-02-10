@@ -25,7 +25,9 @@ export class HomeCardComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ngOnInit Method
+  }
 
   /**
    * Method to getting the information of the haircut when the user click on the card

@@ -6,7 +6,6 @@ import { User } from '../../models/User';
 import { MessageService } from 'primeng/api';
 
 /* Fonction qui permet à l'icône "Hamburger" d'afficher la barre de menu */
-declare function showMenuBar(): void;
 declare function linkAction(): void;
 
 @Component({
@@ -57,14 +56,16 @@ export class NavigationComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    // ngOnDestroy Method
+  }
 
   /**
    * Cette Fonction appelle la fonction showMenuBar() qui est declarée dans le fichier header.js
    * Elle permet d'afficher la barre de menu
    */
   openMenuBar() {
-    showMenuBar();
+    linkAction();
   }
 
   /**

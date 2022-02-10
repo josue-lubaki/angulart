@@ -15,7 +15,7 @@ import {
 export class ProfilComponent implements OnInit {
   form: FormGroup;
   profilInformation: PersonalInformationModel;
-  submitted: boolean = false;
+  submitted = false;
   ticketSignUpInformation: TicketSignUpModel;
   imageDisplay: string | ArrayBuffer | null | undefined;
 
@@ -114,6 +114,7 @@ export class ProfilComponent implements OnInit {
    * @return void
    */
   prevPage() {
+    console.log("Faire demi-tour")
     this.router.navigate(['/signup/objectif']);
   }
 
@@ -128,12 +129,10 @@ export class ProfilComponent implements OnInit {
     if (file) {
       this.form.patchValue({ image: file });
       this.form.get('image')?.updateValueAndValidity();
-      console.log('this.form.value', this.form.value);
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         this.imageDisplay = fileReader.result as string;
-        console.log('this.imageDisplay', this.imageDisplay);
       };
     }
   }

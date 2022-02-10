@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MenuItem } from 'primeng/api';
-import { SignUpService } from './signup.service';
 
 @Component({
   selector: 'app-signup',
@@ -12,16 +11,14 @@ import { SignUpService } from './signup.service';
 export class SignupComponent implements OnInit {
   // variables
   form: FormGroup;
-  isSubmitted: Boolean;
+  isSubmitted: boolean;
   items: MenuItem[];
 
-  subscription: any;
-  activeIndex: number = 0;
+  activeIndex = 0;
 
   constructor(
     private formBuilder: FormBuilder,
     private location: Location,
-    private signupService: SignUpService
   ) {
     this.isSubmitted = false;
     this.items = [];
@@ -52,12 +49,6 @@ export class SignupComponent implements OnInit {
         },
       },
     ];
-
-    this.subscription = this.signupService.signupInformationComplete$.subscribe(
-      (data) => {
-        console.log('signupInformationComplete', data);
-      }
-    );
   }
 
   /**
@@ -112,8 +103,8 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    // if (this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
   }
 }
