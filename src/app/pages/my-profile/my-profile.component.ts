@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Haircut } from 'src/app/models/Haircut';
 import { Reservation } from 'src/app/models/Reservation';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { DataImService } from 'src/app/services/data-im.service';
@@ -18,7 +17,7 @@ export class MyProfileComponent implements OnInit {
   user!: User;
   idUserCurrent?: string;
   reservations: Reservation[] = [];
-  typeCompte? : string;
+  typeCompte?: string;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -32,38 +31,35 @@ export class MyProfileComponent implements OnInit {
     let emailUserCurrent = this.localStorage.getVariable('email');
 
     // si email trouvé
-    if(emailUserCurrent){
-      this.idUserCurrent = this.authUserService.getUserByEmail(
-        emailUserCurrent
-      )?.id as string;
+    if (emailUserCurrent) {
+      this.idUserCurrent = this.authUserService.getUserByEmail(emailUserCurrent)
+        ?.id as string;
 
       // vérifier le type de compte de l'utilisateur actuel
-      if(this.authUserService.getUserById(this.idUserCurrent)?.isClient){
+      if (this.authUserService.getUserById(this.idUserCurrent)?.isClient) {
         this.typeCompte = COMPTE.CLIENT;
-      }else{
+      } else {
         this.typeCompte = COMPTE.BARBER;
       }
 
       // Ne récupèrer que les réservations qui ont été fait par le User actuellement connecté
       // dans le cas où il est client; sinon les réservations dont il a accepté la mission
       // dans le cas d'un coiffeur
-      if(this.typeCompte == COMPTE.CLIENT){
-       this.reservations = this.reservationService
-         .getReservations()
-         .filter((reservation: Reservation) => {
-           return reservation.client?.id === this.idUserCurrent
-         });
-      }
-      else if(this.typeCompte == COMPTE.BARBER){
+      if (this.typeCompte == COMPTE.CLIENT) {
         this.reservations = this.reservationService
           .getReservations()
           .filter((reservation: Reservation) => {
-            return reservation.barber?.id === this.idUserCurrent
+            return reservation.client?.id === this.idUserCurrent;
+          });
+      } else if (this.typeCompte == COMPTE.BARBER) {
+        this.reservations = this.reservationService
+          .getReservations()
+          .filter((reservation: Reservation) => {
+            return reservation.barber?.id === this.idUserCurrent;
           });
       }
-    }
-    else{
-      this.router.navigate(['/login'])
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 
@@ -73,8 +69,8 @@ export class MyProfileComponent implements OnInit {
    * @param id ID de la réservation à consulter
    * @return void
    */
-  viewDetails(id : string){
-    this.router.navigate(['/reservations', id])
+  viewDetails(id: any) {
+    this.router.navigate(['/reservations', id]);
   }
 
   ngOnInit(): void {

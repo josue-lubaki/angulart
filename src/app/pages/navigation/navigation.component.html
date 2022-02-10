@@ -59,7 +59,7 @@
         routerLink="/login"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
-        *ngIf="!user?.id"
+        *ngIf="user?.id == null"
         (click)="closeMenuBar()"
       >
         Login
@@ -67,7 +67,7 @@
       <li
         class="navigation-list-container-item"
         (click)="logoutUser()"
-        *ngIf="!user || user.id"
+        *ngIf="user && user.id != null"
       >
         Deconnexion
       </li>

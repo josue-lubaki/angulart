@@ -80,19 +80,19 @@ export class AdresseComponent implements OnInit {
    * @returns void
    */
   createUser(ticketSignUpInformation: TicketSignUpModel) {
-    let user = new User(
-      ticketSignUpInformation.personalInformation.fname,
-      ticketSignUpInformation.personalInformation.lname,
-      ticketSignUpInformation.personalInformation.image,
-      ticketSignUpInformation.personalInformation.email,
-      ticketSignUpInformation.personalInformation.password,
-      ticketSignUpInformation.personalInformation.dob,
-      ticketSignUpInformation.personalInformation.phone,
-      ticketSignUpInformation.address,
-      ticketSignUpInformation.objectif.isClient,
-      ticketSignUpInformation.objectif.isBarber,
-      false
-    );
+    let user = {
+      fname: ticketSignUpInformation.personalInformation.fname,
+      lname: ticketSignUpInformation.personalInformation.lname,
+      imageURL: ticketSignUpInformation.personalInformation.image,
+      email: ticketSignUpInformation.personalInformation.email,
+      password: ticketSignUpInformation.personalInformation.password,
+      dob: ticketSignUpInformation.personalInformation.dob,
+      phone: ticketSignUpInformation.personalInformation.phone,
+      address: ticketSignUpInformation.address,
+      isClient: ticketSignUpInformation.objectif.isClient,
+      isBarber: ticketSignUpInformation.objectif.isBarber,
+      isAdmin : false
+    };
 
     this.authUserService.createUser(user);
   }

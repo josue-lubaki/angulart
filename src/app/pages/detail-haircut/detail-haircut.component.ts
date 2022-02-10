@@ -9,6 +9,7 @@ import { DataImService } from 'src/app/services/data-im.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { User } from '../../models/User';
 import { MessageService } from 'primeng/api';
+import {STATUS} from "../../models/constantes/Status";
 
 @Component({
   selector: 'app-detail-haircut',
@@ -53,13 +54,14 @@ export class DetailHaircutComponent implements OnInit {
     } as Time;
 
     if (this.authUserService.getUserConnected().id) {
-      const reservation = new Reservation(
-        this.haircut,
-        this.authUserService.getUserConnected(),
-        new User(),
-        timeString,
-        reservationTime
-      );
+      const reservation = {
+        id: null,
+        haircut : this.haircut,
+        client : this.authUserService.getUserConnected(),
+        status: STATUS.PENDING,
+        reservationDate: timeString,
+        reservationTime : reservationTime
+      };
 
       this.reservationService.createReservation(reservation);
       this.messageService.add({
