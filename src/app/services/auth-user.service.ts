@@ -1,6 +1,5 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Address } from '../models/Address';
 import { loginModel } from '../pages/login/models/loginModel';
 import { User } from '../models/User';
 import { LocalStorageService } from './local-storage.service';
@@ -11,7 +10,7 @@ import { LocalStorageService } from './local-storage.service';
 export class AuthUserService {
   private users: User[] = [];
   userConnected!: User;
-  private userConnectedSuccefully = new Subject<any>();
+  private userConnectedSuccefully = new Subject<unknown>();
   userConnected$ =
     this.userConnectedSuccefully.asObservable() as Observable<User>;
 
@@ -83,9 +82,9 @@ export class AuthUserService {
     console.log('Services : Users List', this.users);
 
     // get user from local storage, if exist
-    let email = this.localStorage.getVariable('email');
+    const email = this.localStorage.getVariable('email');
     if (email) {
-      let userConnectedStorage = this.getUserByEmail(email) as User;
+      const userConnectedStorage = this.getUserByEmail(email) as User;
 
       if (userConnectedStorage) {
         // informer les autres services que l'utilisateur est connecté

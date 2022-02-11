@@ -28,7 +28,7 @@ export class MyProfileComponent implements OnInit {
   ) {
     // Recupèrer l'email de l'utilisateur connecté (se trouvant dans le localStorage)
     // puis tenter de récupérer l'utilisateur correspondant à cet email
-    let emailUserCurrent = this.localStorage.getVariable('email');
+    const emailUserCurrent = this.localStorage.getVariable('email');
 
     // si email trouvé
     if (emailUserCurrent) {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Haircut } from 'src/app/models/Haircut';
 import { DataImService } from 'src/app/services/data-im.service';
 import {Reservation} from "../../models/Reservation";
@@ -15,12 +14,18 @@ export class HomePageComponent implements OnInit {
   haircuts: Haircut[] = [];
   reservations : Reservation[] = [];
   isBarber?: boolean = false;
+  options: any;
 
   constructor(
     private dataImService: DataImService,
     private reservationService: ReservationService,
     private authUserService: AuthUserService,
   ) {
+    this.options = {
+      center: {lat: 36.890257, lng: 30.707417},
+      zoom: 12
+    };
+
     // dans le cas d'un client, on récupère les coiffures
     this.haircuts = this.dataImService.getHaircuts();
 
@@ -33,5 +38,7 @@ export class HomePageComponent implements OnInit {
     this.reservations = this.reservationService.getReservations().filter(rs => !rs.barber);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ngOnInit Method
+  }
 }

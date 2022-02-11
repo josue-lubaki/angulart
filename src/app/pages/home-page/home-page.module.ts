@@ -6,6 +6,7 @@ import { HomeCardComponent } from './home-card/home-card.component';
 
 @NgModule({
   declarations: [HomeCardComponent],
+  providers: [],
   imports: [
     CommonModule
   ],

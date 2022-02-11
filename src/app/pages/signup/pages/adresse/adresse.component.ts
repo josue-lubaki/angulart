@@ -14,7 +14,7 @@ import { User } from '../../../../models/User';
 })
 export class AdresseComponent implements OnInit {
   form: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
   addressInformation?: Address;
   ticketSignUpInformation: TicketSignUpModel;
 
@@ -83,7 +83,7 @@ export class AdresseComponent implements OnInit {
       ticketSignUpInformation.personalInformation &&
       ticketSignUpInformation.objectif
     ) {
-      let user: User = {
+      const user: User = {
         fname: ticketSignUpInformation.personalInformation.fname,
         lname: ticketSignUpInformation.personalInformation.lname,
         imageURL: ticketSignUpInformation.personalInformation.image,
@@ -105,7 +105,7 @@ export class AdresseComponent implements OnInit {
    * @return void
    */
   prevPage() {
-    this.router.navigate(['/signup/profil']);
+    this.router.navigate(['/signup/profile']);
   }
 
   ngOnInit(): void {
@@ -128,7 +128,7 @@ export class AdresseComponent implements OnInit {
       this.ticketSignUpInformation.personalInformation?.password == undefined ||
       this.ticketSignUpInformation.personalInformation?.phone == undefined
     ) {
-      this.router.navigate(['/signup/profil']);
+      this.router.navigate(['/signup/profile']);
     }
   }
 }

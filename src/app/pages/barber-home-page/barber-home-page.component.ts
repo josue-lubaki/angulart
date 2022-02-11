@@ -15,7 +15,7 @@ export class BarberHomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-      
+    // ngOnInit Method
   }
 
 }

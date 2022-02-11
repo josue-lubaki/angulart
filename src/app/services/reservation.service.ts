@@ -38,9 +38,9 @@ export class ReservationService {
    */
   modifyReservation(idReservation: any, timeString: Date) {
     const reservation = this.getReservation(idReservation);
-    console.log('reservation Avant modification', reservation);
-    reservation!.reservationDate = timeString;
-    console.log('reservation Modifiée', reservation);
+    if(reservation){
+      reservation.reservationDate = timeString;
+    }
   }
 
   /**

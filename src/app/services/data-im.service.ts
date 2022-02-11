@@ -5,7 +5,6 @@ import { Haircut } from '../models/Haircut';
   providedIn: 'root',
 })
 export class DataImService {
-  constructor() {}
 
   haircuts: Haircut[] = [
     {

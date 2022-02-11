@@ -12,7 +12,9 @@ export class BarberCardComponent implements OnInit {
   reservation!: Reservation;
   constructor(private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ngOnInit Method
+  }
 
   /**
    * Navigate from the barber card to the detail reservation haircut page

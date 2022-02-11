@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  isDisabled: boolean = false;
+  isDisabled = false;
   submitted: boolean;
 
   constructor(

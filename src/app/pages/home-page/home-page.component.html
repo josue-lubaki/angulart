@@ -16,10 +16,12 @@
   <!-- Si l'Utilisateur est un Client -->
   <div *ngIf="reservations.length == 0; else elseBlock"
        class="p-col-12 p-md-12 p-lg-10 p-xl-10 p-mb-12 p-text-center home-page-container-haircut-card">
+    <p-gmap [options]="options" [style]="{'width':'fill','height':'320px'}" ></p-gmap>
     Désolé, Nous n'avons aucune réservation en cours...
   </div>
 
   <ng-template #elseBlock>
+    <p-gmap [options]="options" [style]="{'width':'fill','height':'320px'}" ></p-gmap>
     <app-home-card
       class="p-col-6 p-md-4 p-lg-3 p-xl-3 p-mb-3 home-page-container-haircut-card"
       *ngFor="let rs of reservations"

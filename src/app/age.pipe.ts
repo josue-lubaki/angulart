@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'age',
 })
 export class AgePipe implements PipeTransform {
-  transform(value: Date | undefined, ...args: unknown[]): any {
+  transform(value: Date | undefined): number | null {
     if (!value) {
       return null;
     }

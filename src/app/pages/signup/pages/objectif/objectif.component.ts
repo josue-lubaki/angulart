@@ -10,23 +10,27 @@ import { SignUpService } from '../../signup.service';
 })
 export class ObjectifComponent implements OnInit {
   isDisabled: boolean;
-  submitted: boolean = false;
-  isModified: boolean = false;
+  submitted = false;
+  isModified = false;
   objectifInformation: ObjectifModel;
   ticketSignUpInformation: TicketSignUpModel;
-
-  ngOnInit(): void {
-    this.ticketSignUpInformation = this.signupService.getSignUpInformation();
-
-    // identifier si l'utilisateur veut modifier son type de compte
-    this.isModified =
-      this.objectifInformation.isClient != this.objectifInformation.isBarber;
-  }
 
   constructor(private signupService: SignUpService, private router: Router) {
     this.isDisabled = true;
     this.objectifInformation = new ObjectifModel();
     this.ticketSignUpInformation = new TicketSignUpModel();
+  }
+
+  ngOnInit(): void {
+    this.ticketSignUpInformation = this.signupService.getSignUpInformation();
+
+    const objectif = this.ticketSignUpInformation.objectif;
+    // identifier si l'utilisateur veut modifier son type de compte
+    if(objectif.isClient != objectif.isBarber){
+      this.objectifInformation = this.ticketSignUpInformation.objectif
+      this.isModified =
+        this.objectifInformation.isClient != this.objectifInformation.isBarber;
+    }
   }
 
   /**

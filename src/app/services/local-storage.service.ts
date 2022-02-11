@@ -7,7 +7,6 @@ const IDUSER = 'id-user-current-angulart';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  constructor() {}
 
   /**
    * Fonction qui permet de sauvergarder le token de l'utilisateur authentifié
