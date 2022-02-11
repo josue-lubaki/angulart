@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from '../models/Reservation';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -177,15 +178,21 @@ export class ReservationService {
     return this.overlays;
   }
 
-  addMarker(latitude: number, longitude : number, title:string, label?:string) {
+  addMarker(
+    latitude: number,
+    longitude: number,
+    title: string,
+    label?: string
+  ) {
     this.overlays.push(
       new google.maps.Marker({
         position: {
           lat: latitude,
           lng: longitude,
         },
-        title: title,
         label: label,
+        title: title,
+        animation: google.maps.Animation.DROP,
       })
     );
   }
