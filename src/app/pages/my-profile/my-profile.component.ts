@@ -15,6 +15,8 @@ import { COMPTE } from '../../models/constantes/compte';
 })
 export class MyProfileComponent implements OnInit {
   user!: User;
+  avatarBuffer? : string | ArrayBuffer | null | undefined;
+  avatar?: string
   idUserCurrent?: string;
   reservations: Reservation[] = [];
   typeCompte?: string;
@@ -79,6 +81,20 @@ export class MyProfileComponent implements OnInit {
       this.authUserService.getUsers().find((user) => {
         if (user.id === this.idUserCurrent) {
           this.user = user;
+
+          // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
+          // si oui, on le set dans avatarBuffer, sinon dans avatar
+          if(this.user.imageURL instanceof ArrayBuffer || this.user.imageURL instanceof Blob) {
+            const file = this.user?.imageURL as unknown as Blob;
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+              this.avatarBuffer = fileReader.result as string;
+            };
+          }else {
+            this.avatar = this.user?.imageURL;
+          }
+
         }
       });
     } else {

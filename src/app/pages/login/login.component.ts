@@ -84,4 +84,11 @@ export class LoginComponent implements OnInit {
       this.isDisabled = false;
     }
   }
+
+  /**
+   * Methode qui permet de consuire l'utilisateur vers la page signup
+   * */
+  goToLogin() {
+    this.router.navigate(['/signup'])
+  }
 }

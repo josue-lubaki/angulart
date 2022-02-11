@@ -83,6 +83,7 @@ export class AdresseComponent implements OnInit {
       ticketSignUpInformation.personalInformation &&
       ticketSignUpInformation.objectif
     ) {
+      console.log("Image - avant setter : ", ticketSignUpInformation.personalInformation.image)
       const user: User = {
         fname: ticketSignUpInformation.personalInformation.fname,
         lname: ticketSignUpInformation.personalInformation.lname,

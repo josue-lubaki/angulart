@@ -14,9 +14,9 @@ export class HomePageComponent implements OnInit {
   haircuts: Haircut[] = [];
   reservations: Reservation[] = [];
 
-
   isBarber?: boolean = false;
   options: any;
+  overlays!: any[];
 
   constructor(
     private dataImService: DataImService,
@@ -24,8 +24,8 @@ export class HomePageComponent implements OnInit {
     private authUserService: AuthUserService
   ) {
     this.options = {
-      center: { lat: 36.890257, lng: 30.707417 },
-      zoom: 12,
+      center: { lat: 46.3470097, lng: -72.5753559 },
+      zoom: 14,
     };
 
     // dans le cas d'un client, on récupère les coiffures
@@ -39,9 +39,13 @@ export class HomePageComponent implements OnInit {
     this.reservations = this.reservationService
       .getReservations()
       .filter((rs) => !rs.barber);
+
+    // Récupération des markers
+    this.overlays = this.reservationService.getOverlays();
   }
 
   ngOnInit(): void {
-    // ngOnInit Method
+    // Marker test 
+    this.reservationService.addMarker(46.3470097, -72.5753559, 'test');
   }
 }

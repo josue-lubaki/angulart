@@ -2,7 +2,7 @@
   <div>
     <span routerLink="/">Angulart</span>
   </div>
-  <div><img [src]="image" width="60px" routerLink="/" /></div>
+  <div><img [src]="image" class="navigation-img" width="60px" routerLink="/" /></div>
   <div class="navigation-list hide-desktop" id="blocMenu">
     <ul id="nav" class="navigation-list-container">
       <li
@@ -14,7 +14,7 @@
       </li>
       <li
         class="navigation-list-container-item"
-        *ngIf="user && avatar"
+        *ngIf="user && avatar && !avatarBuffer"
         (click)="closeMenuBar()"
       >
         <p-avatar
@@ -24,6 +24,17 @@
           routerLink="/profile"
         ></p-avatar>
       </li>
+            <li
+              class="navigation-list-container-item"
+              *ngIf="user && !avatar && avatarBuffer"
+              (click)="closeMenuBar()"
+            >
+              <img
+                [src]="avatarBuffer"
+                style="clip-path: circle(); width: 60px; height:60px;"
+                routerLink="/profile"
+              />
+            </li>
 
       <li
         class="navigation-list-container-item"

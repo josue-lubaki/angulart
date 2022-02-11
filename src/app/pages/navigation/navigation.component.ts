@@ -16,6 +16,7 @@ declare function linkAction(): void;
 export class NavigationComponent implements OnInit, OnDestroy {
   image?: string =
     'https://image.freepik.com/vecteurs-libre/logo-salon-coiffure-retro_23-2148420012.jpg';
+  avatarBuffer?: string | ArrayBuffer | null | undefined;
   avatar?: string;
   user?: User;
 
@@ -29,7 +30,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
     // Dès qu'il y a une modification sur userConnected$, il sera notifier
     this.authUserService.userConnected$.subscribe((user: User) => {
       this.user = user;
-      this.avatar = user?.imageURL;
+
+      // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
+      // si oui, on le set dans avatarBuffer, sinon dans avatar
+      if (this.user?.imageURL instanceof ArrayBuffer || this.user?.imageURL instanceof Blob) {
+        const file = user?.imageURL as unknown as Blob;
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          this.avatarBuffer = fileReader.result as string;
+        };
+      } else {
+        this.avatar = this.user?.imageURL;
+      }
+
     });
   }
 
@@ -38,7 +52,19 @@ export class NavigationComponent implements OnInit, OnDestroy {
     // On récupère les infos de l'utilisateur connecté via la Fonction getUserConnected()
     if (!this.user && this.authUserService.getUserConnected()) {
       this.user = this.authUserService.getUserConnected();
-      this.avatar = this.user.imageURL;
+
+      if(this.user?.imageURL instanceof ArrayBuffer || this.user?.imageURL instanceof Blob) {
+        const file = this.user?.imageURL as unknown as Blob;
+        console.log('file', file);
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          this.avatarBuffer = fileReader.result as string;
+        };
+      }else {
+        this.avatar = this.user?.imageURL;
+        console.log("avatar", this.avatar)
+      }
     }
   }
 

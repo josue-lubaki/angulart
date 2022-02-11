@@ -6,13 +6,13 @@ import { Reservation } from '../models/Reservation';
 export class ReservationService {
   reservations: Reservation[] = [
     {
-      id: "1",
+      id: '1',
       reservationDate: new Date(),
-      reservationTime : {
+      reservationTime: {
         hours: 18,
-        minutes: 30
+        minutes: 30,
       },
-      haircut : {
+      haircut: {
         id: '1',
         imageURL:
           'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
@@ -36,17 +36,22 @@ export class ReservationService {
           apartment: '13C',
           zip: 'G8Z 1V5',
           city: 'Trois-Rivières',
-          state: 'Québec'
-        }
-      }
-    }, {
-      id: "2",
-      reservationDate: new Date(),
-      reservationTime : {
-        hours: 18,
-        minutes: 30
+          state: 'Québec',
+        },
       },
-      haircut : {
+      localisation: {
+        latitude: 46.346328,
+        longitude: -72.572652,
+      },
+    },
+    {
+      id: '2',
+      reservationDate: new Date(),
+      reservationTime: {
+        hours: 18,
+        minutes: 30,
+      },
+      haircut: {
         id: '1',
         imageURL:
           'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
@@ -70,11 +75,34 @@ export class ReservationService {
           apartment: '13C',
           zip: 'G8Z 1V5',
           city: 'Trois-Rivières',
-          state: 'Québec'
-        }
-      }
-    }
+          state: 'Québec',
+        },
+      },
+      localisation: {
+        latitude: 46.35249,
+        longitude: -72.56879,
+      },
+    },
   ];
+
+  overlays: google.maps.Marker[] = [
+    new google.maps.Marker({
+      position: {
+        lat: this.reservations[0].localisation!.latitude,
+        lng: this.reservations[0].localisation!.longitude,
+      },
+      title: this.reservations[0].haircut!.title,
+    }),
+    new google.maps.Marker({
+      position: {
+        lat: this.reservations[1].localisation!.latitude,
+        lng: this.reservations[1].localisation!.longitude,
+      },
+      title: this.reservations[1].haircut!.title,
+      draggable: true,
+    }),
+  ];
+
   constructor() {
     //this.reservations = [];
 
@@ -108,7 +136,7 @@ export class ReservationService {
    */
   modifyReservation(idReservation: any, timeString: Date) {
     const reservation = this.getReservation(idReservation);
-    if(reservation){
+    if (reservation) {
       reservation.reservationDate = timeString;
     }
   }
@@ -140,5 +168,25 @@ export class ReservationService {
       const v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  }
+
+  /**
+   * Fonction qui permet de récupèrer les markers
+   * */
+  getOverlays() {
+    return this.overlays;
+  }
+
+  addMarker(latitude: number, longitude : number, title:string, label?:string) {
+    this.overlays.push(
+      new google.maps.Marker({
+        position: {
+          lat: latitude,
+          lng: longitude,
+        },
+        title: title,
+        label: label,
+      })
+    );
   }
 }

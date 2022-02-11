@@ -17,11 +17,17 @@
                 <b>Profil</b>
               </div>
             </p-divider>
-            <img
-              [src]="user.imageURL"
+            <img *ngIf="avatar && !avatarBuffer"
+              [src]="avatar"
               alt="image de {{ user.fname }}"
               width="90px"
               height="90px"
+            />
+            <img *ngIf="!avatar && avatarBuffer"
+                 [src]="avatarBuffer"
+                 alt="image de {{ user.fname }}"
+                 width="90px"
+                 height="90px"
             />
             <p><span>ID Client</span> : {{ user.id }}</p>
             <p><span>Prénom</span> : {{ user.fname }}</p>
@@ -36,7 +42,12 @@
             </p>
             <p><span>Email</span> : {{ user.email }}</p>
             <p><span>Téléphone</span> : {{ user.phone }}</p>
-            <p><span>Type de compte</span> : {{ user.isClient ? 'Client' : user.isBarber ? 'Coiffeur' : 'Admin' }}</p>
+            <p>
+              <span>Type de compte</span> :
+              {{
+                user.isClient ? "Client" : user.isBarber ? "Coiffeur" : "Admin"
+              }}
+            </p>
           </div>
         </div>
 
@@ -175,6 +186,4 @@
       </div>
     </div>
   </p-fieldset>
-
-
 </div>
