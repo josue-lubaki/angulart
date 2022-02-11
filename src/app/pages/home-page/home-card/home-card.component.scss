@@ -6,6 +6,7 @@
   box-shadow: inset 1px 1px 10px rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   cursor: pointer;
+  margin-bottom: 1rem;
 
   &:hover {
     box-shadow: inset -1px -1px 10px rgba(0, 0, 0, 0.5);
@@ -15,6 +16,7 @@
   }
 
   &-info {
+    font-size: 0.8rem;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -32,20 +34,37 @@
 
   img {
     width: 100%;
-    height: 350px;
+    height: 375px;
     border-radius: 10px 10px 0 0;
   }
 }
 
-@media only screen and (max-width: 426px) {
+@media (max-width: 830px) {
   .haircut-card {
-    width: 100%;
+    &-info {
+      font-size: 0.6rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .haircut-card {
+    transition: all 0.6s ease-in-out;
+    width: 90%;
     height: 350px;
-    min-height: 396px;
+    min-height: 370px;
+    margin: 0 auto 1rem;
 
     img {
       height: 320px;
       max-height: 350px;
     }
+  }
+}
+
+@media only screen and (max-width: 426px) {
+  .haircut-card {
+    transition: all 0.6s ease-in-out;
+    width: 100%;
   }
 }

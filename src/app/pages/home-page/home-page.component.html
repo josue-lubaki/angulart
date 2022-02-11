@@ -1,32 +1,43 @@
 <div
   class="p-grid p-grid-column p-fluid p-formgrid p-jc-evenly home-page-container"
-  *ngIf="!isBarber">
+  *ngIf="!isBarber"
+>
   <!-- Si l'Utilisateur est un Client -->
-    <app-home-card
+  <app-home-card
     class="p-col-6 p-md-4 p-lg-3 p-xl-3 p-mb-3 home-page-container-haircut-card"
     *ngFor="let hc of haircuts"
     [haircut]="hc"
   ></app-home-card>
 </div>
 
-<div
-  class="p-grid p-grid-column p-fluid p-formgrid p-jc-evenly home-page-container"
-  *ngIf="isBarber"
->
+<div class="home-page-container" *ngIf="isBarber">
   <!-- Si l'Utilisateur est un Client -->
-  <div *ngIf="reservations.length == 0; else elseBlock"
-       class="p-col-12 p-md-12 p-lg-10 p-xl-10 p-mb-12 p-text-center home-page-container-haircut-card">
-    <p-gmap [options]="options" [style]="{'width':'fill','height':'320px'}" ></p-gmap>
+  <div
+    *ngIf="reservations.length == 0"
+    class="p-col-12 p-md-12 p-lg-10 p-xl-10 p-mb-12 p-text-center home-page-container-haircut-card"
+  >
+    <p-gmap
+      [options]="options"
+      [style]="{ width: 'fill', height: '320px' }"
+    ></p-gmap>
     Désolé, Nous n'avons aucune réservation en cours...
   </div>
 
-  <ng-template #elseBlock>
-    <p-gmap [options]="options" [style]="{'width':'fill','height':'320px'}" ></p-gmap>
-    <app-home-card
-      class="p-col-6 p-md-4 p-lg-3 p-xl-3 p-mb-3 home-page-container-haircut-card"
-      *ngFor="let rs of reservations"
-      [reservation]="rs"
-    ></app-home-card>
-  </ng-template>
+  <div *ngIf="reservations.length > 0" class="home-page-container-section">
+    <div
+      class="p-grid p-grid-column p-fluid p-formgrid p-jc-evenly home-page-container-section-reservation"
+    >
+      <app-home-card
+        class="p-col-12 p-md-12 p-lg-12 p-xl-12 p-mb-3 home-page-container-section-haircut-card"
+        *ngFor="let rs of reservations"
+        [reservation]="rs"
+      ></app-home-card>
+    </div>
+    <p-gmap
+      [options]="options"
+      [style]="{ width: '100%', height: '450px' }"
+      class="home-page-container-section-map"
+    >
+    </p-gmap>
+  </div>
 </div>
-

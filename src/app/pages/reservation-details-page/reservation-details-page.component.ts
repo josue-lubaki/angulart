@@ -8,11 +8,11 @@ import { STATUS } from '../../models/constantes/Status';
 import { User } from '../../models/User';
 
 @Component({
-  selector: 'app-barber-details-page',
-  templateUrl: './barber-details-page.component.html',
-  styleUrls: ['./barber-details-page.component.scss'],
+  selector: 'app-reservation-details-page',
+  templateUrl: './reservation-details-page.component.html',
+  styleUrls: ['./reservation-details-page.component.scss'],
 })
-export class BarberDetailsPageComponent implements OnInit {
+export class ReservationDetailsPageComponent implements OnInit {
   reservation?: Reservation;
   canAcceptReservation?: boolean = true;
   STATUS = STATUS;
