@@ -19,6 +19,8 @@ import { CalendarModule } from 'primeng/calendar';
 // service
 import { SignUpService } from './signup.service';
 import { AdresseComponent } from './pages/adresse/adresse.component';
+import {SignupComponent} from "./signup.component";
+import {StepsModule} from "primeng/steps";
 
 const primengModules = [
   ButtonModule,
@@ -29,10 +31,11 @@ const primengModules = [
   DropdownModule,
   InputTextModule,
   CalendarModule,
+  StepsModule,
 ];
 
 @NgModule({
-  declarations: [AdresseComponent, ObjectifComponent, ProfilComponent],
+  declarations: [SignupComponent, AdresseComponent, ObjectifComponent, ProfilComponent],
   providers: [FormsModule, SignUpService],
   imports: [
     ...primengModules,

@@ -4,37 +4,45 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Path of signup component
+// Path of component
 import { AdresseComponent } from './pages/signup/pages/adresse/adresse.component';
 import { ObjectifComponent } from './pages/signup/pages/objectif/objectif.component';
 import { ProfilComponent } from './pages/signup/pages/profil/profil.component';
-import { ContentComponent } from './pages/content/content.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { HomePageModule } from './pages/home-page/home-page.module';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
-import { SignUpModule } from './pages/signup/signup.module';
 import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
-
-// Primeng - Module
-import { StepsModule } from 'primeng/steps';
-import { DividerModule } from 'primeng/divider';
-import { FieldsetModule } from 'primeng/fieldset';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { ToolbarModule } from 'primeng/toolbar';
-import { AvatarModule } from 'primeng/avatar';
-import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-page.component';
-import { GMapModule } from 'primeng/gmap';
-import { CalendarModule } from 'primeng/calendar';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 
+// All modules
+import { HomePageModule } from './pages/home-page/home-page.module';
+import { SignUpModule } from './pages/signup/signup.module';
 import { BarberHomePageModule } from './pages/barber-home-page/barber-home-page.module';
 import { ReservationDetailsPageComponent } from './pages/reservation-details-page/reservation-details-page.component';
-import { RippleModule } from 'primeng/ripple';
+import { LoginModule } from "./pages/login/login.module";
+import { FooterModule } from "./pages/footer/footer.module";
+import { ReservationDetailsPageModule } from "./pages/reservation-details-page/reservation-details-page.module";
+import { DetailHaircutModule } from "./pages/detail-haircut/detail-haircut.module";
+import { MyProfileModule } from "./pages/my-profile/my-profile.module";
+
+// Primeng - Module
+import { GMapModule } from 'primeng/gmap';
+
+// services
+import { MessageService } from 'primeng/api';
+
+const primengModule = [GMapModule]
+const allModules = [
+  SignUpModule,
+  HomePageModule,
+  BarberHomePageModule,
+  LoginModule,
+  FooterModule,
+  ReservationDetailsPageModule,
+  DetailHaircutModule,
+  MyProfileModule,
+]
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -54,47 +62,21 @@ const routes: Routes = [
       { path: 'address', component: AdresseComponent },
     ],
   },
-  { path: 'content', component: ContentComponent },
   { path: '**', redirectTo: 'home' },
 ];
 
-const primengModules = [
-  StepsModule,
-  ButtonModule,
-  CardModule,
-  ToolbarModule,
-  DividerModule,
-  FieldsetModule,
-  AvatarModule,
-  AvatarGroupModule,
-  GMapModule,
-  CalendarModule,
-  ToastModule,
-];
-
 @NgModule({
-  declarations: [
-    SignupComponent,
-    HomePageComponent,
-    ContentComponent,
-    LoginComponent,
-    BarberHomePageComponent,
-    ReservationDetailsPageComponent,
-  ],
-  providers: [FormBuilder, ...primengModules, MessageService],
+  declarations: [],
+  providers: [FormBuilder, MessageService],
   imports: [
     RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
-    ...primengModules,
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
     CommonModule,
-    SignUpModule,
-    HomePageModule,
-    BarberHomePageModule,
-    GMapModule,
-    RippleModule,
+    ...allModules,
+    ...primengModule
   ],
-  exports: [RouterModule, ...primengModules],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
