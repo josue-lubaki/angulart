@@ -33,7 +33,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
 import { BarberHomePageModule } from './pages/barber-home-page/barber-home-page.module';
-import { BarberDetailsPageComponent } from './pages/barber-details-page/barber-details-page.component';
+import { ReservationDetailsPageComponent } from './pages/reservation-details-page/reservation-details-page.component';
 import { RippleModule } from 'primeng/ripple';
 
 const routes: Routes = [
@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: DetailHaircutComponent },
-  { path: 'reservations/:id', component: BarberDetailsPageComponent },
+  { path: 'reservations/:id', component: ReservationDetailsPageComponent },
   { path: 'profile', component: MyProfileComponent },
   { path: 'barber', component: BarberHomePageComponent },
   {
@@ -79,7 +79,7 @@ const primengModules = [
     ContentComponent,
     LoginComponent,
     BarberHomePageComponent,
-    BarberDetailsPageComponent,
+    ReservationDetailsPageComponent,
   ],
   providers: [FormBuilder, ...primengModules, MessageService],
   imports: [

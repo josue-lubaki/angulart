@@ -2,17 +2,139 @@
 @import "../../../styles/colors.scss";
 
 .home-page-container {
-  margin-top: 0.5rem !important;
-  margin-bottom: 0.5rem !important;
+  margin: 0 !important;
+  padding: 0.5rem 1.2rem !important;
+  background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
+    radial-gradient(
+      at top left,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  background-blend-mode: screen;
+
+  //custom scrollbar colors
+  ::-webkit-scrollbar {
+    width: 10px;
+    background-color: $color-dark-blue;
+  }
+
+  //track of the scrollbar
+  ::-webkit-scrollbar-track {
+    background-color: $color-dark-blue;
+  }
+
+  //thumb of the scrollbar
+  ::-webkit-scrollbar-thumb {
+    background-color: $color-yellow-primary;
+    border-radius: 5px;
+  }
+
+  //thumb of the scrollbar when you hover over it
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: $color-white-primary;
+  }
+
+  &-section {
+    display: flex;
+    flex-direction: row;
+
+    &-reservation {
+      transition: all 0.6s ease-in-out;
+      width: 20%;
+      display: block !important;
+      flex-direction: column;
+      z-index: 100;
+      scroll-behavior: smooth;
+      overflow-y: auto;
+      max-height: 450px;
+      flex-wrap: nowrap;
+      padding: 0 !important;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem !important;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
+        radial-gradient(
+          at top left,
+          rgba(255, 255, 255, 0.3) 0%,
+          rgba(0, 0, 0, 0.3) 100%
+        );
+    }
+
+    &-map {
+      width: 80%;
+    }
+
+    &-haircut-card {
+      padding: 0 !important;
+      margin-bottom: 1rem !important;
+    }
+  }
 }
 
 @media only screen and (max-width: 426px) {
   .home-page-container {
     flex-direction: column;
     align-items: center;
+    padding: 0.5rem 1rem !important;
 
     &-haircut-card {
       width: 90%;
+    }
+  }
+}
+
+@media (max-width: 830px) {
+  .home-page-container {
+    &-section {
+      &-reservation {
+        transition: all 0.6s ease-in-out;
+        width: 35%;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .home-page-container {
+    padding: 0;
+    &-section {
+      flex-direction: column-reverse;
+      align-items: center;
+      &-reservation {
+        width: 100%;
+        margin-right: 0;
+      }
+      &-map {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 426px) {
+  .home-page-container {
+    padding: 0;
+    &-section {
+      flex-direction: column-reverse;
+      align-items: center;
+      &-reservation {
+        width: 100%;
+        margin-right: 0;
+      }
+      &-map {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
     }
   }
 }

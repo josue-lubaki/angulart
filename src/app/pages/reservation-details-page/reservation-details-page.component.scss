@@ -5,6 +5,13 @@
   min-height: 20vh;
   display: flex;
   justify-content: space-evenly;
+  background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
+  radial-gradient(
+      at top left,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+  );
+  background-blend-mode: screen;
 }
 
 .dn{
@@ -17,11 +24,11 @@
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
   padding: 0.5rem;
   //width: 100%;
-  margin: 1rem auto;
+  margin: 1rem;
   border: 2px solid $color-black-primary;
+
 
   &-left {
     display: flex;
@@ -30,7 +37,7 @@
     border: 1px solid $color-gray-primary;
 
     &-img {
-      height: 220px;
+      height: 100%;
       object-fit: cover;
     }
 

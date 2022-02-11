@@ -3,6 +3,7 @@
 .card-profile {
   width: 100%;
   min-height: 70vh;
+
   &-compte-content {
     img {
       height: 30%;
@@ -80,7 +81,7 @@
   }
 }
 
-@media (max-width: 535px) {
+@media (max-width: 558px) {
   .card-reservation {
     flex-direction: column;
     &-left {

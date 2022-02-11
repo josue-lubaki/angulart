@@ -4,9 +4,79 @@ import { Reservation } from '../models/Reservation';
   providedIn: 'root',
 })
 export class ReservationService {
-  reservations: Reservation[] = [];
+  reservations: Reservation[] = [
+    {
+      id: "1",
+      reservationDate: new Date(),
+      reservationTime : {
+        hours: 18,
+        minutes: 30
+      },
+      haircut : {
+        id: '1',
+        imageURL:
+          'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
+        price: 20,
+        title: 'degrade',
+        estimatingTime: '30 min',
+        description:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      },
+      status: 'En Attente',
+      client: {
+        fname: 'Josue',
+        lname: 'Lubaki',
+        imageURL:
+          'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg',
+        email: 'josuelubaki@gmail.com',
+        password: 'Josue2022',
+        dob: new Date('Sept 2 1964'),
+        address: {
+          street: '1010 Rue Richard',
+          apartment: '13C',
+          zip: 'G8Z 1V5',
+          city: 'Trois-Rivières',
+          state: 'Québec'
+        }
+      }
+    }, {
+      id: "2",
+      reservationDate: new Date(),
+      reservationTime : {
+        hours: 18,
+        minutes: 30
+      },
+      haircut : {
+        id: '1',
+        imageURL:
+          'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
+        price: 20,
+        title: 'degrade',
+        estimatingTime: '30 min',
+        description:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      },
+      status: 'En Attente',
+      client: {
+        fname: 'Josue',
+        lname: 'Lubaki',
+        imageURL:
+          'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg',
+        email: 'josuelubaki@gmail.com',
+        password: 'Josue2022',
+        dob: new Date('Sept 2 1964'),
+        address: {
+          street: '1010 Rue Richard',
+          apartment: '13C',
+          zip: 'G8Z 1V5',
+          city: 'Trois-Rivières',
+          state: 'Québec'
+        }
+      }
+    }
+  ];
   constructor() {
-    this.reservations = [];
+    //this.reservations = [];
 
     // see all reservations
     console.log('Reservations', this.reservations);

@@ -2,9 +2,17 @@
 @import "../../../styles/colors.scss";
 .container {
   margin: 0 auto;
+  padding: 0 1rem;
   min-height: 75vh;
   display: flex;
   justify-content: space-evenly;
+  background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
+  radial-gradient(
+      at top left,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+  );
+  background-blend-mode: screen;
 }
 .card {
   text-align: center;
@@ -12,10 +20,9 @@
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
   padding: 0.5rem;
   width: 100%;
-  margin: 1rem auto;
+  margin: .5rem auto;
   border: 2px solid $color-black-primary;
 
   &-left {
@@ -59,6 +66,7 @@
 @media (max-width: 535px) {
   .card {
     flex-direction: column;
+    margin: 0.5rem auto 1rem;
     &-left {
       width: 100%;
       img {
