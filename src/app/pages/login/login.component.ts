@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   isDisabled = false;
   submitted: boolean;
+  location$: any;
+  locationSubscription: any;
 
   constructor(
     private authUserService: AuthUserService,
@@ -74,7 +76,7 @@ export class LoginComponent implements OnInit {
         summary: 'Login',
         detail: `Bienvenue`,
       });
-      this.router.navigate(['/']);
+      this.router.navigate(['/home']);
     } else {
       this.messageService.add({
         severity: 'warn',
@@ -89,6 +91,7 @@ export class LoginComponent implements OnInit {
    * Methode qui permet de consuire l'utilisateur vers la page signup
    * */
   goToLogin() {
-    this.router.navigate(['/signup'])
+    this.router.navigate(['/signup']);
   }
+
 }
