@@ -217,4 +217,6 @@ export class AuthUserService {
     // informer les observateurs que l'utilisateur est déconnecté
     this.userConnectedSuccefully.next(null);
   }
+
+
 }

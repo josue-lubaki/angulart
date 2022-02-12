@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { Reservation } from '../models/Reservation';
+import { AuthUserService } from './auth-user.service';
+import {GoogleMapService} from "./google-map.service";
 
 @Injectable({
   providedIn: 'root',
@@ -86,26 +88,12 @@ export class ReservationService {
     },
   ];
 
-  overlays: google.maps.Marker[] = [
-    new google.maps.Marker({
-      position: {
-        lat: this.reservations[0].localisation!.latitude,
-        lng: this.reservations[0].localisation!.longitude,
-      },
-      title: this.reservations[0].haircut!.title,
-    }),
-    new google.maps.Marker({
-      position: {
-        lat: this.reservations[1].localisation!.latitude,
-        lng: this.reservations[1].localisation!.longitude,
-      },
-      title: this.reservations[1].haircut!.title,
-      draggable: true,
-    }),
-  ];
+  constructor(private googleMapService: GoogleMapService, private authUserService: AuthUserService) {
 
-  constructor() {
-    //this.reservations = [];
+    // Ajouter les markers sur la carte, pour toutes les réservations
+    this.googleMapService.addMarkerReservation(
+      this.reservations.filter(rs => !rs.barber)
+    )
 
     // see all reservations
     console.log('Reservations', this.reservations);
@@ -171,29 +159,4 @@ export class ReservationService {
     });
   }
 
-  /**
-   * Fonction qui permet de récupèrer les markers
-   * */
-  getOverlays() {
-    return this.overlays;
-  }
-
-  addMarker(
-    latitude: number,
-    longitude: number,
-    title: string,
-    label?: string
-  ) {
-    this.overlays.push(
-      new google.maps.Marker({
-        position: {
-          lat: latitude,
-          lng: longitude,
-        },
-        label: label,
-        title: title,
-        animation: google.maps.Animation.DROP,
-      })
-    );
-  }
 }
