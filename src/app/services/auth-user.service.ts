@@ -101,8 +101,10 @@ export class AuthUserService {
    * Get information of the user connected
    * @returns User
    */
-  getUserConnected(): User {
-    return this.userConnected;
+  getUserConnected(): Observable<User> {
+    return new Observable<User>(observer => {
+      observer.next(this.userConnected)
+    })
   }
 
   // get users

@@ -4,6 +4,7 @@ import { AuthUserService } from 'src/app/services/auth-user.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { User } from '../../models/User';
 import { MessageService } from 'primeng/api';
+import {Subject, takeUntil} from "rxjs";
 
 /* Fonction qui permet à l'icône "Hamburger" d'afficher la barre de menu */
 declare function linkAction(): void;
@@ -19,6 +20,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   avatarBuffer?: string | ArrayBuffer | null | undefined;
   avatar?: string;
   user?: User;
+  private endSubs$: Subject<any> = new Subject();
 
   constructor(
     private authUserService: AuthUserService,
@@ -28,7 +30,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ) {
     // enregistrer variable user comme observer de userConnected$ du service authUserService
     // Dès qu'il y a une modification sur userConnected$, il sera notifier
-    this.authUserService.userConnected$.subscribe((user: User) => {
+    this.authUserService.userConnected$
+      .subscribe((user: User) => {
       this.user = user;
 
       // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
@@ -50,10 +53,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Pendant la navigation si jamais on perdait les infos de l'utilisateur connecté
     // On récupère les infos de l'utilisateur connecté via la Fonction getUserConnected()
-    if (!this.user && this.authUserService.getUserConnected()) {
-      this.user = this.authUserService.getUserConnected();
 
-      if(this.user?.imageURL instanceof ArrayBuffer || this.user?.imageURL instanceof Blob) {
+    this.authUserService
+      .getUserConnected()
+      .subscribe(user => {
+        this.user = user;
+    });
+
+    if(this.user){
+      if(this.user.imageURL instanceof ArrayBuffer || this.user.imageURL instanceof Blob) {
         const file = this.user?.imageURL as unknown as Blob;
         console.log('file', file);
         const fileReader = new FileReader();
@@ -61,9 +69,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
         fileReader.onload = () => {
           this.avatarBuffer = fileReader.result as string;
         };
-      }else {
-        this.avatar = this.user?.imageURL;
       }
+      else {
+        this.avatar = this.user.imageURL;
+      }
+    }
+    else{
+      this.router.navigate(['/home']);
     }
   }
 
@@ -82,7 +94,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // ngOnDestroy Method
+    // this.endSubs$.next(null)
+    // this.endSubs$.complete();
   }
 
   /**

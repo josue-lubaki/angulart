@@ -5,15 +5,9 @@ import { Reservation } from '../../models/Reservation';
 import { ReservationService } from '../../services/reservation.service';
 import { AuthUserService } from '../../services/auth-user.service';
 import { GoogleMapService } from 'src/app/services/google-map.service';
-
-class Position {
-  latitude : number;
-  longitude : number;
-  constructor(latitude: number, longitude: number) {
-    this.latitude = latitude;
-    this.longitude = longitude;
-  }
-}
+import {Position} from "./model/position";
+import {Subject, takeUntil} from "rxjs";
+import {User} from "../../models/User";
 
 @Component({
   selector: 'app-home-page',
@@ -31,6 +25,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   overlays!: any[];
   locationSubscription: any;
   location$: any;
+  endSubs$: Subject<any> = new Subject();
+  user?: User;
 
   constructor(
     private dataImService: DataImService,
@@ -47,59 +43,40 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.location$ = this.googleMapService.initializeLocation();
 
     // dans le cas d'un client, on récupère les coiffures
-    this.haircuts = this.dataImService.getHaircuts();
+    this.dataImService.getHaircuts()
+      .pipe(takeUntil(this.endSubs$))
+      .subscribe((haircuts : Haircut[]) => {
+        this.haircuts = haircuts;
+    })
 
-    if (this.authUserService.getUserConnected()) {
-      this.isBarber = this.authUserService.getUserConnected().isBarber;
-    }
-
-    // dans le cas d'un coiffeur, on récupère les réservations
-    // dont le coiffeur n'existe pas encore
-    this.reservations = this.reservationService
-      .getReservations()
-      .filter((rs) => !rs.barber);
-
-    // l'utilisateur est un coiffeur
-    if(this.isBarber){
-      this.locationSubscription = this.location$.subscribe({
-        next(position: any) {
-          this.barberPosition = position;
-          this.clientPosition = position;
-        },
-        error(msg: any) {
-          console.log('Error getting Location', msg);
-        },
-      });
-
-      // Récupération des markers pour l'affichage
-      this.overlays = this.googleMapService.getOverlays();
-    }
-
-    this.location$.subscribe((location: any) => {
-      this.clientPosition = location;
-
-      // create a Marker of barber
-      if(this.authUserService.getUserConnected().isBarber){
-        this.googleMapService.addMarkerUser(
-          location.coords.latitude as number,
-          location.coords.longitude as number,
-        );
-      }
-      else{
-        const position : Position = new Position(
-          this.clientPosition.coords.latitude,
-          this.clientPosition.coords.longitude
-        )
-
-        // sauvergarder la position du client dans le localStorage
-        localStorage.setItem('clientPosition', JSON.stringify(position));
-      }
-    });
   }
 
   ngOnInit(): void {
-    // Marker test
-    //this.googleMapService.addMarker(46.3470097, -72.5753559, 'test');
+    this.authUserService
+      .getUserConnected()
+      .pipe(takeUntil(this.endSubs$))
+      .subscribe(user => {
+        this.user = user;
+      })
+
+    // on récupère les réservations dont le coiffeur n'existe pas encore
+    this.getReservationWithoutBarber();
+
+    // l'utilisateur est un coiffeur
+    if(this.user?.isBarber){
+      this.isBarber = true
+      this.listenLocationObservable();
+
+      // Récupération des markers pour l'affichage
+      this.googleMapService
+        .getOverlays()
+        .subscribe(markers => {
+          this.overlays = markers;
+        })
+    }
+
+    // Get location
+    this.settingsLocation()
   }
 
   ngOnDestroy(): void {
@@ -108,5 +85,76 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.locationSubscription.unsubscribe();
     }
 
+    this.endSubs$.next(null);
+    this.endSubs$.complete();
+
+  }
+
+  /**
+   * Fonction qui permet de récupèrer toutes les réservations qui n'ont pas encore de coiffeur
+   * @return void
+   * */
+  private getReservationWithoutBarber() {
+    this.reservationService
+      .getReservations()
+      .pipe(takeUntil(this.endSubs$))
+      .subscribe((reservations : Reservation[]) => {
+        reservations.forEach((reservation : Reservation) => {
+          if(!reservation.barber){
+            this.reservations.push(reservation)
+            this.googleMapService
+              .addMarkerReservations(this.reservations)
+              .pipe(takeUntil(this.endSubs$))
+              .subscribe()
+          }
+        })
+      })
+  }
+
+  /**
+   * Fonction qui permet de rester en écoute de la localisation de l'utilisateur
+   * @return void
+   * */
+  private listenLocationObservable() {
+    this.locationSubscription = this.location$
+      .subscribe({
+        next(position: any) {
+          this.barberPosition = position;
+          this.clientPosition = position;
+        },
+        error(msg: any) {
+          console.log('Error getting Location', msg);
+        },
+      });
+  }
+
+  /**
+   * Fonction qui permet d'obtenir la réponse de la localisation
+   * Fonction qui permet d'ajouter le marker de l'utilisateur courant sur la carte
+   * Sauvegarde la position de l'utilisateur dans le LocalStorage
+   * @return void
+   * */
+  private settingsLocation() {
+    this.location$
+      .subscribe((location: any) => {
+        this.clientPosition = location;
+
+        // create a Marker of barber
+        if(this.user?.isBarber){
+          this.googleMapService.addMarkerUser(
+            location.latitude as number,
+            location.longitude as number);
+        }
+        // si client, on récupère juste l'information
+        else{
+          const position : Position = new Position(
+            this.clientPosition.coords.latitude as number,
+            this.clientPosition.coords.longitude as number
+          )
+
+          // sauvergarder la position du client dans le localStorage
+          localStorage.setItem('clientPosition', JSON.stringify(position));
+        }
+      });
   }
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Haircut } from '../models/Haircut';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataImService {
-
   haircuts: Haircut[] = [
     {
       id: '1',
@@ -93,7 +93,9 @@ export class DataImService {
    * Method to get all haircuts
    * @returns Haircut[]
    */
-  getHaircuts(): Haircut[] {
-    return this.haircuts;
+  getHaircuts(): Observable<Haircut[]> {
+    return new Observable<Haircut[]>((observer) => {
+      observer.next(this.haircuts);
+    });
   }
 }

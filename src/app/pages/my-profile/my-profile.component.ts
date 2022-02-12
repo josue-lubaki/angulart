@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Reservation } from 'src/app/models/Reservation';
 import { AuthUserService } from 'src/app/services/auth-user.service';
@@ -7,19 +7,21 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { User } from '../../models/User';
 import { COMPTE } from '../../models/constantes/compte';
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.scss'],
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent implements OnInit, OnDestroy {
   user!: User;
-  avatarBuffer? : string | ArrayBuffer | null | undefined;
-  avatar?: string
+  avatarBuffer?: string | ArrayBuffer | null | undefined;
+  avatar?: string;
   idUserCurrent?: string;
   reservations: Reservation[] = [];
   typeCompte?: string;
+  endSubs$: Subject<any> = new Subject();
 
   constructor(
     private localStorage: LocalStorageService,
@@ -48,22 +50,32 @@ export class MyProfileComponent implements OnInit {
       // dans le cas où il est client; sinon les réservations dont il a accepté la mission
       // dans le cas d'un coiffeur
       if (this.typeCompte == COMPTE.CLIENT) {
-        this.reservations = this.reservationService
+        // retourner la reservation qui appartient au client actuel
+        this.reservationService
           .getReservations()
-          .filter((reservation: Reservation) => {
-            return reservation.client?.id === this.idUserCurrent;
+          .pipe(takeUntil(this.endSubs$))
+          .subscribe((reservations: Reservation[]) => {
+            this.reservations = reservations.filter(rs =>
+              rs.client?.id === this.idUserCurrent
+            )
           });
+
       } else if (this.typeCompte == COMPTE.BARBER) {
-        this.reservations = this.reservationService
+        this.reservationService
           .getReservations()
-          .filter((reservation: Reservation) => {
-            return reservation.barber?.id === this.idUserCurrent;
+          .pipe(takeUntil(this.endSubs$))
+          .subscribe((reservations: Reservation[]) => {
+            this.reservations = reservations.filter((reservation: Reservation) =>
+              reservation.barber?.id === this.idUserCurrent
+            )
           });
       }
-    } else {
+    }
+    else {
       this.router.navigate(['/login']);
     }
   }
+
 
   /**
    * Fonction qui permet de se rédiriger vers la description de la reservation
@@ -84,21 +96,29 @@ export class MyProfileComponent implements OnInit {
 
           // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
           // si oui, on le set dans avatarBuffer, sinon dans avatar
-          if(this.user.imageURL instanceof ArrayBuffer || this.user.imageURL instanceof Blob) {
+          if (
+            this.user.imageURL instanceof ArrayBuffer ||
+            this.user.imageURL instanceof Blob
+          ) {
             const file = this.user?.imageURL as unknown as Blob;
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
               this.avatarBuffer = fileReader.result as string;
             };
-          }else {
+          } else {
             this.avatar = this.user?.imageURL;
           }
-
         }
       });
     } else {
       this.router.navigate(['/login']);
     }
   }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next(null)
+    this.endSubs$.complete();
+  }
+
 }
