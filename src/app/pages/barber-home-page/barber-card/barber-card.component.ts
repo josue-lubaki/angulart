@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Reservation } from 'src/app/models/Reservation';
 
@@ -7,14 +7,10 @@ import { Reservation } from 'src/app/models/Reservation';
   templateUrl: './barber-card.component.html',
   styleUrls: ['./barber-card.component.scss'],
 })
-export class BarberCardComponent implements OnInit {
+export class BarberCardComponent {
   @Input()
   reservation!: Reservation;
   constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    // ngOnInit Method
-  }
 
   /**
    * Navigate from the barber card to the detail reservation haircut page

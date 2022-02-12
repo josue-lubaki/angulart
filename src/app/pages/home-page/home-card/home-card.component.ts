@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Haircut } from 'src/app/models/Haircut';
 import { Reservation } from 'src/app/models/Reservation';
 import { AuthUserService } from 'src/app/services/auth-user.service';
+import {Subject, takeUntil} from "rxjs";
+import {User} from "../../../models/User";
 
 @Component({
   selector: 'app-home-card',
@@ -17,16 +19,23 @@ export class HomeCardComponent implements OnInit {
   reservation!: Reservation;
 
   isBarber?: boolean = false;
+  endSubs$: Subject<any> = new Subject();
+  user?: User;
 
-  constructor(private router: Router, private authUserService: AuthUserService) {
-    // Type de compte de l'utilisateur courant
-    if(this.authUserService.getUserConnected()){
-      this.isBarber = this.authUserService.getUserConnected().isBarber;
-    }
-  }
+  constructor(private router: Router, private authUserService: AuthUserService) {}
 
   ngOnInit(): void {
-    // ngOnInit Method
+    this.authUserService
+      .getUserConnected()
+      .pipe(takeUntil(this.endSubs$))
+      .subscribe(user => {
+        this.user = user;
+      })
+
+    // Type de compte de l'utilisateur courant
+    if(this.user){
+      this.isBarber = this.user.isBarber;
+    }
   }
 
   /**

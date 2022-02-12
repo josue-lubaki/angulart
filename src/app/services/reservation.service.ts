@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Reservation } from '../models/Reservation';
-import { AuthUserService } from './auth-user.service';
-import {GoogleMapService} from "./google-map.service";
+import { GoogleMapService } from './google-map.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import {GoogleMapService} from "./google-map.service";
 export class ReservationService {
   reservations: Reservation[] = [
     {
-      id: '1',
+      id: '93a9-55d2d7dc-44aa-9352ab4e5-0076a1c89ba9',
       reservationDate: new Date(),
       reservationTime: {
         hours: 18,
@@ -43,12 +43,12 @@ export class ReservationService {
         },
       },
       localisation: {
-        latitude: 46.346328,
-        longitude: -72.572652,
+        latitude: 46.348906,
+        longitude: -72.568547,
       },
     },
     {
-      id: '2',
+      id: 'eb3e-7e5baa8d-4ea9-b494b05b4-6315a8aaa99b',
       reservationDate: new Date(),
       reservationTime: {
         hours: 18,
@@ -82,19 +82,14 @@ export class ReservationService {
         },
       },
       localisation: {
-        latitude: 46.35249,
-        longitude: -72.56879,
+        latitude: 46.350016,
+        longitude: -72.585497,
       },
     },
   ];
 
-  constructor(private googleMapService: GoogleMapService, private authUserService: AuthUserService) {
-
-    // Ajouter les markers sur la carte, pour toutes les réservations
-    this.googleMapService.addMarkerReservation(
-      this.reservations.filter(rs => !rs.barber)
-    )
-
+  constructor(
+  ) {
     // see all reservations
     console.log('Reservations', this.reservations);
   }
@@ -103,19 +98,24 @@ export class ReservationService {
    * Get All Reservations
    * @returns Reservation[]
    */
-  getReservations(): Reservation[] {
-    return this.reservations;
+  getReservations(): Observable<Reservation[]> {
+    return new Observable((observer) => {
+      observer.next(this.reservations);
+    });
   }
 
   /**
    * Remplacer la nouvelle reservation assignée à un barber
    * @param reservation reservation accepter par le barber
    */
-  acceptMission(reservation: Reservation) {
-    if (reservation) {
-      const index = this.reservations.indexOf(reservation);
-      this.reservations[index].barber = reservation.barber;
-    }
+  acceptMission(reservation: Reservation) : Observable<Reservation> {
+    return new Observable<Reservation>(observer => {
+      if (reservation) {
+        const index = this.reservations.indexOf(reservation);
+        this.reservations[index].barber = reservation.barber;
+        observer.next(this.reservations[index])
+      }
+    })
   }
 
   /**
@@ -123,11 +123,20 @@ export class ReservationService {
    * @param idReservation id de la réservation à modifier
    * @param timeString heure de la réservation
    */
-  modifyReservation(idReservation: any, timeString: Date) {
-    const reservation = this.getReservation(idReservation);
-    if (reservation) {
-      reservation.reservationDate = timeString;
-    }
+  updateReservation(
+    idReservation: string,
+    timeString: Date
+  ): Observable<Reservation> {
+    return new Observable((observer) => {
+      this.getReservation(idReservation).subscribe(
+        (reservation: Reservation) => {
+          if (reservation) {
+            reservation.reservationDate = timeString;
+            observer.next(reservation);
+          }
+        }
+      );
+    });
   }
 
   /**
@@ -135,19 +144,25 @@ export class ReservationService {
    * @param idReservation id de la réservation à récupérer
    * @return Reservation
    */
-  getReservation(idReservation: string) {
-    return this.reservations.find(
-      (reservation) => reservation.id === idReservation
-    );
+  getReservation(idReservation: string): Observable<Reservation> {
+    return new Observable<Reservation>((observer) => {
+      const reservation = this.reservations.find(
+        (rs) => rs.id === idReservation
+      );
+      observer.next(reservation);
+    });
   }
 
   /**
    * Fonction qui permet de créer une réservation
    * @param reservation reservation à créer
    */
-  createReservation(reservation: Reservation) {
-    reservation.id = this._generateUUID();
-    this.reservations.push(reservation);
+  createReservation(reservation: Reservation): Observable<Reservation[]> {
+    return new Observable<Reservation[]>((observer) => {
+      reservation.id = this._generateUUID();
+      this.reservations.push(reservation);
+      observer.next(this.reservations);
+    });
   }
 
   // Fonction qui permet de générer un UUID
@@ -158,5 +173,4 @@ export class ReservationService {
       return v.toString(16);
     });
   }
-
 }
