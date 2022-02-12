@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { Reservation } from '../models/Reservation';
 import { AuthUserService } from './auth-user.service';
 import {GoogleMapService} from "./google-map.service";

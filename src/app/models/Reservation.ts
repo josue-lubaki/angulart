@@ -15,5 +15,5 @@ export interface Reservation {
   status?: string,
   client?: User,
   barber?: User,
-  localisation?: Localisation
+  localisation: Localisation
 }

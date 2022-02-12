@@ -63,7 +63,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
         };
       }else {
         this.avatar = this.user?.imageURL;
-        console.log("avatar", this.avatar)
       }
     }
   }
