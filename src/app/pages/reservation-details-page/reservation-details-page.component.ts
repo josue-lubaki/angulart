@@ -92,6 +92,5 @@ export class ReservationDetailsPageComponent implements OnInit {
     this.router.navigate(['/details', idHaircut], {
       queryParams: { modifyreservation: this.reservation?.id },
     });
-    console.log('yeah, je peux modifier ma réservation');
   }
 }

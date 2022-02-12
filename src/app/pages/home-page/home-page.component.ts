@@ -4,8 +4,16 @@ import { DataImService } from 'src/app/services/data-im.service';
 import { Reservation } from '../../models/Reservation';
 import { ReservationService } from '../../services/reservation.service';
 import { AuthUserService } from '../../services/auth-user.service';
-import { Observable } from 'rxjs';
 import { GoogleMapService } from 'src/app/services/google-map.service';
+
+class Position {
+  latitude : number;
+  longitude : number;
+  constructor(latitude: number, longitude: number) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
+}
 
 @Component({
   selector: 'app-home-page',
@@ -18,6 +26,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   isBarber?: boolean = false;
   barberPosition : any;
+  clientPosition: any;
   options: any;
   overlays!: any[];
   locationSubscription: any;
@@ -34,6 +43,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
       zoom: 14,
     };
 
+    // initialisation du service de localisation
+    this.location$ = this.googleMapService.initializeLocation();
+
     // dans le cas d'un client, on récupère les coiffures
     this.haircuts = this.dataImService.getHaircuts();
 
@@ -42,76 +54,47 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
 
     // dans le cas d'un coiffeur, on récupère les réservations
+    // dont le coiffeur n'existe pas encore
     this.reservations = this.reservationService
       .getReservations()
       .filter((rs) => !rs.barber);
 
     // l'utilisateur est un coiffeur
     if(this.isBarber){
-      // initialisation du service de localisation
-      this.initializeLocation();
-
-      this.location$.subscribe((location: any)=>{
-        // create a Marker of barber
-        this.googleMapService.addMarkerUser(
-          location.coords.latitude as number,
-          location.coords.longitude as number,
-        );
-      });
-
-      // Récupération des markers
-      this.overlays = this.googleMapService.getOverlays();
-    }
-
-  }
-
-  /**
-   * Initialize the location service
-   * Function to get the current location if user is barber
-   * Create a marker for the current location
-   * @returns void
-   */
-  initializeLocation() {
-    // Observer pour la localisation
-    this.location$ = new Observable((observer) => {
-      const onSuccess: PositionCallback = (pos: any) => {
-        observer.next(pos);
-      };
-      const onError: PositionErrorCallback = (error) => {
-        observer.error(error);
-      };
-
-      let watchId: number;
-      if ('geolocation' in navigator) {
-        watchId = navigator.geolocation.watchPosition(onSuccess, onError);
-      } else {
-        onError({
-          code: 100,
-          message: 'Pas de geoloc ici',
-          PERMISSION_DENIED: 1,
-          POSITION_UNAVAILABLE: 1,
-          TIMEOUT: 1,
-        });
-      }
-
-      // unsubscribe from the location observable when the component is destroyed
-      return () => {
-        navigator.geolocation.clearWatch(watchId);
-      };
-    });
-
-    if (this.authUserService.getUserConnected().isBarber) {
       this.locationSubscription = this.location$.subscribe({
         next(position: any) {
           this.barberPosition = position;
-          console.log('latitude', this.barberPosition.coords.latitude);
-          console.log('longitude', this.barberPosition.coords.longitude);
+          this.clientPosition = position;
         },
         error(msg: any) {
           console.log('Error getting Location', msg);
         },
       });
+
+      // Récupération des markers pour l'affichage
+      this.overlays = this.googleMapService.getOverlays();
     }
+
+    this.location$.subscribe((location: any) => {
+      this.clientPosition = location;
+
+      // create a Marker of barber
+      if(this.authUserService.getUserConnected().isBarber){
+        this.googleMapService.addMarkerUser(
+          location.coords.latitude as number,
+          location.coords.longitude as number,
+        );
+      }
+      else{
+        const position : Position = new Position(
+          this.clientPosition.coords.latitude,
+          this.clientPosition.coords.longitude
+        )
+
+        // sauvergarder la position du client dans le localStorage
+        localStorage.setItem('clientPosition', JSON.stringify(position));
+      }
+    });
   }
 
   ngOnInit(): void {

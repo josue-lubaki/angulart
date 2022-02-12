@@ -8,6 +8,8 @@ import { DataImService } from 'src/app/services/data-im.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { MessageService } from 'primeng/api';
 import { STATUS } from '../../models/constantes/Status';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { Reservation } from '../../models/Reservation';
 
 @Component({
   selector: 'app-detail-haircut',
@@ -27,7 +29,8 @@ export class DetailHaircutComponent implements OnInit {
     private authUserService: AuthUserService,
     private reservationService: ReservationService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService
   ) {
     this.value = new Date();
     this.form = this.fb.group({
@@ -76,23 +79,43 @@ export class DetailHaircutComponent implements OnInit {
         } as Time;
 
         if (this.authUserService.getUserConnected().id) {
-          const reservation = {
-            id: '',
-            haircut: this.haircut,
-            client: this.authUserService.getUserConnected(),
-            status: STATUS.PENDING,
-            reservationDate: timeString,
-            reservationTime: reservationTime,
-          };
+          // Récupérer la position du client dans le localStorage
+          const clientPosition = this.localStorageService.getVariable('clientPosition');
+          const position = JSON.parse(clientPosition as string);
 
-          this.reservationService.createReservation(reservation);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Réservation',
-            detail: 'Réservation enregistrée',
-          });
+          if (clientPosition) {
+            // construire l'objet Reservation
+            const MyReservation: Reservation = {
+              haircut: this.haircut,
+              client: this.authUserService.getUserConnected(),
+              status: STATUS.PENDING,
+              reservationDate: timeString,
+              reservationTime: reservationTime,
+              localisation: {
+                latitude: position.latitude,
+                longitude: position.longitude,
+              },
+            };
 
-          this.router.navigate(['/home']);
+            console.log('MyReservation: ', MyReservation);
+
+            this.reservationService.createReservation(MyReservation);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Réservation',
+              detail: 'Réservation enregistrée',
+            });
+
+            this.router.navigate(['/home']);
+          }
+          else{
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Réservation',
+              detail: "Désolé, Veuillez activer votre localisation",
+            });
+            this.router.navigate(['/home']);
+          }
         } else {
           this.messageService.add({
             severity: 'warn',

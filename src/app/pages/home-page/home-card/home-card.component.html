@@ -9,6 +9,7 @@
   </div>
 </div>
 
+<!-- Si l'utilisateur est un client -->
 <ng-template #elseBlock>
   <div class="haircut-card" (click)="haircutSelected(haircut.id)">
     <img [src]="haircut.imageURL" />

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from '../models/Reservation';
+import {Observable} from "rxjs";
 
 const pinSVGFilled = "M 12,2 C 8.1340068,2 5,5.1340068 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.8659932 -3.134007,-7 -7,-7 z";
 const labelOriginFilled =  new google.maps.Point(12,9);
@@ -9,6 +10,7 @@ const labelOriginFilled =  new google.maps.Point(12,9);
 })
 export class GoogleMapService {
   overlays: google.maps.Marker[] = [];
+  private location$: any;
 
   constructor() {}
 
@@ -17,6 +19,42 @@ export class GoogleMapService {
    * */
   getOverlays() {
     return this.overlays;
+  }
+
+  /**
+   * Initialize the location service
+   * Function to get the current location if user is barber
+   * Create a marker for the current location
+   * @returns void
+   */
+  initializeLocation() {
+    // Observer pour la localisation
+    return this.location$ = new Observable((observer) => {
+      const onSuccess: PositionCallback = (pos: any) => {
+        observer.next(pos);
+      };
+      const onError: PositionErrorCallback = (error) => {
+        observer.error(error);
+      };
+
+      let watchId: number;
+      if ('geolocation' in navigator) {
+        watchId = navigator.geolocation.watchPosition(onSuccess, onError);
+      } else {
+        onError({
+          code: 100,
+          message: 'Pas de geoloc ici',
+          PERMISSION_DENIED: 1,
+          POSITION_UNAVAILABLE: 1,
+          TIMEOUT: 1,
+        });
+      }
+
+      // unsubscribe from the location observable when the component is destroyed
+      return () => {
+        navigator.geolocation.clearWatch(watchId);
+      };
+    });
   }
 
   /**
@@ -83,18 +121,21 @@ export class GoogleMapService {
     };
 
     reservation.forEach((rs) => {
-      this.overlays.push(
-        new google.maps.Marker({
-          position: {
-            lat: rs.localisation!.latitude,
-            lng: rs.localisation!.longitude,
-          },
-          label: rs.haircut!.title[0],
-          title: rs.haircut!.title,
-          icon: markerImage,
-          animation: google.maps.Animation.DROP,
-        })
-      );
+      if(rs){
+        this.overlays.push(
+          new google.maps.Marker({
+            position: {
+              lat: rs.localisation.latitude as number,
+              lng: rs.localisation.longitude as number,
+            },
+            label: rs.haircut?.title[0] ?? "R",
+            title: rs.haircut?.title ?? "coupe",
+            icon: markerImage,
+            animation: google.maps.Animation.DROP,
+          })
+        );
+      }
+
     });
   }
 }
