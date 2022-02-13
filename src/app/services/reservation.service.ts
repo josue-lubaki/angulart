@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from '../models/Reservation';
-import { GoogleMapService } from './google-map.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -88,8 +87,7 @@ export class ReservationService {
     },
   ];
 
-  constructor(
-  ) {
+  constructor() {
     // see all reservations
     console.log('Reservations', this.reservations);
   }
@@ -108,14 +106,14 @@ export class ReservationService {
    * Remplacer la nouvelle reservation assignée à un barber
    * @param reservation reservation accepter par le barber
    */
-  acceptMission(reservation: Reservation) : Observable<Reservation> {
-    return new Observable<Reservation>(observer => {
+  acceptMission(reservation: Reservation): Observable<Reservation> {
+    return new Observable<Reservation>((observer) => {
       if (reservation) {
         const index = this.reservations.indexOf(reservation);
         this.reservations[index].barber = reservation.barber;
-        observer.next(this.reservations[index])
+        observer.next(this.reservations[index]);
       }
-    })
+    });
   }
 
   /**
@@ -123,13 +121,9 @@ export class ReservationService {
    * @param idReservation id de la réservation à modifier
    * @param timeString heure de la réservation
    */
-  updateReservation(
-    idReservation: string,
-    timeString: Date
-  ): Observable<Reservation> {
+  updateReservation(idReservation: string, timeString: Date): Observable<Reservation> {
     return new Observable((observer) => {
-      this.getReservation(idReservation).subscribe(
-        (reservation: Reservation) => {
+      this.getReservation(idReservation).subscribe((reservation: Reservation) => {
           if (reservation) {
             reservation.reservationDate = timeString;
             observer.next(reservation);

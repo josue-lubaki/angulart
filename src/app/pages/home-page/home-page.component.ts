@@ -87,7 +87,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
     this.endSubs$.next(null);
     this.endSubs$.complete();
-
   }
 
   /**
@@ -102,12 +101,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
         reservations.forEach((reservation : Reservation) => {
           if(!reservation.barber){
             this.reservations.push(reservation)
-            this.googleMapService
-              .addMarkerReservations(this.reservations)
-              .pipe(takeUntil(this.endSubs$))
-              .subscribe()
           }
         })
+
+        this.googleMapService
+          .addMarkerReservations(this.reservations)
+          .pipe(takeUntil(this.endSubs$))
+          .subscribe()
       })
   }
 
@@ -142,8 +142,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
         // create a Marker of barber
         if(this.user?.isBarber){
           this.googleMapService.addMarkerUser(
-            location.latitude as number,
-            location.longitude as number);
+            location.coords.latitude as number,
+            location.coords.longitude as number);
         }
         // si client, on récupère juste l'information
         else{

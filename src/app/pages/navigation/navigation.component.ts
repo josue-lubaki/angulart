@@ -31,6 +31,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     // enregistrer variable user comme observer de userConnected$ du service authUserService
     // Dès qu'il y a une modification sur userConnected$, il sera notifier
     this.authUserService.userConnected$
+      .pipe(takeUntil(this.endSubs$))
       .subscribe((user: User) => {
       this.user = user;
 
@@ -56,6 +57,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     this.authUserService
       .getUserConnected()
+      .pipe(takeUntil(this.endSubs$))
       .subscribe(user => {
         this.user = user;
     });
@@ -94,8 +96,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.endSubs$.next(null)
-    // this.endSubs$.complete();
+    this.endSubs$.next(null)
+    this.endSubs$.complete();
   }
 
   /**
