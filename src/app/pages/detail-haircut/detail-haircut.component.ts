@@ -1,29 +1,31 @@
-import {Time} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {Haircut} from 'src/app/models/Haircut';
-import {AuthUserService} from 'src/app/services/auth-user.service';
-import {DataImService} from 'src/app/services/data-im.service';
-import {ReservationService} from 'src/app/services/reservation.service';
-import {MessageService} from 'primeng/api';
-import {STATUS} from '../../models/constantes/Status';
-import {LocalStorageService} from 'src/app/services/local-storage.service';
-import {Reservation} from '../../models/Reservation';
-import {Subject, takeUntil} from "rxjs";
-import {User} from "../../models/User";
-import {Position} from "../home-page/model/position";
+import { Time } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Haircut } from 'src/app/models/Haircut';
+import { AuthUserService } from 'src/app/services/auth-user.service';
+import { DataImService } from 'src/app/services/data-im.service';
+import { ReservationService } from 'src/app/services/reservation.service';
+import { MessageService } from 'primeng/api';
+import { STATUS } from '../../models/constantes/Status';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { Reservation } from '../../models/Reservation';
+import { Subject, takeUntil } from 'rxjs';
+import { User } from '../../models/User';
+import { Position } from '../home-page/model/position';
+import { PrimeNGConfig } from 'primeng/api';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-detail-haircut',
   templateUrl: './detail-haircut.component.html',
   styleUrls: ['./detail-haircut.component.scss'],
 })
-export class DetailHaircutComponent implements OnInit, OnDestroy{
+export class DetailHaircutComponent implements OnInit, OnDestroy {
   haircut?: Haircut;
   value: Date;
-  invalidDates: Array<Date>;
   endSubs$: Subject<any> = new Subject();
   user?: User;
+  minDate: Date;
 
   constructor(
     public dataImService: DataImService,
@@ -32,47 +34,47 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
     private reservationService: ReservationService,
     private router: Router,
     private messageService: MessageService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private primeNGConfig: PrimeNGConfig,
+    private fb: FormBuilder
   ) {
     this.value = new Date();
 
-    // invalider toutes les dates avant today + 1 jour
-    this.invalidDates = [];
-    const today = new Date();
-    for (let i = 0; i < 25600; i++) {
-      const date = new Date(today.setDate(today.getDate()));
-      this.invalidDates.push(date);
-    }
+    // Minimun date range
+    this.minDate = new Date();
   }
 
   ngOnInit(): void {
+    // setting translate date to french
+    this.settingTranslateDate();
+
     // Retrieve the ID of the hairstyle then find its information
     this.route.paramMap.subscribe((params) => {
       this.dataImService.getHaircuts().subscribe((haircuts) => {
-          this.haircut = haircuts.find(it => it.id === params.get('id'))
-        })
+        this.haircut = haircuts.find((it) => it.id === params.get('id'));
+      });
     });
 
     this.authUserService
       .getUserConnected()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe(user => {
+      .subscribe((user) => {
         this.user = user;
-      })
+      });
 
     // Tenter de récuperer la recente date
     this.route.queryParamMap.subscribe((params) => {
       this.reservationService.getReservations().subscribe((reservations) => {
-        const reservation = reservations.find(it => it.id === params.get('modifyreservation'))
-        if(reservation){
-          this.value = reservation?.reservationDate as Date
-        }
-        else{
+        const reservation = reservations.find(
+          (it) => it.id === params.get('modifyreservation')
+        );
+        if (reservation) {
+          this.value = reservation?.reservationDate as Date;
+        } else {
           this.value = new Date();
         }
-      })
+      });
     });
-
   }
 
   /**
@@ -86,7 +88,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
       // Modification de la réservation
       this.updateReservation(params, timeString);
 
-      if(!params.get('modifyreservation')) {
+      if (!params.get('modifyreservation')) {
         // Création de la réservation
         const reservationTime = this.initTime(timeString) as Time;
 
@@ -96,14 +98,17 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
 
           if (position) {
             // construire l'objet Reservation
-            const MyReservation = this.initReservationModel(timeString, reservationTime, position) as Reservation;
+            const MyReservation = this.initReservationModel(
+              timeString,
+              reservationTime,
+              position
+            ) as Reservation;
             this.createMyReservation(MyReservation);
-          }
-          else {
+          } else {
             this.messageService.add({
               severity: 'warn',
               summary: 'Réservation',
-              detail: "Désolé, Veuillez activer votre localisation",
+              detail: 'Désolé, Veuillez activer votre localisation',
             });
             this.router.navigate(['/home']);
           }
@@ -159,7 +164,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
     return {
       hours: hour,
       minutes: minutes,
-    } as Time
+    } as Time;
   }
 
   /**
@@ -167,8 +172,9 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
    * information se trouvant dans le LocalStorage
    * @return Position
    * */
-  private getClientLocationFromLocalStorage() : Position {
-    const clientPosition = this.localStorageService.getVariable('clientPosition');
+  private getClientLocationFromLocalStorage(): Position {
+    const clientPosition =
+      this.localStorageService.getVariable('clientPosition');
     return JSON.parse(clientPosition as string);
   }
 
@@ -179,7 +185,11 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
    * @param position la localisation actuelle de l'utilisateur
    * @return Reservation
    * */
-  private initReservationModel(timeString: Date, reservationTime: Time, position: Position) : Reservation {
+  private initReservationModel(
+    timeString: Date,
+    reservationTime: Time,
+    position: Position
+  ): Reservation {
     return {
       haircut: this.haircut,
       client: this.user,
@@ -202,7 +212,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
     this.reservationService
       .createReservation(myReservation)
       .pipe(takeUntil(this.endSubs$))
-      .subscribe(()=> {
+      .subscribe(() => {
         this.messageService.add({
           severity: 'success',
           summary: 'Réservation',
@@ -213,8 +223,39 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
       });
   }
 
+  settingTranslateDate() {
+    this.primeNGConfig.setTranslation({
+      accept: 'Accept',
+      reject: 'Cancel',
+      //translations
+      dayNames: [
+        'Dimanche',
+        'Lundi',
+        'Mardi',
+        'Mercredi',
+        'Jeudi',
+        'Vendredi',
+        'Samedi',
+      ],
+      monthNames: [
+        'Janvier',
+        'Février',
+        'Mars',
+        'Avril',
+        'Mai',
+        'Juin',
+        'Juillet',
+        'Août',
+        'Septembre',
+        'Octobre',
+        'Novembre',
+        'Décembre',
+      ],
+    });
+  }
+
   ngOnDestroy(): void {
-    this.endSubs$.next(null)
-    this.endSubs$.complete()
+    this.endSubs$.next(null);
+    this.endSubs$.complete();
   }
 }
