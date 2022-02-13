@@ -119,7 +119,7 @@ export class GoogleMapService {
               mk.getPosition()?.lng() === rs.localisation.longitude
           )
         ) {
-          if(rs) this.addMarkerReservation(rs);
+          if (rs) this.addMarkerReservation(rs);
         }
       });
       observer.next(this.overlays);
@@ -178,6 +178,28 @@ export class GoogleMapService {
         );
       }
       observer.next(this.overlays);
+    });
+  }
+
+  /**
+   * Fonction qui permet de récupérer la localisation de l'utilisateur à partir de son zip code
+   * @param zip le code postal de l'adresse [Optional]
+   * @param address l'adresse de l'utilisateur
+   * @return Observable<Position>
+   * */
+  getLatitudeLongitude(address: string, zip?: string): Observable<Position> {
+    return new Observable((observer) => {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ address: address ?? zip }, (results, status) => {
+        if (status === 'OK' && results) {
+            const position = new Position(
+              results[0].geometry.location.lat(),
+              results[0].geometry.location.lng());
+            observer.next(position);
+        } else {
+          observer.error(status);
+        }
+      });
     });
   }
 }

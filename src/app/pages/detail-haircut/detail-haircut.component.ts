@@ -5,7 +5,7 @@ import { Haircut } from 'src/app/models/Haircut';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { HaircutService } from 'src/app/services/haircut.service';
 import { ReservationService } from 'src/app/services/reservation.service';
-import { MessageService } from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import { STATUS } from '../../models/constantes/Status';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Reservation } from '../../models/Reservation';
@@ -13,7 +13,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { User } from '../../models/User';
 import { Position } from '../home-page/model/position';
 import { PrimeNGConfig } from 'primeng/api';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { GoogleMapService } from 'src/app/services/google-map.service';
 
 @Component({
   selector: 'app-detail-haircut',
@@ -36,7 +36,8 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private localStorageService: LocalStorageService,
     private primeNGConfig: PrimeNGConfig,
-    private fb: FormBuilder
+    private confirmationService: ConfirmationService,
+    private googleMapService: GoogleMapService
   ) {
     this.value = new Date();
 
@@ -138,22 +139,46 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
         // Récupérer la position du client dans le localStorage
         const position = this.getClientLocationFromLocalStorage() as Position;
 
-        if (position) {
-          const MyReservation = this.initReservationModel(
-            timeString,
-            reservationTime,
-            position
-          ) as Reservation;
-          this.createMyReservation(MyReservation);
-        } else {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Réservation',
-            detail: 'Désolé, Veuillez activer votre localisation',
-          });
-          this.router.navigate(['/home']);
-        }
-      } else {
+        this.confirmationService.confirm({
+          message:
+            "<b>Localisez-moi</b> : votre réservation aura votre localisation actuelle<br> " +
+            "<b>Utilisez mon domicile</b> : votre réservation aura l'adresse de votre domicile",
+          accept: () => {
+            // Si l'utilisateur souhait être localiser
+            if (position) {
+              const MyReservation = this.initReservationModel(
+                timeString,
+                reservationTime,
+                position
+              ) as Reservation;
+              this.createMyReservation(MyReservation);
+            }
+            else {
+              this.messageService.add({
+                severity: 'warn',
+                summary: 'Réservation',
+                detail: 'Désolé, Veuillez activer votre localisation et actualisez la page',
+              });
+              this.router.navigate(['/home']);
+            }
+          },
+          reject: () => {
+            // consulter l'API de google pour récupérer la latitude et longitude à partir d'une adresse
+            const address = this.user?.address?.street + " " +
+            this.user?.address?.zip + " " + this.user?.address?.city + " " + this.user?.address?.state
+            const zip = this.user?.address?.zip
+            this.googleMapService.getLatitudeLongitude(address, zip).subscribe((position) => {
+              const MyReservation = this.initReservationModel(
+                timeString,
+                reservationTime,
+                position
+              ) as Reservation;
+              this.createMyReservation(MyReservation);
+            });
+          }
+        });
+      }
+      else {
         this.messageService.add({
           severity: 'warn',
           summary: 'Réservation',

@@ -13,12 +13,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
-import { BarberHomePageComponent } from './pages/barber-home-page/barber-home-page.component';
 
 // All modules
 import { HomePageModule } from './pages/home-page/home-page.module';
 import { SignUpModule } from './pages/signup/signup.module';
-import { BarberHomePageModule } from './pages/barber-home-page/barber-home-page.module';
 import { ReservationDetailsPageComponent } from './pages/reservation-details-page/reservation-details-page.component';
 import { LoginModule } from "./pages/login/login.module";
 import { FooterModule } from "./pages/footer/footer.module";
@@ -36,7 +34,6 @@ const primengModule = [GMapModule]
 const allModules = [
   SignUpModule,
   HomePageModule,
-  BarberHomePageModule,
   LoginModule,
   FooterModule,
   ReservationDetailsPageModule,
@@ -51,7 +48,6 @@ const routes: Routes = [
   { path: 'details/:id', component: DetailHaircutComponent },
   { path: 'reservations/:id', component: ReservationDetailsPageComponent },
   { path: 'profile', component: MyProfileComponent },
-  { path: 'barber', component: BarberHomePageComponent },
   {
     path: 'signup',
     component: SignupComponent,

@@ -133,12 +133,16 @@
       </div>
     </div>
   </p-fieldset>
-  <p-confirmDialog
+  <p-confirmDialog #dc
     header="Confirmation Suppression"
     icon="pi pi-exclamation-triangle"
     [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
-    [style]="{width: '50vw'}"
-  ></p-confirmDialog>
+    [style]="{width: '50vw'}">
+  <ng-template pTemplate="footer">
+    <p-button type="button" icon="pi pi-times" styleClass="p-button p-button-success" label="Non" (click)="dc.reject()"></p-button>
+    <p-button type="button" icon="pi pi-check" styleClass="p-button p-button-danger" label="Oui" (click)="dc.accept()"></p-button>
+  </ng-template>
+  </p-confirmDialog>
 
   <!-- Commande dans le cas d'un coiffeur  -->
   <p-fieldset
