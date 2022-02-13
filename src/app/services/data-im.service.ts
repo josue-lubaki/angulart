@@ -98,4 +98,19 @@ export class DataImService {
       observer.next(this.haircuts);
     });
   }
+
+  /**
+   * Fonction qui permet de récuperer le model de coiffure grâce à l'ID
+   * @param id ID de la coiffure
+   * @return Haircut
+   * */
+  getHaircut(id: string): Observable<Haircut> {
+    return new Observable<Haircut>((observer) => {
+        this.getHaircuts().subscribe((haircuts: Haircut[]) => {
+          const hr = haircuts.find(haircut => haircut.id === id)
+          observer.next(hr);
+        })
+      }
+    )
+  }
 }

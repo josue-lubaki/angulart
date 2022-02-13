@@ -29,36 +29,7 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
     private authUserService: AuthUserService,
     private router: Router,
     private googleMapService: GoogleMapService
-  ) {
-    this.route.params.subscribe((params) => {
-      const idReservation: string = params['id'];
-
-      if (idReservation) {
-          this.reservationService
-            .getReservation(idReservation)
-            .pipe(takeUntil(this.endSubs$))
-            .subscribe((reservation : Reservation) => {
-              this.reservation = reservation
-          })
-
-        if (this.reservation) {
-          this.authUserService
-            .getUserConnected()
-            .pipe(takeUntil(this.endSubs$))
-            .subscribe(user => {
-              this.user = user;
-          })
-
-          if (this.user?.id == this.reservation.client?.id) {
-            this.canAcceptReservation = false;
-          }
-        }
-        else {
-          this.hide = true;
-        }
-      }
-    });
-  }
+  ) {}
 
   /***
    * Fonction qui permet au coiffeur d'accepter une requête (mission)
@@ -112,7 +83,34 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // ngOnInit Method
+    this.route.params.subscribe((params) => {
+      const idReservation: string = params['id'];
+
+      if (idReservation) {
+        this.reservationService
+          .getReservation(idReservation)
+          .pipe(takeUntil(this.endSubs$))
+          .subscribe((reservation : Reservation) => {
+            this.reservation = reservation
+          })
+
+        if (this.reservation) {
+          this.authUserService
+            .getUserConnected()
+            .pipe(takeUntil(this.endSubs$))
+            .subscribe(user => {
+              this.user = user;
+            })
+
+          if (this.user?.id == this.reservation.client?.id) {
+            this.canAcceptReservation = false;
+          }
+        }
+        else {
+          this.hide = true;
+        }
+      }
+    });
   }
 
   /**

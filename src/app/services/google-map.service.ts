@@ -18,6 +18,7 @@ export class GoogleMapService {
 
   /**
    * Fonction qui permet de récupèrer les markers
+   * @return google.maps.Marker[]
    * */
   getOverlays() : Observable<google.maps.Marker[]>{
     return new Observable<google.maps.Marker[]>(observer => {
@@ -59,28 +60,6 @@ export class GoogleMapService {
         navigator.geolocation.clearWatch(watchId);
       };
     }));
-  }
-
-  /**
-   * Fonction qui permet d'ajouter le marker
-   * */
-  addMarker(
-    latitude: number,
-    longitude: number,
-    title?: string,
-    label?: string
-  ) {
-    this.overlays.push(
-      new google.maps.Marker({
-        position: {
-          lat: latitude,
-          lng: longitude,
-        },
-        label: label,
-        title: title,
-        animation: google.maps.Animation.DROP,
-      })
-    );
   }
 
   /**
