@@ -46,8 +46,8 @@ export class AuthUserService {
         password: 'Josue2022',
         dob: new Date('Sept 2 1964'),
         address: {
-          street: '1010 Rue Richard',
-          apartment: '13C',
+          street: '3100 Boulevard des Forges',
+          apartment: '101',
           zip: 'G8Z 1V5',
           city: 'Trois-Rivières',
           state: 'Québec',
