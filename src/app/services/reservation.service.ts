@@ -172,4 +172,20 @@ export class ReservationService {
       return v.toString(16);
     });
   }
+
+  /**
+   * Fonction permettant de supprimer une réservation
+   * @param id ID de la réservation à supprimer
+   * @return void
+   * */
+  deleteReservation(id: string) : Observable<Reservation[]> {
+    return new Observable<Reservation[]>(observer => {
+      const reservation = this.reservations.find((rs) => rs.id === id);
+      if (reservation) {
+        const index = this.reservations.indexOf(reservation);
+        this.reservations.splice(index, 1);
+        observer.next(this.reservations);
+      }
+    })
+  }
 }

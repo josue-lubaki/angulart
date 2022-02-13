@@ -9,7 +9,7 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class AuthUserService {
   private users: User[] = [];
-  userConnected!: User;
+  userConnected?: User;
   private userConnectedSuccefully = new Subject<unknown>();
   userConnected$ =
     this.userConnectedSuccefully.asObservable() as Observable<User>;
@@ -217,6 +217,7 @@ export class AuthUserService {
     this.localStorage.removeVariable('email');
     this.localStorage.removeUserCurrent();
     this.localStorage.removeToken();
+    this.userConnected = undefined;
 
     // informer les observateurs que l'utilisateur est déconnecté
     this.userConnectedSuccefully.next(null);

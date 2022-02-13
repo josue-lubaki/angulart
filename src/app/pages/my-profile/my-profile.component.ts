@@ -6,9 +6,9 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { User } from '../../models/User';
 import { COMPTE } from '../../models/constantes/compte';
-import {Subject, takeUntil} from "rxjs";
-import {STATUS} from "../../models/constantes/Status";
-import {MessageService} from "primeng/api";
+import { Subject, takeUntil } from 'rxjs';
+import { STATUS } from '../../models/constantes/Status';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-my-profile',
@@ -28,9 +28,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     private authUserService: AuthUserService,
     private router: Router,
     private reservationService: ReservationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
-
 
   ngOnInit(): void {
     this.authUserService
@@ -44,8 +44,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
           } else {
             this.typeCompte = COMPTE.BARBER;
           }
-        }
-        else {
+        } else {
           this.router.navigate(['/login']);
         }
       });
@@ -59,19 +58,19 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         .getReservations()
         .pipe(takeUntil(this.endSubs$))
         .subscribe((reservations: Reservation[]) => {
-          this.reservations = reservations.filter(rs =>
-            rs.client?.id === this.user?.id
-          )
+          this.reservations = reservations.filter(
+            (rs) => rs.client?.id === this.user?.id
+          );
         });
-
     } else if (this.typeCompte == COMPTE.BARBER) {
       this.reservationService
         .getReservations()
         .pipe(takeUntil(this.endSubs$))
         .subscribe((reservations: Reservation[]) => {
-          this.reservations = reservations.filter((reservation: Reservation) =>
-            reservation.barber?.id === this.user?.id
-          )
+          this.reservations = reservations.filter(
+            (reservation: Reservation) =>
+              reservation.barber?.id === this.user?.id
+          );
         });
     }
 
@@ -79,25 +78,26 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.authUserService
       .getUsers()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe(users => { users.find((user) => {
-        if (user.id === this.user?.id) {
-          // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
-          if (
-            this.user?.imageURL instanceof ArrayBuffer ||
-            this.user?.imageURL instanceof Blob
-          ) {
-            const file = this.user?.imageURL as unknown as Blob;
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-              this.avatarBuffer = fileReader.result as string;
-            };
-          } else {
-            this.avatar = this.user?.imageURL;
+      .subscribe((users) => {
+        users.find((user) => {
+          if (user.id === this.user?.id) {
+            // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
+            if (
+              this.user?.imageURL instanceof ArrayBuffer ||
+              this.user?.imageURL instanceof Blob
+            ) {
+              const file = this.user?.imageURL as unknown as Blob;
+              const fileReader = new FileReader();
+              fileReader.readAsDataURL(file);
+              fileReader.onload = () => {
+                this.avatarBuffer = fileReader.result as string;
+              };
+            } else {
+              this.avatar = this.user?.imageURL;
+            }
           }
-        }
+        });
       });
-    })
   }
 
   /**
@@ -110,7 +110,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.router.navigate(['/reservations', id]);
   }
 
-
   /**
    * Function qui permet à l'utilisateur de désister de sa mission
    * @id ID de la réservation à abandonner
@@ -118,13 +117,12 @@ export class MyProfileComponent implements OnInit, OnDestroy {
    * */
   dropOut(id: any) {
     // if user exist
-    if(this.user) {
-
+    if (this.user) {
       // Get reservation current
       this.reservationService
         .getReservation(id)
         .pipe(takeUntil(this.endSubs$))
-        .subscribe(reservation => {
+        .subscribe((reservation) => {
           if (this.user && reservation) {
             // remove barber in Reservation et changer le status de la reservation
             reservation.barber = undefined;
@@ -136,27 +134,68 @@ export class MyProfileComponent implements OnInit, OnDestroy {
               .pipe(takeUntil(this.endSubs$))
               .subscribe(() => {
 
-                  // update page profile
-                  this.ngOnInit()
-                  // Message (Toast)
-                  this.messageService.add({
-                    severity: 'success',
-                    summary: 'Abandon de Mission',
-                    detail: 'Vous avez abandonné votre mission'
-                  });
-                }
-              )
+                // update page profile
+                this.ngOnInit();
+                // Message (Toast)
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Abandon de Mission',
+                  detail: 'Vous avez abandonné votre mission',
+                });
+              });
           }
-        })
-    }
-    else {
+        });
+    } else {
       this.router.navigate(['/login']);
     }
   }
 
-  ngOnDestroy(): void {
-    this.endSubs$.next(null)
-    this.endSubs$.complete();
+  /**
+   * Fonction qui permet à l'utilisateur de supprimer sa réservation
+   * @param id ID de la réservation à supprimer
+   * @return void
+   * */
+  deleteReservation(id: any) {
+    if (this.user && this.user.isClient) {
+      // Get reservation
+      this.reservationService
+        .getReservation(id)
+        .pipe(takeUntil(this.endSubs$))
+        .subscribe((res) => {
+          if (res.client?.id === this.user?.id) {
+
+            // Get confirmation
+            this.confirmationService.confirm({
+              message: 'Êtes-vous sûr de vouloir supprimer cette réservation',
+              accept: () => {
+                // if accept, delete it
+                this.reservationService.deleteReservation(id).subscribe((reservations) => {
+                  this.reservations = reservations;
+                  console.log("Reservations -->", reservations)
+                  // update page profile
+                  this.ngOnInit();
+                  // Message Toast
+                  this.messageService.add({
+                    severity: 'success',
+                    summary: 'Suppression Réservation',
+                    detail: ' Votre réservation a été supprimée',
+                  });
+                });
+              },
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Suppression de la Reservation',
+              detail: "Désolé, vous n'êtes pas l'auteur",
+            });
+          }
+        });
+    }
   }
 
+  ngOnDestroy(): void {
+    this.endSubs$.next(null);
+    this.endSubs$.complete();
+  }
 }

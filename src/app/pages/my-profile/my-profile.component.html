@@ -126,12 +126,19 @@
               type="button"
               label="Supprimer"
               class="p-button-danger"
+              (click)="deleteReservation(reservation.id)"
             ></button>
           </div>
         </div>
       </div>
     </div>
   </p-fieldset>
+  <p-confirmDialog
+    header="Confirmation Suppression"
+    icon="pi pi-exclamation-triangle"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+    [style]="{width: '50vw'}"
+  ></p-confirmDialog>
 
   <!-- Commande dans le cas d'un coiffeur  -->
   <p-fieldset
