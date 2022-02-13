@@ -5,7 +5,7 @@ import { Haircut } from '../models/Haircut';
 @Injectable({
   providedIn: 'root',
 })
-export class DataImService {
+export class HaircutService {
   haircuts: Haircut[] = [
     {
       id: '1',

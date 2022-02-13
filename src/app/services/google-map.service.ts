@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from '../models/Reservation';
 import { Observable } from 'rxjs';
-import { Position } from "../pages/home-page/model/position";
+import { Position } from '../pages/home-page/model/position';
 
 const pinSVGFilled =
   'M 12,2 C 8.1340068,2 5,5.1340068 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.8659932 -3.134007,-7 -7,-7 z';
@@ -20,9 +20,15 @@ export class GoogleMapService {
    * Fonction qui permet de récupèrer les markers
    * @return google.maps.Marker[]
    * */
-  getOverlays() : Observable<google.maps.Marker[]>{
-    return new Observable<google.maps.Marker[]>(observer => {
-        observer.next(this.overlays);
+  getOverlays(): Observable<google.maps.Marker[]> {
+    return new Observable<google.maps.Marker[]>((observer) => {
+      observer.next(this.overlays);
+    });
+  }
+
+  clearMarkers() {
+    this.overlays.forEach((marker) => {
+      marker.setMap(null);
     });
   }
 
@@ -100,19 +106,24 @@ export class GoogleMapService {
    * @param reservations liste des réservations à marquer sur la carte
    * @return void
    * */
-  addMarkerReservations(reservations: Reservation[]) : Observable<Reservation[]>  {
-    return new Observable<Reservation[]>(observer => {
+  addMarkerReservations(
+    reservations: Reservation[]
+  ): Observable<google.maps.Marker[]> {
+    return new Observable<google.maps.Marker[]>((observer) => {
       reservations.forEach((rs) => {
         // éviter les doublons
-        if (!this.overlays.find((mk: google.maps.Marker) =>
-          mk.getPosition()?.lat() === rs.localisation.latitude &&
-          mk.getPosition()?.lng() === rs.localisation.longitude
-        )) {
-          this.addMarkerReservation(rs);
+        if (
+          !this.overlays.find(
+            (mk: google.maps.Marker) =>
+              mk.getPosition()?.lat() === rs.localisation.latitude &&
+              mk.getPosition()?.lng() === rs.localisation.longitude
+          )
+        ) {
+          if(rs) this.addMarkerReservation(rs);
         }
       });
-      observer.next(reservations)
-    })
+      observer.next(this.overlays);
+    });
   }
 
   /**
@@ -151,15 +162,22 @@ export class GoogleMapService {
    * @param localisation model localisation de Reservation
    * @return void
    */
-  removeMarker(localisation: Position) : Observable<google.maps.Marker> {
-    return new Observable<google.maps.Marker>(observer => {
-      const marker = this.overlays.find((mk : google.maps.Marker) =>
-        mk.getPosition()?.lat() === localisation.latitude &&
-        mk.getPosition()?.lng() === localisation.longitude
-      )
-
-      marker?.setPosition(null)
-      observer.next(marker)
-    })
+  removeMarker(localisation: Position): Observable<google.maps.Marker[]> {
+    return new Observable<google.maps.Marker[]>((observer) => {
+      const marker = this.overlays.find(
+        (mk: google.maps.Marker) =>
+          mk.getPosition()?.lat() === localisation.latitude &&
+          mk.getPosition()?.lng() === localisation.longitude
+      );
+      if (marker) {
+        marker.setMap(null);
+        this.overlays = this.overlays.filter(
+          (mk: google.maps.Marker) =>
+            mk.getPosition()?.lat() !== localisation.latitude &&
+            mk.getPosition()?.lng() !== localisation.longitude
+        );
+      }
+      observer.next(this.overlays);
+    });
   }
 }

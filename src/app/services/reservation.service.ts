@@ -143,7 +143,7 @@ export class ReservationService {
    * @param idReservation id de la réservation à récupérer
    * @return Reservation
    */
-  getReservation(idReservation: string): Observable<Reservation> {
+  getReservation(idReservation: any): Observable<Reservation> {
     return new Observable<Reservation>((observer) => {
       const reservation = this.reservations.find(
         (rs) => rs.id === idReservation
@@ -178,14 +178,15 @@ export class ReservationService {
    * @param id ID de la réservation à supprimer
    * @return void
    * */
-  deleteReservation(id: string) : Observable<Reservation[]> {
-    return new Observable<Reservation[]>(observer => {
-      const reservation = this.reservations.find((rs) => rs.id === id);
-      if (reservation) {
-        const index = this.reservations.indexOf(reservation);
-        this.reservations.splice(index, 1);
-        observer.next(this.reservations);
-      }
+  deleteReservation(id: string) : Observable<Reservation> {
+    return new Observable<Reservation>(observer => {
+      this.getReservation(id).subscribe(reservation => {
+        if (reservation) {
+          const index = this.reservations.indexOf(reservation);
+          this.reservations.splice(index, 1);
+          observer.next(reservation);
+        }
+      })
     })
   }
 }

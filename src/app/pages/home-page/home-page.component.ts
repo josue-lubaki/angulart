@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Haircut } from 'src/app/models/Haircut';
-import { DataImService } from 'src/app/services/data-im.service';
 import { Reservation } from '../../models/Reservation';
 import { ReservationService } from '../../services/reservation.service';
 import { AuthUserService } from '../../services/auth-user.service';
 import { GoogleMapService } from 'src/app/services/google-map.service';
-import {Position} from "./model/position";
-import {Subject, takeUntil} from "rxjs";
-import {User} from "../../models/User";
+import { Position } from './model/position';
+import { Subject, takeUntil } from 'rxjs';
+import { User } from '../../models/User';
+import {HaircutService} from "../../services/haircut.service";
 
 @Component({
   selector: 'app-home-page',
@@ -19,17 +19,17 @@ export class HomePageComponent implements OnInit, OnDestroy {
   reservations: Reservation[] = [];
 
   isBarber?: boolean = false;
-  barberPosition : any;
+  barberPosition: any;
   clientPosition: any;
   options: any;
-  overlays!: any[];
+  overlays: any[] = [];
   locationSubscription: any;
   location$: any;
   endSubs$: Subject<any> = new Subject();
   user?: User;
 
   constructor(
-    private dataImService: DataImService,
+    private haircutService: HaircutService,
     private reservationService: ReservationService,
     private authUserService: AuthUserService,
     private googleMapService: GoogleMapService
@@ -43,45 +43,47 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.location$ = this.googleMapService.initializeLocation();
 
     // dans le cas d'un client, on récupère les coiffures
-    this.dataImService.getHaircuts()
+    this.haircutService
+      .getHaircuts()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe((haircuts : Haircut[]) => {
+      .subscribe((haircuts: Haircut[]) => {
         this.haircuts = haircuts;
-    })
+      });
 
+    // Get location
+    this.settingsLocation();
   }
 
   ngOnInit(): void {
     this.authUserService
       .getUserConnected()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe(user => {
+      .subscribe((user) => {
         this.user = user;
-      })
+      });
 
     // on récupère les réservations dont le coiffeur n'existe pas encore
     this.getReservationWithoutBarber();
 
     // l'utilisateur est un coiffeur
-    if(this.user?.isBarber){
-      this.isBarber = true
+    if (this.user?.isBarber) {
+      this.isBarber = true;
       this.listenLocationObservable();
 
       // Récupération des markers pour l'affichage
       this.googleMapService
         .getOverlays()
-        .subscribe(markers => {
+        .pipe(takeUntil(this.endSubs$))
+        .subscribe((markers) => {
           this.overlays = markers;
-        })
+          this.googleMapService.clearMarkers()
+        });
     }
-
-    // Get location
-    this.settingsLocation()
   }
 
   ngOnDestroy(): void {
-    // // Unsubscribe from the location observable when the component is destroyed
-    if(this.locationSubscription){
+    // Unsubscribe from the location observable when the component is destroyed
+    if (this.locationSubscription) {
       this.locationSubscription.unsubscribe();
     }
 
@@ -97,18 +99,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.reservationService
       .getReservations()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe((reservations : Reservation[]) => {
-        reservations.forEach((reservation : Reservation) => {
-          if(!reservation.barber){
-            this.reservations.push(reservation)
-          }
-        })
+      .subscribe((reservations: Reservation[]) => {
+        this.reservations = reservations.filter((rs) => !rs.barber);
 
+        this.googleMapService.clearMarkers()
         this.googleMapService
           .addMarkerReservations(this.reservations)
           .pipe(takeUntil(this.endSubs$))
-          .subscribe()
-      })
+          .subscribe();
+      });
   }
 
   /**
@@ -116,16 +115,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
    * @return void
    * */
   private listenLocationObservable() {
-    this.locationSubscription = this.location$
-      .subscribe({
-        next(position: any) {
-          this.barberPosition = position;
-          this.clientPosition = position;
-        },
-        error(msg: any) {
-          console.log('Error getting Location', msg);
-        },
-      });
+    this.locationSubscription = this.location$.subscribe({
+      next(position: any) {
+        this.barberPosition = position;
+        this.clientPosition = position;
+      },
+      error(msg: any) {
+        console.log('Error getting Location', msg);
+      },
+    });
   }
 
   /**
@@ -135,26 +133,26 @@ export class HomePageComponent implements OnInit, OnDestroy {
    * @return void
    * */
   private settingsLocation() {
-    this.location$
-      .subscribe((location: any) => {
-        this.clientPosition = location;
+    this.location$.subscribe((location: any) => {
+      this.clientPosition = location;
 
-        // create a Marker of barber
-        if(this.user?.isBarber){
-          this.googleMapService.addMarkerUser(
-            location.coords.latitude as number,
-            location.coords.longitude as number);
-        }
-        // si client, on récupère juste l'information
-        else{
-          const position : Position = new Position(
-            this.clientPosition.coords.latitude as number,
-            this.clientPosition.coords.longitude as number
-          )
+      // create a Marker of barber
+      if (this.user?.isBarber) {
+        this.googleMapService.addMarkerUser(
+          location.coords.latitude as number,
+          location.coords.longitude as number
+        );
+      }
+      // si client, on récupère juste l'information
+      else {
+        const position: Position = new Position(
+          this.clientPosition.coords.latitude as number,
+          this.clientPosition.coords.longitude as number
+        );
 
-          // sauvergarder la position du client dans le localStorage
-          localStorage.setItem('clientPosition', JSON.stringify(position));
-        }
-      });
+        // sauvergarder la position du client dans le localStorage
+        localStorage.setItem('clientPosition', JSON.stringify(position));
+      }
+    });
   }
 }
