@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Haircut } from 'src/app/models/Haircut';
 import { AuthUserService } from 'src/app/services/auth-user.service';
-import { DataImService } from 'src/app/services/data-im.service';
+import { HaircutService } from 'src/app/services/haircut.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { MessageService } from 'primeng/api';
 import { STATUS } from '../../models/constantes/Status';
@@ -28,7 +28,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
   minDate: Date;
 
   constructor(
-    public dataImService: DataImService,
+    public dataImService: HaircutService,
     private route: ActivatedRoute,
     private authUserService: AuthUserService,
     private reservationService: ReservationService,

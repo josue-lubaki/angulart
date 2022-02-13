@@ -9,6 +9,7 @@ import { COMPTE } from '../../models/constantes/compte';
 import { Subject, takeUntil } from 'rxjs';
 import { STATUS } from '../../models/constantes/Status';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { GoogleMapService } from 'src/app/services/google-map.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -29,7 +30,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     private router: Router,
     private reservationService: ReservationService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private googleMapService: GoogleMapService
   ) {}
 
   ngOnInit(): void {
@@ -169,17 +171,21 @@ export class MyProfileComponent implements OnInit, OnDestroy {
               message: 'Êtes-vous sûr de vouloir supprimer cette réservation',
               accept: () => {
                 // if accept, delete it
-                this.reservationService.deleteReservation(id).subscribe((reservations) => {
-                  this.reservations = reservations;
-                  console.log("Reservations -->", reservations)
-                  // update page profile
-                  this.ngOnInit();
-                  // Message Toast
-                  this.messageService.add({
-                    severity: 'success',
-                    summary: 'Suppression Réservation',
-                    detail: ' Votre réservation a été supprimée',
-                  });
+                this.reservationService
+                  .deleteReservation(id)
+                  .pipe(takeUntil(this.endSubs$))
+                  .subscribe((reservation) => {
+
+                    // supprimer les overlays correspondant à la réservation
+                    this.googleMapService.removeMarker(reservation.localisation).subscribe()
+                    // update page profile
+                    this.ngOnInit();
+                    // Message Toast
+                    this.messageService.add({
+                      severity: 'success',
+                      summary: 'Suppression Réservation',
+                      detail: ' Votre réservation a été supprimée',
+                    });
                 });
               },
             });
