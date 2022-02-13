@@ -81,46 +81,14 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
    * Fonction qui permet la création et la mise à jour d'une réservation
    * @return void
    * */
-  createReservation() {
+  createAndUpdateReservation() {
     const timeString = this.value as Date;
-
     this.route.queryParamMap.subscribe((params) => {
       // Modification de la réservation
-      this.updateReservation(params, timeString);
+      this.updateDateReservation(params, timeString);
 
-      if (!params.get('modifyreservation')) {
-        // Création de la réservation
-        const reservationTime = this.initTime(timeString) as Time;
-
-        if (this.user?.id) {
-          // Récupérer la position du client dans le localStorage
-          const position = this.getClientLocationFromLocalStorage() as Position;
-
-          if (position) {
-            // construire l'objet Reservation
-            const MyReservation = this.initReservationModel(
-              timeString,
-              reservationTime,
-              position
-            ) as Reservation;
-            this.createMyReservation(MyReservation);
-          } else {
-            this.messageService.add({
-              severity: 'warn',
-              summary: 'Réservation',
-              detail: 'Désolé, Veuillez activer votre localisation',
-            });
-            this.router.navigate(['/home']);
-          }
-        } else {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Réservation',
-            detail: "Désolé, Vous n'êtes pas connecté,",
-          });
-          this.router.navigate(['/login']);
-        }
-      }
+      // creation de la reservation
+      this.createReservation(params, timeString);
     });
   }
 
@@ -132,13 +100,17 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
    * @param timeString la date choisie par l'utilisateur
    * @return void
    * */
-  updateReservation(params: ParamMap, timeString: Date) {
+  updateDateReservation(params: ParamMap, timeString: Date) {
     if (params.get('modifyreservation')) {
       const idReservation = params.get('modifyreservation') as string;
-      this.reservationService
-        .updateReservation(idReservation, timeString)
-        .pipe(takeUntil(this.endSubs$))
-        .subscribe();
+
+      this.reservationService.getReservation(idReservation).subscribe(res =>{
+        res.reservationDate = timeString;
+        this.reservationService
+          .updateReservation(idReservation, res)
+          .pipe(takeUntil(this.endSubs$))
+          .subscribe();
+      })
 
       // Toast
       this.messageService.add({
@@ -153,11 +125,51 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Function qui permet de créer une réservation
+   * @param params paramètre permettant de vérifier le chemin d'adresse
+   * @param timeString la date de la réservation
+   * @return void
+   * */
+  private createReservation(params : ParamMap, timeString: Date) {
+    if (!params.get('modifyreservation')) {
+      const reservationTime = DetailHaircutComponent._initTime(timeString) as Time;
+
+      if (this.user?.id) {
+        // Récupérer la position du client dans le localStorage
+        const position = this.getClientLocationFromLocalStorage() as Position;
+
+        if (position) {
+          const MyReservation = this.initReservationModel(
+            timeString,
+            reservationTime,
+            position
+          ) as Reservation;
+          this.createMyReservation(MyReservation);
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Réservation',
+            detail: 'Désolé, Veuillez activer votre localisation',
+          });
+          this.router.navigate(['/home']);
+        }
+      } else {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Réservation',
+          detail: "Désolé, Vous n'êtes pas connecté,",
+        });
+        this.router.navigate(['/login']);
+      }
+    }
+  }
+
+  /**
    * Fonction qui permet d'initialiser le format de l'heure pour le model Reservation
    * @param timeString la date à formater
    * @return Time
    * */
-  private initTime(timeString: Date) {
+  private static _initTime(timeString: Date) {
     const hour = new Date(timeString).getHours() as number;
     const minutes = new Date(timeString).getMinutes() as number;
 
@@ -258,4 +270,6 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
     this.endSubs$.next(null);
     this.endSubs$.complete();
   }
+
+
 }

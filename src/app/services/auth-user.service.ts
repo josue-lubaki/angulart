@@ -108,8 +108,10 @@ export class AuthUserService {
   }
 
   // get users
-  getUsers(): User[] {
-    return this.users;
+  getUsers(): Observable<User[]> {
+    return new Observable<User[]>(observer => {
+      observer.next(this.users)
+    })
   }
 
   getUserById(idUser: string | number) {
