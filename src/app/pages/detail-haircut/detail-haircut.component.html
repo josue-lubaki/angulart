@@ -21,19 +21,19 @@
   </div>
   <div class="card" *ngIf="!haircut">Nous n'avons aucune information.</div>
 
-  <form >
-    <div class="p-field p-col-12 p-md-6 p-md-offset-3 p-xl-6 p-xl-offset-3">
-      <p-calendar
-        [(ngModel)]="value"
-        [ngModelOptions]="{standalone: true}"
-        [showTime]="true"
-        [showSeconds]="false"
-        inputId="time"
-        [showIcon]="true"
-        [disabledDates]="invalidDates"
-      ></p-calendar>
-    </div>
-  </form>
+  <div class="p-field p-col-12 p-md-6 p-md-offset-3 p-xl-6 p-xl-offset-3">
+    <p-calendar
+      [(ngModel)]="value"
+      [ngModelOptions]="{standalone: true}"
+      [showTime]="true"
+      [showSeconds]="false"
+      [minDate]="minDate"
+      inputId="time"
+      [showIcon]="true"
+      [dateFormat]="'DD dd MM yy à'"
+    ></p-calendar>
+  </div>
+
   <div
     class="p-field p-md-4 p-md-offset-4 p-xl-offset-4 p-xl-4 p-sm-8 p-sm-offset-2 p-jc-center"
   >
