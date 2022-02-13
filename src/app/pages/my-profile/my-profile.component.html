@@ -173,13 +173,14 @@
               type="button"
               label="Voir"
               class="p-button-info"
-              (click)="viewDetails(reservation?.id)"
+              (click)="viewDetails(reservation.id)"
             ></button>
             <button
               pButton
               type="button"
-              label="Supprimer"
+              label="Se désister"
               class="p-button-danger"
+              (click)="dropOut(reservation.id)"
             ></button>
           </div>
         </div>

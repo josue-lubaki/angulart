@@ -119,14 +119,19 @@ export class ReservationService {
   /**
    * Fonction qui permet de modifier une réservation
    * @param idReservation id de la réservation à modifier
-   * @param timeString heure de la réservation
+   * @param reservation
    */
-  updateReservation(idReservation: string, timeString: Date): Observable<Reservation> {
+  updateReservation(
+    idReservation: string,
+    reservation: Reservation
+  ): Observable<Reservation> {
     return new Observable((observer) => {
-      this.getReservation(idReservation).subscribe((reservation: Reservation) => {
-          if (reservation) {
-            reservation.reservationDate = timeString;
-            observer.next(reservation);
+      this.getReservation(idReservation).subscribe(
+        (rs: Reservation) => {
+          if (rs) {
+            const index = this.reservations.indexOf(rs);
+            this.reservations[index] = reservation;
+            observer.next(this.reservations[index]);
           }
         }
       );
