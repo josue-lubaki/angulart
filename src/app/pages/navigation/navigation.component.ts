@@ -93,6 +93,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       summary: 'Déconnexion',
       detail: 'Déconnexion réussi',
     });
+    this.ngOnInit()
   }
 
   ngOnDestroy(): void {
