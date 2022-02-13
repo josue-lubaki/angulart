@@ -1,4 +1,38 @@
 <div class="container p-fluid p-formgrid p-grid p-flex-column">
+  <!-- [Coiffeur] : Information sur le client de la réservation -->
+  <div class="card" *ngIf="reservation && canAcceptReservation">
+    <div class="card-left">
+      <img
+        class="card-left-img"
+        [src]="reservation.client?.imageURL"
+        alt="{{ reservation.client?.fname }} image"
+        width="250px"
+        height="175px"
+      />
+      <div class="card-left-title">
+        <h5>{{ reservation.client?.fname }}</h5>
+      </div>
+    </div>
+    <div class="card-right">
+      <span>
+        Salut, Si tu es intéressé pour me coiffer, je serai sur cette adresse : <br>
+        <span *ngIf="reservation.client?.address?.apartment">
+          #{{ reservation.client?.address?.apartment }},
+        </span>
+        Rue {{ reservation.client?.address?.street }} dans la ville de
+        {{ reservation.client?.address?.city }}/{{ reservation.client?.address?.state }}<br>
+        Et je suis d'accord pour le tarif de <span class="card-right-price">{{ reservation.haircut?.price }} $</span>
+      </span>
+      <p>
+        Date Prévue : {{ reservation.reservationDate | date }}
+        {{ reservation.reservationTime?.hours }}:{{
+        reservation.reservationTime?.minutes
+        }}
+      </p>
+    </div>
+  </div>
+
+  <!-- [Coiffeur & Client] : Information sur la coiffure -->
   <div class="card" *ngIf="reservation">
     <div class="card-left">
       <img
@@ -17,7 +51,7 @@
       <p class="card-right-price">${{ reservation.haircut?.price }}</p>
       <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
       <p>
-        Date Prévue : {{ reservation.reservationDate }}
+        Date Prévue : {{ reservation.reservationDate | date }}
         {{ reservation.reservationTime?.hours }}:{{
           reservation.reservationTime?.minutes
         }}
@@ -55,6 +89,7 @@
     Désolé, Nous n'avons aucune information sur cette réservation.
   </div>
 
+  <!-- [Coiffeur] : Bouton accepté réservation -->
   <div
     class="p-field p-md-4 p-md-offset-4 p-xl-offset-4 p-xl-4 p-sm-8 p-sm-offset-2 p-jc-center"
   >
@@ -72,6 +107,7 @@
       (click)="acceptMission()"
     ></button>
 
+    <!-- [Client] : Bouton modifier réservation -->
     <button
       pButton
       [disabled]="!reservation && canAcceptReservation"

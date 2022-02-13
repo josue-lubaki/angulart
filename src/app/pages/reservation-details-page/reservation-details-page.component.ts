@@ -16,6 +16,7 @@ import {Subject, takeUntil} from "rxjs";
 })
 export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
   reservation?: Reservation;
+  client? : User;
   canAcceptReservation?: boolean = true;
   STATUS = STATUS;
   user?: User;
@@ -47,6 +48,9 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
     if (isBarber && this.reservation) {
       // setter l'utilisateur courant étant que le Barber de la réservation
       this.reservation.barber = this.user
+
+      // Get informtion client
+      this.client = this.reservation.client;
 
       // changer le status de la réservation
       this.reservation.status = STATUS.ACCEPTED;

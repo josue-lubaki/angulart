@@ -22,7 +22,7 @@
   text-align: center;
   display: flex;
   box-sizing: border-box;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding: 0.5rem;
   //width: 100%;
@@ -52,6 +52,11 @@
     justify-content: space-evenly;
     padding: 0 1rem;
     height: 100%;
+    width: 70%;
+
+    span{
+      font-size: 1.1rem;
+    }
 
     &-price {
       font-size: 1.5rem;
