@@ -59,6 +59,19 @@ export class DetailHaircutComponent implements OnInit, OnDestroy{
       .subscribe(user => {
         this.user = user;
       })
+    // Tenter de récuperer la recente date
+    this.route.queryParamMap.subscribe((params) => {
+      this.reservationService.getReservations().subscribe((reservations) => {
+        const reservation = reservations.find(it => it.id === params.get('modifyreservation'))
+        if(reservation){
+          this.value = reservation?.reservationDate as Date
+        }
+        else{
+          this.value = new Date();
+        }
+      })
+    });
+
   }
 
   /**
