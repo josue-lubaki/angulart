@@ -24,6 +24,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
   imageDisplay: string | ArrayBuffer | null | undefined;
   endSubs$: Subject<any> = new Subject();
   value: Date;
+  private isUpdated = false;
+  private idUser?: string;
 
   constructor(
     private router: Router,
@@ -42,6 +44,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
     // Vérifier si le queryParams contient 'update'
     this.route.queryParamMap.subscribe((params) => {
       if (params.get('update')) {
+        this.isUpdated = true;
+        this.idUser = params.get('update') ?? undefined;
         // get information of user current
         this.authUserService
           .getUserConnected()
@@ -158,7 +162,10 @@ export class ProfilComponent implements OnInit, OnDestroy {
       this.ticketSignUpInformation.personalInformation = this.profilInformation;
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
 
-      this.router.navigate(['/signup/address']);
+      if(this.isUpdated)
+        this.router.navigate(['/signup/address'], {queryParams: { update: this.idUser}});
+      else
+        this.router.navigate(['/signup/address']);
     }
   }
 

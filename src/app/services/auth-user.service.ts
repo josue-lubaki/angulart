@@ -79,6 +79,7 @@ export class AuthUserService {
       }
     );
 
+
     console.log('Services : Users List', this.users);
 
     // get user from local storage, if exist
@@ -122,9 +123,12 @@ export class AuthUserService {
    * create user into the array
    * @param user User to create
    */
-  createUser(user: User) {
-    user = this.configIdUser(user);
-    this.users.push(user);
+  createUser(user: User) : Observable<User> {
+    return new Observable<User>((observer) => {
+      user = this.configIdUser(user);
+      this.users.push(user);
+      observer.next(user);
+    })
   }
 
   /**
@@ -155,7 +159,7 @@ export class AuthUserService {
 
   // create users into the array
   createUsers(...users: User[]) {
-    users.forEach((user) => this.createUser(user));
+    users.forEach((user) => this.createUser(user).subscribe());
   }
 
   /**

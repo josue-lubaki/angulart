@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router } from '@angular/router';
 import { Address } from 'src/app/models/Address';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
@@ -25,10 +25,18 @@ export class AdresseComponent implements OnInit {
     private router: Router,
     private signupService: SignUpService,
     private authUserService: AuthUserService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute
   ) {
     this.form = this._initAdresseForm();
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
+
+    route.queryParamMap.subscribe(params => {
+      if(params.get("update")){
+        this.isUpdate = true;
+        console.log("this.isUpdate", params.get("update"))
+      }
+    })
   }
 
   private _initAdresseForm() {
@@ -105,16 +113,18 @@ export class AdresseComponent implements OnInit {
         isBarber: ticketSignUpInformation.objectif.isBarber,
         isAdmin: false,
       };
-      this.authUserService.createUser(user);
 
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Utilisateur créé',
-        detail: 'Votre compte a été créé avec succès',
+      this.authUserService.createUser(user).subscribe(user => {
+        this.messageService.add({
+          severity: 'success',
+          summary: `Bienvenue <b>${user.fname}</b>`,
+          detail: 'Votre compte a été créé avec succès',
+        });
+
+        this.router.navigate(['/login']);
       });
-
-      this.router.navigate(['/login']);
     }
+
   }
 
   /**
@@ -128,7 +138,7 @@ export class AdresseComponent implements OnInit {
   ngOnInit(): void {
     // Pré-remplir les données du formulaire
     if (this.ticketSignUpInformation.address) {
-      this.isUpdate = true;
+      // this.isUpdate = true;
       this.form.patchValue(this.ticketSignUpInformation.address);
     }
 
@@ -174,16 +184,16 @@ export class AdresseComponent implements OnInit {
 
         if (user.id) {
           this.authUserService.updateUser(user.id, newUser).subscribe(() => {
+            // message (Toast)
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Utilisateur modifié',
+              detail: 'Votre compte a été modifié avec succès',
+            });
+
             this.router.navigate(['/profile']);
           });
         }
-
-        // message (Toast)
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Utilisateur modifié',
-          detail: 'Votre compte a été modifié avec succès',
-        });
       });
     }
   }

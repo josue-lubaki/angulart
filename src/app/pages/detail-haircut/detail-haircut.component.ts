@@ -1,5 +1,5 @@
 import { Time } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Haircut } from 'src/app/models/Haircut';
 import { AuthUserService } from 'src/app/services/auth-user.service';
@@ -37,7 +37,8 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private primeNGConfig: PrimeNGConfig,
     private confirmationService: ConfirmationService,
-    private googleMapService: GoogleMapService
+    private googleMapService: GoogleMapService,
+    private ngZone: NgZone
   ) {
     this.value = new Date();
 
@@ -168,12 +169,14 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
             this.user?.address?.zip + " " + this.user?.address?.city + " " + this.user?.address?.state
             const zip = this.user?.address?.zip
             this.googleMapService.getLatitudeLongitude(address, zip).subscribe((position) => {
-              const MyReservation = this.initReservationModel(
-                timeString,
-                reservationTime,
-                position
-              ) as Reservation;
-              this.createMyReservation(MyReservation);
+              this.ngZone.run(() => {
+                const MyReservation = this.initReservationModel(
+                  timeString,
+                  reservationTime,
+                  position
+                ) as Reservation;
+                this.createMyReservation(MyReservation);
+              })
             });
           }
         });
