@@ -204,13 +204,20 @@ export class AuthUserService {
    })
   }
 
-  // delete user with this id into the array
-  deleteUser(id: string) {
-    this.users.forEach((user, index) => {
-      if (user.id === id) {
-        this.users.splice(index, 1);
-      }
-    });
+  /**
+   * delete user with this id into the array
+   * @param id ID du compte à supprimer
+   */
+  deleteUser(id: string) : Observable<User> {
+    return new Observable<User>(observer => {
+      this.users.forEach((user, index) => {
+        if (user.id === id) {
+          this.users.splice(index, 1);
+          this.userConnected = undefined
+          observer.next(user)
+        }
+      });
+    })
   }
 
   // get user by email
