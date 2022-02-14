@@ -43,6 +43,7 @@
                   id="city"
                   type="text"
                   pInputText
+                  autocomplete
                   placeholder="Trois-Rivières"
                 />
                 <small
@@ -58,12 +59,13 @@
                 >
               </div>
               <div class="p-field p-sm-6">
-                <label>Code Postal</label>
+                <label for="zip">Code Postal</label>
                 <input
                   formControlName="zip"
                   id="zip"
                   type="text"
                   pInputText
+                  autocomplete
                   placeholder="G1V 0A1"
                 />
                 <small
@@ -75,14 +77,16 @@
                   "
                   class="p-error"
                   style="color: red"
-                  >Code Postal doit avoir au moins 6 caractères</small
+                  >Code Postal doit avoir au moins 6 caractères et respecter le format</small
                 >
               </div>
               <div class="p-field p-sm-6">
-                <label>Province</label>
+                <label for="state">Province</label>
                 <input
                   formControlName="state"
+                  id="state"
                   pInputText
+                  autocomplete
                   placeholder="Québec"
                 />
                 <small

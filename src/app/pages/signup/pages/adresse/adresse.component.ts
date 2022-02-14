@@ -6,6 +6,7 @@ import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
 import { SignUpService } from '../../signup.service';
 import { User } from '../../../../models/User';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-adresse',
@@ -17,12 +18,14 @@ export class AdresseComponent implements OnInit {
   submitted = false;
   addressInformation?: Address;
   ticketSignUpInformation: TicketSignUpModel;
+  private isUpdate = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private signupService: SignUpService,
-    private authUserService: AuthUserService
+    private authUserService: AuthUserService,
+    private messageService: MessageService
   ) {
     this.form = this._initAdresseForm();
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
@@ -34,9 +37,11 @@ export class AdresseComponent implements OnInit {
       city: ['', Validators.required],
       zip: [
         '',
-        [Validators.required],
-        Validators.pattern('/^[A-Za-z][0-9][A-Za-z]s[0-9][A-Za-z][0-9]/g'),
-        Validators.minLength(6),
+        [
+          Validators.required,
+          Validators.pattern(`^[A-Za-z][0-9][A-Za-z]\\s[0-9][A-Za-z][0-9]`),
+          Validators.minLength(6),
+        ],
       ],
       state: ['', Validators.required],
       apartment: ['', Validators.required],
@@ -58,8 +63,10 @@ export class AdresseComponent implements OnInit {
       return;
     }
 
-    // setter les informations du form dans PersonalInformation variable
-    this.addressInformation = this.form.value as Address;
+      // setter les informations du form dans PersonalInformation variable
+      this.addressInformation = this.form.value as Address;
+      console.log("Address ecrit", this.addressInformation)
+      console.log("update", this.isUpdate)
 
     if (
       this.ticketSignUpInformation.objectif &&
@@ -68,7 +75,8 @@ export class AdresseComponent implements OnInit {
       this.ticketSignUpInformation.address = this.addressInformation;
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
       this.signupService.complete();
-      this.createUser(this.ticketSignUpInformation);
+      if (!this.isUpdate) this.createUser(this.ticketSignUpInformation);
+      else this.updateUser(this.ticketSignUpInformation);
       this.router.navigate(['/login']);
     }
   }
@@ -83,7 +91,6 @@ export class AdresseComponent implements OnInit {
       ticketSignUpInformation.personalInformation &&
       ticketSignUpInformation.objectif
     ) {
-      console.log("Image - avant setter : ", ticketSignUpInformation.personalInformation.image)
       const user: User = {
         fname: ticketSignUpInformation.personalInformation.fname,
         lname: ticketSignUpInformation.personalInformation.lname,
@@ -98,6 +105,12 @@ export class AdresseComponent implements OnInit {
         isAdmin: false,
       };
       this.authUserService.createUser(user);
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Utilisateur créé',
+        detail: 'Votre compte a été créé avec succès',
+      });
     }
   }
 
@@ -112,6 +125,7 @@ export class AdresseComponent implements OnInit {
   ngOnInit(): void {
     // Pré-remplir les données du formulaire
     if (this.ticketSignUpInformation.address) {
+      this.isUpdate = true;
       this.form.patchValue(this.ticketSignUpInformation.address);
     }
 
@@ -130,6 +144,40 @@ export class AdresseComponent implements OnInit {
       this.ticketSignUpInformation.personalInformation?.phone == undefined
     ) {
       this.router.navigate(['/signup/profile']);
+    }
+  }
+
+  private updateUser(ticketSignUpInformation: TicketSignUpModel) {
+    if (
+      ticketSignUpInformation.personalInformation &&
+      ticketSignUpInformation.objectif
+    ) {
+      this.authUserService.getUserConnected().subscribe((user) => {
+        const newUser: User = {
+          // type User
+          id: user.id,
+          fname: ticketSignUpInformation.personalInformation.fname,
+          lname: ticketSignUpInformation.personalInformation.lname,
+          imageURL: ticketSignUpInformation.personalInformation.image,
+          email: ticketSignUpInformation.personalInformation.email,
+          password: ticketSignUpInformation.personalInformation.password,
+          dob: ticketSignUpInformation.personalInformation.dob,
+          phone: ticketSignUpInformation.personalInformation.phone,
+          address: ticketSignUpInformation.address,
+          isClient: ticketSignUpInformation.objectif.isClient,
+          isBarber: ticketSignUpInformation.objectif.isBarber,
+          isAdmin: false,
+        };
+
+        if (user.id) this.authUserService.updateUser(user.id, newUser);
+
+        // message (Toast)
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Utilisateur modifié',
+          detail: 'Votre compte a été modifié avec succès',
+        });
+      });
     }
   }
 }

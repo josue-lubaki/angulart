@@ -223,5 +223,4 @@ export class AuthUserService {
     this.userConnectedSuccefully.next(null);
   }
 
-
 }

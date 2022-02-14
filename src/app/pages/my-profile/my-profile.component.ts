@@ -204,4 +204,13 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.endSubs$.next(null);
     this.endSubs$.complete();
   }
+
+  /**
+   * Fonction qui permet de mettre à jour les informations de l'utilisateur
+   * @retun void
+   * */
+  updateInformationsUser() {
+    this.router.navigate(['/signup/profile'], { queryParams: { update: this.user?.id } });
+  }
 }
+
