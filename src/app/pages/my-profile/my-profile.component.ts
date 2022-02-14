@@ -39,6 +39,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       .getUserConnected()
       .pipe(takeUntil(this.endSubs$))
       .subscribe((user) => {
+        console.log("USER profile", this.user)
         this.user = user;
         if (user) {
           if (user.isClient) {

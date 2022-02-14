@@ -188,12 +188,16 @@ export class AuthUserService {
   }
 
   // update user into the array
-  updateUser(id: string, userUpdated: User) {
-    this.users.forEach((user, index) => {
-      if (user.id === id) {
-        this.users[index] = userUpdated;
-      }
-    });
+  updateUser(id: string, userUpdated: User) : Observable<User>{
+   return new Observable<User>(observer => {
+     this.users.forEach((user, index) => {
+       if (user.id === id) {
+         this.users[index] = userUpdated;
+         this.userConnected = userUpdated;
+         observer.next(this.users[index]);
+       }
+     });
+   })
   }
 
   // delete user with this id into the array

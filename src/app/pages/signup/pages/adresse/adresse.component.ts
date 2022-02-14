@@ -75,9 +75,10 @@ export class AdresseComponent implements OnInit {
       this.ticketSignUpInformation.address = this.addressInformation;
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
       this.signupService.complete();
-      if (!this.isUpdate) this.createUser(this.ticketSignUpInformation);
-      else this.updateUser(this.ticketSignUpInformation);
-      this.router.navigate(['/login']);
+      if (!this.isUpdate)
+        this.createUser(this.ticketSignUpInformation);
+      else
+        this.updateUser(this.ticketSignUpInformation);
     }
   }
 
@@ -111,6 +112,8 @@ export class AdresseComponent implements OnInit {
         summary: 'Utilisateur créé',
         detail: 'Votre compte a été créé avec succès',
       });
+
+      this.router.navigate(['/login']);
     }
   }
 
@@ -169,7 +172,11 @@ export class AdresseComponent implements OnInit {
           isAdmin: false,
         };
 
-        if (user.id) this.authUserService.updateUser(user.id, newUser);
+        if (user.id) {
+          this.authUserService.updateUser(user.id, newUser).subscribe(() => {
+            this.router.navigate(['/profile']);
+          });
+        }
 
         // message (Toast)
         this.messageService.add({
