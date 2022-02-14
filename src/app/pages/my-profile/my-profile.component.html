@@ -8,6 +8,23 @@
     *ngIf="user"
   >
     <div class="card">
+     <div class="card-profile-compte-header">
+       <div class="card-profile-compte-header-image">
+         <img *ngIf="avatar && !avatarBuffer"
+              [src]="avatar"
+              alt="image de {{ user.fname }}"
+              width="90px"
+              height="90px"
+         />
+         <img *ngIf="!avatar && avatarBuffer"
+              [src]="avatarBuffer"
+              alt="image de {{ user.fname }}"
+              width="90px"
+              height="90px"
+         />
+       </div>
+       <div class="card-profile-compte-header-vide"></div>
+     </div>
       <div class="p-grid">
         <div class="p-col-5">
           <div class="card-profile-compte-content">
@@ -17,18 +34,18 @@
                 <b>Profil</b>
               </div>
             </p-divider>
-            <img *ngIf="avatar && !avatarBuffer"
-              [src]="avatar"
-              alt="image de {{ user.fname }}"
-              width="90px"
-              height="90px"
-            />
-            <img *ngIf="!avatar && avatarBuffer"
-                 [src]="avatarBuffer"
-                 alt="image de {{ user.fname }}"
-                 width="90px"
-                 height="90px"
-            />
+<!--            <img *ngIf="avatar && !avatarBuffer"-->
+<!--              [src]="avatar"-->
+<!--              alt="image de {{ user.fname }}"-->
+<!--              width="90px"-->
+<!--              height="90px"-->
+<!--            />-->
+<!--            <img *ngIf="!avatar && avatarBuffer"-->
+<!--                 [src]="avatarBuffer"-->
+<!--                 alt="image de {{ user.fname }}"-->
+<!--                 width="90px"-->
+<!--                 height="90px"-->
+<!--            />-->
             <p><span>ID Client</span> : {{ user.id }}</p>
             <p><span>Prénom</span> : {{ user.fname }}</p>
             <p><span>Nom</span> : {{ user.lname }}</p>
