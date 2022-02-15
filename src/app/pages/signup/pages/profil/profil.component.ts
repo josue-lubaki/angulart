@@ -1,30 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignUpService } from '../../signup.service';
 import {
+  ObjectifModel,
   PersonalInformationModel,
   TicketSignUpModel,
 } from '../../models/TicketSignUp';
+import { AuthUserService } from 'src/app/services/auth-user.service';
+import { Subject, takeUntil } from 'rxjs';
+import { Address } from '../../../../models/Address';
 
 @Component({
   selector: 'app-profil',
   templateUrl: './profil.component.html',
   styleUrls: ['./profil.component.scss'],
 })
-export class ProfilComponent implements OnInit {
+export class ProfilComponent implements OnInit, OnDestroy {
   form: FormGroup;
   profilInformation: PersonalInformationModel;
   submitted = false;
   ticketSignUpInformation: TicketSignUpModel;
   imageDisplay: string | ArrayBuffer | null | undefined;
-
+  endSubs$: Subject<any> = new Subject();
   value: Date;
+  private isUpdated = false;
+  private idUser?: string;
 
   constructor(
     private router: Router,
     private signupService: SignUpService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private authUserService: AuthUserService
   ) {
     this.form = this._initUserForm();
     this.profilInformation = new PersonalInformationModel();
@@ -33,18 +41,69 @@ export class ProfilComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Pré-remplir les données du formulaire
-    if (this.ticketSignUpInformation.personalInformation) {
-      this.form.patchValue(this.ticketSignUpInformation.personalInformation);
-    }
+    // Vérifier si le queryParams contient 'update'
+    this.route.queryParamMap.subscribe((params) => {
+      if (params.get('update')) {
+        this.isUpdated = true;
+        this.idUser = params.get('update') ?? undefined;
+        // get information of user current
+        this.authUserService
+          .getUserConnected()
+          .pipe(takeUntil(this.endSubs$))
+          .subscribe((user) => {
+          // pré-remplir le profilInformation, objectif et adresse
+          const obj = new ObjectifModel();
+          if (user.isClient) obj.isClient = user.isClient;
+          else if (user.isBarber) obj.isBarber = user.isBarber;
 
-    // Si l'utilisateur n'a aucun objectif, on le redirige vers la page d'objectif
-    if (
-      !this.ticketSignUpInformation.objectif.isClient &&
-      !this.ticketSignUpInformation.objectif.isBarber
-    ) {
-      this.router.navigate(['/signup/objectif']);
-    }
+          const personnal = new PersonalInformationModel(
+            user.fname,
+            user.lname,
+            user.imageURL,
+            user.email,
+            user.password,
+            user.dob,
+            user.phone
+          );
+
+          const adresse = new Address(
+            user.address?.street,
+            user.address?.apartment,
+            user.address?.zip,
+            user.address?.city,
+            user.address?.state
+          );
+
+          this.ticketSignUpInformation.objectif = obj;
+          this.ticketSignUpInformation.address = adresse;
+          this.ticketSignUpInformation.personalInformation = personnal;
+          this.signupService.setSignUpInformation(this.ticketSignUpInformation)
+          this.form.patchValue(
+            this.ticketSignUpInformation.personalInformation
+          );
+          if(personnal.dob)
+            this.value = personnal.dob
+        });
+      } else {
+        // Pré-remplir les données du formulaire
+        if (this.ticketSignUpInformation.personalInformation) {
+          this.form.patchValue(
+            this.ticketSignUpInformation.personalInformation
+          );
+
+          if (this.ticketSignUpInformation.personalInformation.dob)
+            this.value = this.ticketSignUpInformation.personalInformation.dob;
+        }
+
+        // Si l'utilisateur n'a aucun objectif, on le redirige vers la page d'objectif
+        if (
+          !this.ticketSignUpInformation.objectif.isClient &&
+          !this.ticketSignUpInformation.objectif.isBarber
+        ) {
+          this.router.navigate(['/signup/objectif']);
+        }
+      }
+    });
   }
 
   /**
@@ -65,7 +124,6 @@ export class ProfilComponent implements OnInit {
       ],
       password: ['', [Validators.required, Validators.minLength(8)]],
       image: [''],
-      dob: [''],
       phone: [
         '',
         [
@@ -94,6 +152,8 @@ export class ProfilComponent implements OnInit {
 
     // setter les informations du form dans PersonalInformation variable
     this.profilInformation = this.form.value as PersonalInformationModel;
+    this.profilInformation.dob = this.value;
+    this.ticketSignUpInformation.personalInformation = this.profilInformation;
 
     if (
       this.ticketSignUpInformation.objectif &&
@@ -101,11 +161,11 @@ export class ProfilComponent implements OnInit {
     ) {
       this.ticketSignUpInformation.personalInformation = this.profilInformation;
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
-      console.log(
-        'this.signupService.signupInformation - APE',
-        this.signupService.signupInformation
-      );
-      this.router.navigate(['/signup/address']);
+
+      if(this.isUpdated)
+        this.router.navigate(['/signup/address'], {queryParams: { update: this.idUser}});
+      else
+        this.router.navigate(['/signup/address']);
     }
   }
 
@@ -114,7 +174,6 @@ export class ProfilComponent implements OnInit {
    * @return void
    */
   prevPage() {
-    console.log("Faire demi-tour")
     this.router.navigate(['/signup/objectif']);
   }
 
@@ -135,5 +194,10 @@ export class ProfilComponent implements OnInit {
         this.imageDisplay = fileReader.result as string;
       };
     }
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next(null)
+    this.endSubs$.complete()
   }
 }

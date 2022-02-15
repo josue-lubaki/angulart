@@ -135,7 +135,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
               .updateReservation(id, reservation)
               .pipe(takeUntil(this.endSubs$))
               .subscribe(() => {
-
                 // update page profile
                 this.ngOnInit();
                 // Message (Toast)
@@ -165,7 +164,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.endSubs$))
         .subscribe((res) => {
           if (res.client?.id === this.user?.id) {
-
             // Get confirmation
             this.confirmationService.confirm({
               message: 'Êtes-vous sûr de vouloir supprimer cette réservation',
@@ -175,9 +173,10 @@ export class MyProfileComponent implements OnInit, OnDestroy {
                   .deleteReservation(id)
                   .pipe(takeUntil(this.endSubs$))
                   .subscribe((reservation) => {
-
                     // supprimer les overlays correspondant à la réservation
-                    this.googleMapService.removeMarker(reservation.localisation).subscribe()
+                    this.googleMapService
+                      .removeMarker(reservation.localisation)
+                      .subscribe();
                     // update page profile
                     this.ngOnInit();
                     // Message Toast
@@ -186,7 +185,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
                       summary: 'Suppression Réservation',
                       detail: ' Votre réservation a été supprimée',
                     });
-                });
+                  });
               },
             });
           } else {
@@ -203,5 +202,47 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.endSubs$.next(null);
     this.endSubs$.complete();
+  }
+
+  /**
+   * Fonction qui permet de mettre à jour les informations de l'utilisateur
+   * @retun void
+   * */
+  updateInformationsUser() {
+    this.router.navigate(['/signup/profile'], {
+      queryParams: { update: this.user?.id },
+    });
+  }
+
+  /**
+   * Fonction permettant à l'utilisateur de supprimer son compte
+   * @return void
+   * */
+  deleteCompteUser() {
+    this.authUserService.getUserConnected().subscribe((user) => {
+      this.confirmationService.confirm({
+        message: 'Êtes-vous sûr de vouloir supprimer votre compte',
+        accept: () => {
+          if (user.id) {
+            this.authUserService.deleteUser(user.id).subscribe(() => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Suppression de votre compte',
+                detail: 'Votre compte a été supprimé',
+              });
+              // logout user and redirect to login page
+              this.authUserService.logoutUser();
+              this.router.navigate(['/login']);
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Suppression de votre compte',
+              detail: "Désolé, vous n'êtes pas connecté",
+            });
+          }
+        },
+      });
+    });
   }
 }

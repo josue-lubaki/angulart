@@ -97,14 +97,11 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     if (this.form.invalid) {
-      console.log('Formulaire invalide');
       return;
     }
   }
 
   ngOnDestroy() {
-    // if (this.subscription) {
-    //   this.subscription.unsubscribe();
-    // }
+
   }
 }

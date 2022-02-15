@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ObjectifModel, TicketSignUpModel } from '../../models/TicketSignUp';
 import { SignUpService } from '../../signup.service';
 
@@ -15,7 +15,10 @@ export class ObjectifComponent implements OnInit {
   objectifInformation: ObjectifModel;
   ticketSignUpInformation: TicketSignUpModel;
 
-  constructor(private signupService: SignUpService, private router: Router) {
+  constructor(
+    private signupService: SignUpService,
+    private router: Router,
+  ) {
     this.isDisabled = true;
     this.objectifInformation = new ObjectifModel();
     this.ticketSignUpInformation = new TicketSignUpModel();
@@ -26,8 +29,8 @@ export class ObjectifComponent implements OnInit {
 
     const objectif = this.ticketSignUpInformation.objectif;
     // identifier si l'utilisateur veut modifier son type de compte
-    if(objectif.isClient != objectif.isBarber){
-      this.objectifInformation = this.ticketSignUpInformation.objectif
+    if (objectif.isClient != objectif.isBarber) {
+      this.objectifInformation = this.ticketSignUpInformation.objectif;
       this.isModified =
         this.objectifInformation.isClient != this.objectifInformation.isBarber;
     }

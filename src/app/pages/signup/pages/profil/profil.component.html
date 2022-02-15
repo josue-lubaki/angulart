@@ -64,9 +64,10 @@
                 >
               </div>
               <div class="p-field p-sm-6">
-                <label>Mot de passe</label>
+                <label for="password">Mot de passe</label>
                 <p-password
                   formControlName="password"
+                  id="password"
                   [toggleMask]="true"
                 ></p-password>
                 <small
@@ -82,9 +83,10 @@
                 >
               </div>
               <div class="p-field p-sm-6">
-                <label>Téléphone</label>
+                <label for="phone">Téléphone</label>
                 <input
                   formControlName="phone"
+                  id="phone"
                   pInputText
                   [placeholder]="
                     this.userForm['phone'] &&
@@ -103,9 +105,10 @@
               </div>
 
               <div class="p-field p-sm-6">
-                <label for="name">Photo de profil</label><br />
+                <label for="image">Photo de profil</label><br />
                 <input
                   type="file"
+                  id="image"
                   class="p-inputtext"
                   accept="image/*"
                   (change)="onImageUpdload($event)"
@@ -120,10 +123,10 @@
                 </div>
 
                 <div class="p-field p-col-12 p-md:col-4">
-                  <label for="icon">Icon</label>
+                  <label>Date de naissance</label>
                   <p-calendar
-                    formControlName="dob"
                     [(ngModel)]="value"
+                    [ngModelOptions]="{ standalone: true }"
                     [showIcon]="true"
                     inputId="icon"
                     dateFormat="dd/mm/yy"

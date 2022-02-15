@@ -79,6 +79,7 @@ export class AuthUserService {
       }
     );
 
+
     console.log('Services : Users List', this.users);
 
     // get user from local storage, if exist
@@ -122,9 +123,12 @@ export class AuthUserService {
    * create user into the array
    * @param user User to create
    */
-  createUser(user: User) {
-    user = this.configIdUser(user);
-    this.users.push(user);
+  createUser(user: User) : Observable<User> {
+    return new Observable<User>((observer) => {
+      user = this.configIdUser(user);
+      this.users.push(user);
+      observer.next(user);
+    })
   }
 
   /**
@@ -155,7 +159,7 @@ export class AuthUserService {
 
   // create users into the array
   createUsers(...users: User[]) {
-    users.forEach((user) => this.createUser(user));
+    users.forEach((user) => this.createUser(user).subscribe());
   }
 
   /**
@@ -188,21 +192,32 @@ export class AuthUserService {
   }
 
   // update user into the array
-  updateUser(id: string, userUpdated: User) {
-    this.users.forEach((user, index) => {
-      if (user.id === id) {
-        this.users[index] = userUpdated;
-      }
-    });
+  updateUser(id: string, userUpdated: User) : Observable<User>{
+   return new Observable<User>(observer => {
+     this.users.forEach((user, index) => {
+       if (user.id === id) {
+         this.users[index] = userUpdated;
+         this.userConnected = userUpdated;
+         observer.next(this.users[index]);
+       }
+     });
+   })
   }
 
-  // delete user with this id into the array
-  deleteUser(id: string) {
-    this.users.forEach((user, index) => {
-      if (user.id === id) {
-        this.users.splice(index, 1);
-      }
-    });
+  /**
+   * delete user with this id into the array
+   * @param id ID du compte à supprimer
+   */
+  deleteUser(id: string) : Observable<User> {
+    return new Observable<User>(observer => {
+      this.users.forEach((user, index) => {
+        if (user.id === id) {
+          this.users.splice(index, 1);
+          this.userConnected = undefined
+          observer.next(user)
+        }
+      });
+    })
   }
 
   // get user by email
@@ -222,6 +237,5 @@ export class AuthUserService {
     // informer les observateurs que l'utilisateur est déconnecté
     this.userConnectedSuccefully.next(null);
   }
-
 
 }
