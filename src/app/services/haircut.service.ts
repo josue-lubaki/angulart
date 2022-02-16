@@ -10,82 +10,81 @@ export class HaircutService {
     {
       id: '1',
       imageURL:
-        'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
-      price: 20,
-      title: 'degrade',
-      estimatingTime: '30 min',
+        'https://hairstyles.thehairstyler.com/hairstyle_views/front_view_images/11732/original/David-Beckham.jpg',
+      price: 120,
+      title: 'Coupe Beckham',
+      estimatingTime: '10 min',
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "Ce chic 'do conserve une finition soignée sur les bords, tandis que la longueur plus longue à travers le haut est ramenée vers l'arrière pour un look et une sensation classiques",
     },
     {
       id: '2',
       imageURL:
-        'https://images.unsplash.com/photo-1568339434343-2a640a1a9946?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80',
-      price: 40,
-      title: 'degrade',
+        'https://www.menshairstyletrends.com/wp-content/uploads/2020/12/Taper-Fade-with-Waves-braidsmasterdorian.jpg',
+      price: 100,
+      title: '360 Waves',
       estimatingTime: '50 min',
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "La coupe de cheveux des vagues est une coupe à la mode. Pour des vagues complètes à 360 °, obtenez un fondu effilé qui ne coupe que les favoris et le décolleté",
     },
     {
       id: '3',
       imageURL:
-        'https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        'https://haircutinspiration.com/wp-content/uploads/Jins-Messy-Curtain-Hair-e1535448501869.jpg',
       price: 60,
-      title: 'coupe réguliere',
-      estimatingTime: '1h',
+      title: 'Jin\'s Messy',
+      estimatingTime: '20 min',
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "Même si le membre du BTS peut être connu pour ses teintures capillaires colorées, nous le voyons ici avec un look plus naturel et réservé qui favorise ses traits.",
     },
     {
       id: '4',
       imageURL:
-        'https://images.unsplash.com/photo-1606333259737-6da197890fa2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+        'https://i0.wp.com/therighthairstyles.com/wp-content/uploads/2015/10/1-mens-undercut-with-dreadlocks.jpg?zoom=1.25&resize=500%2C500&ssl=1',
       price: 80,
       title: 'dread locks',
       estimatingTime: '45 min',
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      description: "Assez souvent, les gars trouvent qu'il est beaucoup plus facile de gérer les dreads courtes que les longues"
     },
     {
       id: '5',
       imageURL:
-        'https://images.unsplash.com/photo-1627100232173-acf3733f02bc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=712&q=80',
-      price: 15,
-      title: 'courts',
-      estimatingTime: '20 min',
+        'https://www.menshairstylesnow.com/wp-content/uploads/2020/06/Odell-Beckham-Jr-Haircut.jpg',
+      price: 35,
+      title: 'Mohawk Burst Fade',
+      estimatingTime: '25 min',
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "Après tout, le fondu mohawk éclaté est une coupe de cheveux élégante et flatteuse lorsqu'il est fait correctement.",
     },
     {
       id: '6',
       imageURL:
-        'https://images.unsplash.com/photo-1567894340315-735d7c361db0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=737&q=80',
-      price: 40,
-      title: 'degrade',
-      estimatingTime: '30 min',
+        'https://i.pinimg.com/564x/17/bb/8d/17bb8d423273c7ee8ea3849d94c6692e.jpg',
+      price: 45,
+      title: 'la coupe à la new-yorkaise',
+      estimatingTime: '35 min',
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "La coupe de cheveux homme mi long la plus répandue ces derniers temps est la coupe Undercut, similaire de la coupe pompadour.",
     },
     {
       id: '7',
       imageURL:
-        'https://images.unsplash.com/photo-1590769639599-2c056eef52b0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
-      price: 40,
-      title: 'degrade',
+        'https://archzine.fr/wp-content/uploads/2017/10/coiffure-ame%CC%81ricaine-de%CC%81grade%CC%81-coupe-de-cheveux-homme-court-sur-les-cote%CC%81s-long-dessus.jpg',
+      price: 50,
+      title: 'Coupe Undercut',
       estimatingTime: '20 min',
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "Cette coupe représente une coupe carrée, mais un peu plus longue que le modèle classique.",
     },
     {
       id: '8',
       imageURL:
-        'https://images.unsplash.com/photo-1598547461182-45d03f6661e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-      price: 40,
-      title: 'degrade',
-      estimatingTime: '25 min',
+        'https://guidelook.fr/wp-content/uploads/2020/06/degrade-homme-curly.jpg',
+      price: 75,
+      title: 'Coupe Dégradé',
+      estimatingTime: '45 min',
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "N’oubliez pas de demander des contours pour une coupe bien nette, ou avec des contours plus approximatifs pour un effet plus naturel sur votre coupe de cheveux.",
     },
   ] as Array<Haircut>;
 

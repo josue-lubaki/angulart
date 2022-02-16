@@ -15,14 +15,14 @@ export class ReservationService {
         minutes: 30,
       },
       haircut: {
-        id: '1',
+        id: '6',
         imageURL:
-          'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
-        price: 20,
-        title: 'degrade',
-        estimatingTime: '30 min',
+          'https://i.pinimg.com/564x/17/bb/8d/17bb8d423273c7ee8ea3849d94c6692e.jpg',
+        price: 45,
+        title: 'la coupe à la new-yorkaise',
+        estimatingTime: '35 min',
         description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+          "La coupe de cheveux homme mi long la plus répandue ces derniers temps est la coupe Undercut, similaire de la coupe pompadour.",
       },
       status: 'En Attente',
       client: {
@@ -54,14 +54,14 @@ export class ReservationService {
         minutes: 30,
       },
       haircut: {
-        id: '1',
+        id: '2',
         imageURL:
-          'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
-        price: 20,
-        title: 'degrade',
-        estimatingTime: '30 min',
+          'https://www.menshairstyletrends.com/wp-content/uploads/2020/12/Taper-Fade-with-Waves-braidsmasterdorian.jpg',
+        price: 100,
+        title: '360 Waves',
+        estimatingTime: '50 min',
         description:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+          "La coupe de cheveux des vagues est une coupe à la mode. Pour des vagues complètes à 360°, obtenez un fondu effilé qui ne coupe que les favoris et le décolleté",
       },
       status: 'En Attente',
       client: {
