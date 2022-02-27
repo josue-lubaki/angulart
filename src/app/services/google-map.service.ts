@@ -12,8 +12,9 @@ const pinSVGFilled =
 export class GoogleMapService {
   overlays: google.maps.Marker[] = [];
   private location$: any;
-  private labelOriginFilled = new google.maps.Point(12, 9);
-  constructor() {}
+  constructor() {
+
+  }
 
   /**
    * Fonction qui permet de récupèrer les markers
@@ -73,6 +74,7 @@ export class GoogleMapService {
    * @param longitude la longitude
    * */
   addMarkerUser(latitude: number, longitude: number) {
+    const labelOriginFilled = new google.maps.Point(12, 9);
     const markerImage = {
       path: pinSVGFilled,
       anchor: new google.maps.Point(7, 12),
@@ -81,7 +83,7 @@ export class GoogleMapService {
       strokeWeight: 2,
       strokeColor: 'black',
       scale: 2,
-      labelOrigin: this.labelOriginFilled,
+      labelOrigin: labelOriginFilled,
     };
 
     this.overlays.push(
@@ -131,6 +133,7 @@ export class GoogleMapService {
    * @return void
    * */
   addMarkerReservation(reservation: Reservation) {
+    const labelOriginFilled = new google.maps.Point(12, 9);
     const markerImage = {
       path: pinSVGFilled,
       anchor: new google.maps.Point(12, 17),
@@ -139,7 +142,7 @@ export class GoogleMapService {
       strokeWeight: 2,
       strokeColor: 'black',
       scale: 2,
-      labelOrigin: this.labelOriginFilled,
+      labelOrigin: labelOriginFilled,
     };
 
     this.overlays.push(

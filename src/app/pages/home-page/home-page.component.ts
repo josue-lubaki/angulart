@@ -21,8 +21,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   isBarber?: boolean = false;
   barberPosition: any;
   clientPosition: any;
-  options: any;
-  overlays: any[] = [];
+  options: google.maps.MapOptions;
+  overlays: google.maps.Marker[] = [];
   locationSubscription: any;
   location$: any;
   endSubs$: Subject<any> = new Subject();
@@ -55,6 +55,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.options = {
+      center: { lat: 46.3470097, lng: -72.5753559 },
+      zoom: 14,
+    };
+
     this.authUserService
       .getUserConnected()
       .pipe(takeUntil(this.endSubs$))
