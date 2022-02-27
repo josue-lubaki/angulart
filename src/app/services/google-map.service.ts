@@ -5,7 +5,6 @@ import { Position } from '../pages/home-page/model/position';
 
 const pinSVGFilled =
   'M 12,2 C 8.1340068,2 5,5.1340068 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.8659932 -3.134007,-7 -7,-7 z';
-const labelOriginFilled = new google.maps.Point(12, 9);
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,7 @@ const labelOriginFilled = new google.maps.Point(12, 9);
 export class GoogleMapService {
   overlays: google.maps.Marker[] = [];
   private location$: any;
-
+  private labelOriginFilled = new google.maps.Point(12, 9);
   constructor() {}
 
   /**
@@ -82,7 +81,7 @@ export class GoogleMapService {
       strokeWeight: 2,
       strokeColor: 'black',
       scale: 2,
-      labelOrigin: labelOriginFilled,
+      labelOrigin: this.labelOriginFilled,
     };
 
     this.overlays.push(
@@ -140,7 +139,7 @@ export class GoogleMapService {
       strokeWeight: 2,
       strokeColor: 'black',
       scale: 2,
-      labelOrigin: labelOriginFilled,
+      labelOrigin: this.labelOriginFilled,
     };
 
     this.overlays.push(
