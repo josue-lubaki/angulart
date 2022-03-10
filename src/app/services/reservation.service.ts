@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Reservation } from '../models/Reservation';
+import { ReservationDTO } from '../models/ReservationDTO';
 import {catchError, Observable, retry, Subscriber, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
-  reservations: Reservation[] = [
+  reservations: ReservationDTO[] = [
     {
       id: '93a9-55d2d7dc-44aa-9352ab4e5-0076a1c89ba9',
       reservationDate: new Date(),
@@ -94,10 +94,10 @@ export class ReservationService {
 
   /**
    * Get All Reservations
-   * @returns Reservation[]
+   * @returns ReservationDTO[]
    */
-  getReservations(): Observable<Reservation[]> {
-    return new Observable((observer: Subscriber<Reservation[]>) => {
+  getReservations(): Observable<ReservationDTO[]> {
+    return new Observable((observer: Subscriber<ReservationDTO[]>) => {
       observer.next(this.reservations);
     }).pipe(
       retry(3),
@@ -111,8 +111,8 @@ export class ReservationService {
    * Remplacer la nouvelle reservation assignée à un barber
    * @param reservation reservation accepter par le barber
    */
-  acceptMission(reservation: Reservation): Observable<Reservation> {
-    return new Observable<Reservation>((observer) => {
+  acceptMission(reservation: ReservationDTO): Observable<ReservationDTO> {
+    return new Observable<ReservationDTO>((observer) => {
       if (reservation) {
         const index = this.reservations.indexOf(reservation);
         this.reservations[index].barber = reservation.barber;
@@ -133,11 +133,11 @@ export class ReservationService {
    */
   updateReservation(
     idReservation: string,
-    reservation: Reservation
-  ): Observable<Reservation> {
-    return new Observable((observer: Subscriber<Reservation>) => {
+    reservation: ReservationDTO
+  ): Observable<ReservationDTO> {
+    return new Observable((observer: Subscriber<ReservationDTO>) => {
       this.getReservation(idReservation).subscribe(
-        (rs: Reservation) => {
+        (rs: ReservationDTO) => {
           if (rs) {
             const index = this.reservations.indexOf(rs);
             this.reservations[index] = reservation;
@@ -156,10 +156,10 @@ export class ReservationService {
   /**
    * Get an reservation by id
    * @param idReservation id de la réservation à récupérer
-   * @return Reservation
+   * @return ReservationDTO
    */
-  getReservation(idReservation: any): Observable<Reservation> {
-    return new Observable<Reservation>((observer) => {
+  getReservation(idReservation: any): Observable<ReservationDTO> {
+    return new Observable<ReservationDTO>((observer) => {
       const reservation = this.reservations.find(
         (rs) => rs.id === idReservation
       );
@@ -176,8 +176,8 @@ export class ReservationService {
    * Fonction qui permet de créer une réservation
    * @param reservation reservation à créer
    */
-  createReservation(reservation: Reservation): Observable<Reservation[]> {
-    return new Observable<Reservation[]>((observer) => {
+  createReservation(reservation: ReservationDTO): Observable<ReservationDTO[]> {
+    return new Observable<ReservationDTO[]>((observer) => {
       reservation.id = this._generateUUID();
       this.reservations.push(reservation);
       observer.next(this.reservations);
@@ -203,8 +203,8 @@ export class ReservationService {
    * @param id ID de la réservation à supprimer
    * @return void
    * */
-  deleteReservation(id: string) : Observable<Reservation> {
-    return new Observable<Reservation>(observer => {
+  deleteReservation(id: string) : Observable<ReservationDTO> {
+    return new Observable<ReservationDTO>(observer => {
       this.getReservation(id).subscribe(reservation => {
         if (reservation) {
           const index = this.reservations.indexOf(reservation);

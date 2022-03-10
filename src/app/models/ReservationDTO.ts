@@ -1,19 +1,19 @@
 import { Time } from '@angular/common';
-import { User } from './User';
-import { Haircut } from './Haircut';
+import { UserDTO } from './UserDTO';
+import { HaircutDTO } from './HaircutDTO';
 
 interface Localisation {
   latitude: number;
   longitude: number;
 }
 
-export interface Reservation {
+export interface ReservationDTO {
   id?: string,
   reservationDate?: Date,
   reservationTime?: Time,
-  haircut?: Haircut,
+  haircut?: HaircutDTO,
   status?: string,
-  client?: User,
-  barber?: User,
+  client?: UserDTO,
+  barber?: UserDTO,
   localisation: Localisation
 }

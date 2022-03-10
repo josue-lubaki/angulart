@@ -1,4 +1,4 @@
-export interface Haircut {
+export interface HaircutDTO {
   id: string;
   imageURL: string;
   title: string;

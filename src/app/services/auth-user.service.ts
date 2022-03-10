@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { loginModel } from '../pages/login/models/loginModel';
-import { User } from '../models/User';
+import { UserDTO } from '../models/UserDTO';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthUserService {
-  private users: User[] = [];
-  userConnected?: User;
+  private users: UserDTO[] = [];
+  userConnected?: UserDTO;
   private userConnectedSuccefully = new Subject<unknown>();
   userConnected$ =
-    this.userConnectedSuccefully.asObservable() as Observable<User>;
+    this.userConnectedSuccefully.asObservable() as Observable<UserDTO>;
 
   constructor(private localStorage: LocalStorageService) {
     // créer un tableau d'utilisateurs
@@ -85,7 +85,7 @@ export class AuthUserService {
     // get user from local storage, if exist
     const email = this.localStorage.getVariable('email');
     if (email) {
-      const userConnectedStorage = this.getUserByEmail(email) as User;
+      const userConnectedStorage = this.getUserByEmail(email) as UserDTO;
 
       if (userConnectedStorage) {
         // informer les autres services que l'utilisateur est connecté
@@ -100,17 +100,17 @@ export class AuthUserService {
 
   /**
    * Get information of the user connected
-   * @returns User
+   * @returns UserDTO
    */
-  getUserConnected(): Observable<User> {
-    return new Observable<User>(observer => {
+  getUserConnected(): Observable<UserDTO> {
+    return new Observable<UserDTO>(observer => {
       observer.next(this.userConnected)
     })
   }
 
   // get users
-  getUsers(): Observable<User[]> {
-    return new Observable<User[]>(observer => {
+  getUsers(): Observable<UserDTO[]> {
+    return new Observable<UserDTO[]>(observer => {
       observer.next(this.users)
     })
   }
@@ -123,8 +123,8 @@ export class AuthUserService {
    * create user into the array
    * @param user User to create
    */
-  createUser(user: User) : Observable<User> {
-    return new Observable<User>((observer) => {
+  createUser(user: UserDTO) : Observable<UserDTO> {
+    return new Observable<UserDTO>((observer) => {
       user = this.configIdUser(user);
       this.users.push(user);
       observer.next(user);
@@ -134,9 +134,9 @@ export class AuthUserService {
   /**
    * method to check if the user has an ID assigned, if not then assign one
    * @param user User to verify
-   * @returns User
+   * @returns UserDTO
    */
-  configIdUser(user: User): User {
+  configIdUser(user: UserDTO): UserDTO {
     if (!user.id) {
       // Si l'utilisateur n'a pas d'ID, on le créer
       user.id = this._generateId();
@@ -158,7 +158,7 @@ export class AuthUserService {
   }
 
   // create users into the array
-  createUsers(...users: User[]) {
+  createUsers(...users: UserDTO[]) {
     users.forEach((user) => this.createUser(user).subscribe());
   }
 
@@ -187,13 +187,12 @@ export class AuthUserService {
       }
     }
 
-    console.log('User not found');
     return false;
   }
 
   // update user into the array
-  updateUser(id: string, userUpdated: User) : Observable<User>{
-   return new Observable<User>(observer => {
+  updateUser(id: string, userUpdated: UserDTO) : Observable<UserDTO>{
+   return new Observable<UserDTO>(observer => {
      this.users.forEach((user, index) => {
        if (user.id === id) {
          this.users[index] = userUpdated;
@@ -208,8 +207,8 @@ export class AuthUserService {
    * delete user with this id into the array
    * @param id ID du compte à supprimer
    */
-  deleteUser(id: string) : Observable<User> {
-    return new Observable<User>(observer => {
+  deleteUser(id: string) : Observable<UserDTO> {
+    return new Observable<UserDTO>(observer => {
       this.users.forEach((user, index) => {
         if (user.id === id) {
           this.users.splice(index, 1);

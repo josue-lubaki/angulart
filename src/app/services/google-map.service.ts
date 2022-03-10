@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Reservation } from '../models/Reservation';
+import { ReservationDTO } from '../models/ReservationDTO';
 import {catchError, Observable, retry, throwError} from 'rxjs';
 import { Position } from '../pages/home-page/model/position';
 
@@ -115,7 +115,7 @@ export class GoogleMapService {
    * @return void
    * */
   addMarkerReservations(
-    reservations: Reservation[]
+    reservations: ReservationDTO[]
   ): Observable<google.maps.Marker[]> {
     return new Observable<google.maps.Marker[]>((observer) => {
       reservations.forEach((rs) => {
@@ -144,7 +144,7 @@ export class GoogleMapService {
    * @param reservation la reservation dont on souhait répresentée sur la carte
    * @return void
    * */
-  addMarkerReservation(reservation: Reservation) {
+  addMarkerReservation(reservation: ReservationDTO) {
     const labelOriginFilled = new google.maps.Point(12, 9);
     const markerImage = {
       path: pinSVGFilled,

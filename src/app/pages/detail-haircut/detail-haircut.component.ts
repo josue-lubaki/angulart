@@ -1,16 +1,16 @@
 import { Time } from '@angular/common';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Haircut } from 'src/app/models/Haircut';
+import { HaircutDTO } from 'src/app/models/HaircutDTO';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { HaircutService } from 'src/app/services/haircut.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import { STATUS } from '../../models/constantes/Status';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { Reservation } from '../../models/Reservation';
+import { ReservationDTO } from '../../models/ReservationDTO';
 import { Subject, takeUntil } from 'rxjs';
-import { User } from '../../models/User';
+import { UserDTO } from '../../models/UserDTO';
 import { Position } from '../home-page/model/position';
 import { PrimeNGConfig } from 'primeng/api';
 import { GoogleMapService } from 'src/app/services/google-map.service';
@@ -21,10 +21,10 @@ import { GoogleMapService } from 'src/app/services/google-map.service';
   styleUrls: ['./detail-haircut.component.scss'],
 })
 export class DetailHaircutComponent implements OnInit, OnDestroy {
-  haircut?: Haircut;
+  haircut?: HaircutDTO;
   value: Date;
   endSubs$: Subject<any> = new Subject();
-  user?: User;
+  user?: UserDTO;
   minDate: Date;
 
   constructor(
@@ -151,7 +151,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
                 timeString,
                 reservationTime,
                 position
-              ) as Reservation;
+              ) as ReservationDTO;
               this.createMyReservation(MyReservation);
             }
             else {
@@ -174,7 +174,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
                   timeString,
                   reservationTime,
                   position
-                ) as Reservation;
+                ) as ReservationDTO;
                 this.createMyReservation(MyReservation);
               })
             });
@@ -223,13 +223,13 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
    * @param timeString la date choisie par l'utilisateur
    * @param reservationTime l'heure prévue de la réservation
    * @param position la localisation actuelle de l'utilisateur
-   * @return Reservation
+   * @return ReservationDTO
    * */
   private initReservationModel(
     timeString: Date,
     reservationTime: Time,
     position: Position
-  ): Reservation {
+  ): ReservationDTO {
     return {
       haircut: this.haircut,
       client: this.user,
@@ -248,7 +248,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
    * @param myReservation le model Reservation à sauvegarder
    * @return void
    * */
-  private createMyReservation(myReservation: Reservation) {
+  private createMyReservation(myReservation: ReservationDTO) {
     this.reservationService
       .createReservation(myReservation)
       .pipe(takeUntil(this.endSubs$))

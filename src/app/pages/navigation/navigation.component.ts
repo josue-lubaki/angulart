@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { User } from '../../models/User';
+import { UserDTO } from '../../models/UserDTO';
 import { MessageService } from 'primeng/api';
 import {Subject, takeUntil} from "rxjs";
 
@@ -19,7 +19,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     'https://image.freepik.com/vecteurs-libre/logo-salon-coiffure-retro_23-2148420012.jpg';
   avatarBuffer?: string | ArrayBuffer | null | undefined;
   avatar?: string;
-  user?: User;
+  user?: UserDTO;
   private endSubs$: Subject<any> = new Subject();
 
   constructor(
@@ -32,7 +32,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     // Dès qu'il y a une modification sur userConnected$, il sera notifier
     this.authUserService.userConnected$
       .pipe(takeUntil(this.endSubs$))
-      .subscribe((user: User) => {
+      .subscribe((user: UserDTO) => {
       this.user = user;
 
       // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
