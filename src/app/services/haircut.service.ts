@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {catchError, Observable, retry, throwError} from 'rxjs';
 import { Haircut } from '../models/Haircut';
 
 @Injectable({
@@ -44,7 +44,7 @@ export class HaircutService {
       price: 80,
       title: 'dread locks',
       estimatingTime: '45 min',
-      description: "Assez souvent, les gars trouvent qu'il est beaucoup plus facile de gérer les dreads courtes que les longues"
+      description: "Assez souvent, les gars trouvent qu'il est beaucoup plus facile de gérer les dreads courtes que les longues. Dread lock est un beau style qui nécessite peu d'entretien"
     },
     {
       id: '5',
@@ -54,7 +54,7 @@ export class HaircutService {
       title: 'Mohawk Burst Fade',
       estimatingTime: '25 min',
       description:
-        "Après tout, le fondu mohawk éclaté est une coupe de cheveux élégante et flatteuse lorsqu'il est fait correctement.",
+        "Après tout, le fondu mohawk éclaté est une coupe de cheveux élégante et flatteuse lorsqu'il est fait correctement. Le burst fade mohawk, également connu sous le nom de fondu du sud de la France",
     },
     {
       id: '6',
@@ -64,7 +64,7 @@ export class HaircutService {
       title: 'la coupe à la new-yorkaise',
       estimatingTime: '35 min',
       description:
-        "La coupe de cheveux homme mi long la plus répandue ces derniers temps est la coupe Undercut, similaire de la coupe pompadour.",
+        "La coupe de cheveux homme mi long la plus répandue ces derniers temps est la coupe Undercut, similaire de la coupe pompadour. Cette coupe de cheveux est tendance.",
     },
     {
       id: '7',
@@ -74,7 +74,7 @@ export class HaircutService {
       title: 'Coupe Undercut',
       estimatingTime: '20 min',
       description:
-        "Cette coupe représente une coupe carrée, mais un peu plus longue que le modèle classique.",
+        "Cette coupe représente une coupe carrée, mais un peu plus longue que le modèle classique. cette coiffure est travaillée sur deux longueurs, révélant des côtés courts et une nuque dégagée ainsi qu'une masse capillaire",
     },
     {
       id: '8',
@@ -95,7 +95,12 @@ export class HaircutService {
   getHaircuts(): Observable<Haircut[]> {
     return new Observable<Haircut[]>((observer) => {
       observer.next(this.haircuts);
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+      console.log(error);
+      return throwError(error);
+    }));
   }
 
   /**
@@ -110,6 +115,11 @@ export class HaircutService {
           observer.next(hr);
         })
       }
-    )
+    ).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 }

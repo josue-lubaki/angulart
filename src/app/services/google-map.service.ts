@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from '../models/Reservation';
-import { Observable } from 'rxjs';
+import {catchError, Observable, retry, throwError} from 'rxjs';
 import { Position } from '../pages/home-page/model/position';
 
 const pinSVGFilled =
   'M 12,2 C 8.1340068,2 5,5.1340068 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.8659932 -3.134007,-7 -7,-7 z';
-const labelOriginFilled = new google.maps.Point(12, 9);
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +13,6 @@ export class GoogleMapService {
   overlays: google.maps.Marker[] = [];
   private location$: any;
 
-  constructor() {}
-
   /**
    * Fonction qui permet de récupèrer les markers
    * @return google.maps.Marker[]
@@ -23,7 +20,12 @@ export class GoogleMapService {
   getOverlays(): Observable<google.maps.Marker[]> {
     return new Observable<google.maps.Marker[]>((observer) => {
       observer.next(this.overlays);
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   clearMarkers() {
@@ -54,7 +56,7 @@ export class GoogleMapService {
       } else {
         onError({
           code: 100,
-          message: 'Pas de geoloc ici',
+          message: 'Permission denied for geolocation',
           PERMISSION_DENIED: 1,
           POSITION_UNAVAILABLE: 1,
           TIMEOUT: 1,
@@ -65,7 +67,12 @@ export class GoogleMapService {
       return () => {
         navigator.geolocation.clearWatch(watchId);
       };
-    }));
+    })).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
@@ -74,6 +81,7 @@ export class GoogleMapService {
    * @param longitude la longitude
    * */
   addMarkerUser(latitude: number, longitude: number) {
+    const labelOriginFilled = new google.maps.Point(12, 9);
     const markerImage = {
       path: pinSVGFilled,
       anchor: new google.maps.Point(7, 12),
@@ -123,7 +131,12 @@ export class GoogleMapService {
         }
       });
       observer.next(this.overlays);
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
@@ -132,6 +145,7 @@ export class GoogleMapService {
    * @return void
    * */
   addMarkerReservation(reservation: Reservation) {
+    const labelOriginFilled = new google.maps.Point(12, 9);
     const markerImage = {
       path: pinSVGFilled,
       anchor: new google.maps.Point(12, 17),
@@ -178,7 +192,12 @@ export class GoogleMapService {
         );
       }
       observer.next(this.overlays);
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**

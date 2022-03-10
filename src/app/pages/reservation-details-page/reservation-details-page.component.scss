@@ -45,6 +45,13 @@
       background-color: $color-yellow-primary;
       width: 250px;
     }
+
+    &-titleClient {
+      background-image: $color-primary;
+      width: 100%;
+      color: $color-white-primary;
+      letter-spacing: 2px;
+    }
   }
   &-right {
     display: flex;
@@ -69,12 +76,14 @@
 
 @media (max-width: 535px) {
   .card {
+    margin: 0.25rem 0;
     flex-direction: column;
+    font-size: 0.8rem;
     &-left {
       width: 100%;
       img {
         max-height: 380px;
-        min-height: 380px;
+        //min-height: 380px;
         width: 100%;
       }
       &-title {
@@ -82,12 +91,12 @@
       }
     }
     &-right {
-      padding: 0;
+      width: 100%;
       p {
         margin: 0;
       }
       span {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         margin-top: 0.5rem;
       }
       &-price {

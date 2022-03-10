@@ -21,8 +21,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   isBarber?: boolean = false;
   barberPosition: any;
   clientPosition: any;
-  options: any;
-  overlays: any[] = [];
+  options: google.maps.MapOptions;
+  overlays: google.maps.Marker[] = [];
   locationSubscription: any;
   location$: any;
   endSubs$: Subject<any> = new Subject();
@@ -34,6 +34,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private authUserService: AuthUserService,
     private googleMapService: GoogleMapService
   ) {
+    // init map
     this.options = {
       center: { lat: 46.3470097, lng: -72.5753559 },
       zoom: 14,
@@ -42,7 +43,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     // initialisation du service de localisation
     this.location$ = this.googleMapService.initializeLocation();
 
-    // dans le cas d'un client, on récupère les coiffures
+    // in the case of a client, we recover the hairstyles
     this.haircutService
       .getHaircuts()
       .pipe(takeUntil(this.endSubs$))
@@ -55,6 +56,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.options = {
+      center: { lat: 46.3470097, lng: -72.5753559 },
+      zoom: 14,
+    };
+
     this.authUserService
       .getUserConnected()
       .pipe(takeUntil(this.endSubs$))
@@ -111,7 +117,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Fonction qui permet de rester en écoute de la localisation de l'utilisateur
+   * Function that keeps listening to the user's location
    * @return void
    * */
   private listenLocationObservable() {
