@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Reservation } from '../models/Reservation';
-import { Observable } from 'rxjs';
+import {catchError, Observable, retry, Subscriber, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -97,9 +97,14 @@ export class ReservationService {
    * @returns Reservation[]
    */
   getReservations(): Observable<Reservation[]> {
-    return new Observable((observer) => {
+    return new Observable((observer: Subscriber<Reservation[]>) => {
       observer.next(this.reservations);
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
@@ -113,7 +118,12 @@ export class ReservationService {
         this.reservations[index].barber = reservation.barber;
         observer.next(this.reservations[index]);
       }
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
@@ -125,7 +135,7 @@ export class ReservationService {
     idReservation: string,
     reservation: Reservation
   ): Observable<Reservation> {
-    return new Observable((observer) => {
+    return new Observable((observer: Subscriber<Reservation>) => {
       this.getReservation(idReservation).subscribe(
         (rs: Reservation) => {
           if (rs) {
@@ -135,7 +145,12 @@ export class ReservationService {
           }
         }
       );
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
@@ -149,7 +164,12 @@ export class ReservationService {
         (rs) => rs.id === idReservation
       );
       observer.next(reservation);
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
@@ -161,7 +181,12 @@ export class ReservationService {
       reservation.id = this._generateUUID();
       this.reservations.push(reservation);
       observer.next(this.reservations);
-    });
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   // Fonction qui permet de générer un UUID
@@ -187,6 +212,11 @@ export class ReservationService {
           observer.next(reservation);
         }
       })
-    })
+    }).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 }
