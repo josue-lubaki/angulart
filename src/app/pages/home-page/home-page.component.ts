@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Haircut } from 'src/app/models/Haircut';
-import { Reservation } from '../../models/Reservation';
+import { HaircutDTO } from 'src/app/models/HaircutDTO';
+import { ReservationDTO } from '../../models/ReservationDTO';
 import { ReservationService } from '../../services/reservation.service';
 import { AuthUserService } from '../../services/auth-user.service';
 import { GoogleMapService } from 'src/app/services/google-map.service';
 import { Position } from './model/position';
 import { Subject, takeUntil } from 'rxjs';
-import { User } from '../../models/User';
+import { UserDTO } from '../../models/UserDTO';
 import {HaircutService} from "../../services/haircut.service";
 
 @Component({
@@ -15,8 +15,8 @@ import {HaircutService} from "../../services/haircut.service";
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
-  haircuts: Haircut[] = [];
-  reservations: Reservation[] = [];
+  haircuts: HaircutDTO[] = [];
+  reservations: ReservationDTO[] = [];
 
   isBarber?: boolean = false;
   barberPosition: any;
@@ -26,7 +26,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   locationSubscription: any;
   location$: any;
   endSubs$: Subject<any> = new Subject();
-  user?: User;
+  user?: UserDTO;
 
   constructor(
     private haircutService: HaircutService,
@@ -47,7 +47,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.haircutService
       .getHaircuts()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe((haircuts: Haircut[]) => {
+      .subscribe((haircuts: HaircutDTO[]) => {
         this.haircuts = haircuts;
       });
 
@@ -105,7 +105,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.reservationService
       .getReservations()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe((reservations: Reservation[]) => {
+      .subscribe((reservations: ReservationDTO[]) => {
         this.reservations = reservations.filter((rs) => !rs.barber);
 
         this.googleMapService.clearMarkers()

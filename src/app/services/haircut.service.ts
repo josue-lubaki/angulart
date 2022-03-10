@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {catchError, Observable, retry, throwError} from 'rxjs';
-import { Haircut } from '../models/Haircut';
+import { HaircutDTO } from '../models/HaircutDTO';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HaircutService {
-  haircuts: Haircut[] = [
+  haircuts: HaircutDTO[] = [
     {
       id: '1',
       imageURL:
@@ -86,14 +86,14 @@ export class HaircutService {
       description:
         "N’oubliez pas de demander des contours pour une coupe bien nette, ou avec des contours plus approximatifs pour un effet plus naturel sur votre coupe de cheveux.",
     },
-  ] as Array<Haircut>;
+  ] as Array<HaircutDTO>;
 
   /**
    * Method to get all haircuts
-   * @returns Haircut[]
+   * @returns HaircutDTO[]
    */
-  getHaircuts(): Observable<Haircut[]> {
-    return new Observable<Haircut[]>((observer) => {
+  getHaircuts(): Observable<HaircutDTO[]> {
+    return new Observable<HaircutDTO[]>((observer) => {
       observer.next(this.haircuts);
     }).pipe(
       retry(3),
@@ -106,11 +106,11 @@ export class HaircutService {
   /**
    * Fonction qui permet de récuperer le model de coiffure grâce à l'ID
    * @param id ID de la coiffure
-   * @return Haircut
+   * @return HaircutDTO
    * */
-  getHaircut(id: string): Observable<Haircut> {
-    return new Observable<Haircut>((observer) => {
-        this.getHaircuts().subscribe((haircuts: Haircut[]) => {
+  getHaircut(id: string): Observable<HaircutDTO> {
+    return new Observable<HaircutDTO>((observer) => {
+        this.getHaircuts().subscribe((haircuts: HaircutDTO[]) => {
           const hr = haircuts.find(haircut => haircut.id === id)
           observer.next(hr);
         })

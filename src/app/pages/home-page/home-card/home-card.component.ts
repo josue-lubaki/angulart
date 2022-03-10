@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Haircut } from 'src/app/models/Haircut';
-import { Reservation } from 'src/app/models/Reservation';
+import { HaircutDTO } from 'src/app/models/HaircutDTO';
+import { ReservationDTO } from 'src/app/models/ReservationDTO';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import {Subject, takeUntil} from "rxjs";
-import {User} from "../../../models/User";
+import {UserDTO} from "../../../models/UserDTO";
 
 @Component({
   selector: 'app-home-card',
@@ -13,14 +13,14 @@ import {User} from "../../../models/User";
 })
 export class HomeCardComponent implements OnInit {
   @Input()
-  haircut!: Haircut;
+  haircut!: HaircutDTO;
 
   @Input()
-  reservation!: Reservation;
+  reservation!: ReservationDTO;
 
   isBarber?: boolean = false;
   endSubs$: Subject<any> = new Subject();
-  user?: User;
+  user?: UserDTO;
 
   constructor(private router: Router, private authUserService: AuthUserService) {}
 

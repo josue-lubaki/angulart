@@ -5,7 +5,7 @@ import { Address } from 'src/app/models/Address';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
 import { SignUpService } from '../../signup.service';
-import { User } from '../../../../models/User';
+import { UserDTO } from '../../../../models/UserDTO';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -100,7 +100,7 @@ export class AdresseComponent implements OnInit {
       ticketSignUpInformation.personalInformation &&
       ticketSignUpInformation.objectif
     ) {
-      const user: User = {
+      const user: UserDTO = {
         fname: ticketSignUpInformation.personalInformation.fname,
         lname: ticketSignUpInformation.personalInformation.lname,
         imageURL: ticketSignUpInformation.personalInformation.image,
@@ -166,7 +166,7 @@ export class AdresseComponent implements OnInit {
       ticketSignUpInformation.objectif
     ) {
       this.authUserService.getUserConnected().subscribe((user) => {
-        const newUser: User = {
+        const newUser: UserDTO = {
           // type User
           id: user.id,
           fname: ticketSignUpInformation.personalInformation.fname,

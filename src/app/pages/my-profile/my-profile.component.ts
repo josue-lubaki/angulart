@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Reservation } from 'src/app/models/Reservation';
+import { ReservationDTO } from 'src/app/models/ReservationDTO';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ReservationService } from 'src/app/services/reservation.service';
-import { User } from '../../models/User';
+import { UserDTO } from '../../models/UserDTO';
 import { COMPTE } from '../../models/constantes/compte';
 import { Subject, takeUntil } from 'rxjs';
 import { STATUS } from '../../models/constantes/Status';
@@ -17,10 +17,10 @@ import { GoogleMapService } from 'src/app/services/google-map.service';
   styleUrls: ['./my-profile.component.scss'],
 })
 export class MyProfileComponent implements OnInit, OnDestroy {
-  user?: User;
+  user?: UserDTO;
   avatarBuffer?: string | ArrayBuffer | null | undefined;
   avatar?: string;
-  reservations: Reservation[] = [];
+  reservations: ReservationDTO[] = [];
   typeCompte?: string;
   endSubs$: Subject<any> = new Subject();
 
@@ -59,7 +59,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.reservationService
         .getReservations()
         .pipe(takeUntil(this.endSubs$))
-        .subscribe((reservations: Reservation[]) => {
+        .subscribe((reservations: ReservationDTO[]) => {
           this.reservations = reservations.filter(
             (rs) => rs.client?.id === this.user?.id
           );
@@ -68,9 +68,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.reservationService
         .getReservations()
         .pipe(takeUntil(this.endSubs$))
-        .subscribe((reservations: Reservation[]) => {
+        .subscribe((reservations: ReservationDTO[]) => {
           this.reservations = reservations.filter(
-            (reservation: Reservation) =>
+            (reservation: ReservationDTO) =>
               reservation.barber?.id === this.user?.id
           );
         });

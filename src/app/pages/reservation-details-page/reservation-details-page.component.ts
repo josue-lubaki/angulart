@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Reservation } from 'src/app/models/Reservation';
+import { ReservationDTO } from 'src/app/models/ReservationDTO';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { MessageService } from 'primeng/api';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { STATUS } from '../../models/constantes/Status';
-import { User } from '../../models/User';
+import { UserDTO } from '../../models/UserDTO';
 import { GoogleMapService } from 'src/app/services/google-map.service';
 import {Subject, takeUntil} from "rxjs";
 
@@ -15,11 +15,11 @@ import {Subject, takeUntil} from "rxjs";
   styleUrls: ['./reservation-details-page.component.scss'],
 })
 export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
-  reservation?: Reservation;
-  client? : User;
+  reservation?: ReservationDTO;
+  client? : UserDTO;
   canAcceptReservation?: boolean = true;
   STATUS = STATUS;
-  user?: User;
+  user?: UserDTO;
   hide = false;
   endSubs$: Subject<any> = new Subject();
 
@@ -94,7 +94,7 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
         this.reservationService
           .getReservation(idReservation)
           .pipe(takeUntil(this.endSubs$))
-          .subscribe((reservation : Reservation) => {
+          .subscribe((reservation : ReservationDTO) => {
             this.reservation = reservation
           })
 
