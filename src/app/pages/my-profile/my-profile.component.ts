@@ -80,8 +80,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.authUserService
       .getUsers()
       .pipe(takeUntil(this.endSubs$))
-      .subscribe((users) => {
-        users.find((user) => {
+      .subscribe((users: UserDTO[]) => {
+        users.find((user : UserDTO) => {
           if (user.id === this.user?.id) {
             // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
             if (
@@ -122,7 +122,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     if (this.user) {
       // Get reservation current
       this.reservationService
-        .getReservation(id)
+        .getReservationById(id)
         .pipe(takeUntil(this.endSubs$))
         .subscribe((reservation) => {
           if (this.user && reservation) {
@@ -160,7 +160,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     if (this.user && this.user.isClient) {
       // Get reservation
       this.reservationService
-        .getReservation(id)
+        .getReservationById(id)
         .pipe(takeUntil(this.endSubs$))
         .subscribe((res) => {
           if (res.client?.id === this.user?.id) {

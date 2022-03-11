@@ -1,101 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import {catchError, filter, map, Observable, retry, Subject, throwError} from 'rxjs';
 import { loginModel } from '../pages/login/models/loginModel';
 import { UserDTO } from '../models/UserDTO';
 import { LocalStorageService } from './local-storage.service';
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthUserService {
-  private users: UserDTO[] = [];
+  users: UserDTO[] = [];
   userConnected?: UserDTO;
-  private userConnectedSuccefully = new Subject<unknown>();
+  private userConnectedSuccefully = new Subject<any>();
   userConnected$ =
     this.userConnectedSuccefully.asObservable() as Observable<UserDTO>;
+  private url = environment.urlAPI + '/users';
 
-  constructor(private localStorage: LocalStorageService) {
-    // créer un tableau d'utilisateurs
-    this.createUsers(
-      {
-        fname: 'Ismael',
-        lname: 'Coulibaly',
-        email: 'ismaelcoulibal@gmail.com',
-        imageURL:
-          'https://static.wikia.nocookie.net/marvel-cinematic/images/3/32/Steve_Rogers_2.jpg',
-        password: 'Ismael2022',
-        dob: new Date('June 13 1981'),
-        address: {
-          street: '25 Rue de Caillière',
-          apartment: '3',
-          zip: 'G8W 1B5',
-          city: 'Trois-Rivières',
-          state: 'Québec',
-        },
-        phone: '+1 873 873 8738',
-        isAdmin: false,
-        isClient: false,
-        isBarber: true,
-      },
-      {
-        fname: 'Josue',
-        lname: 'Lubaki',
-        imageURL:
-          'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg',
-        email: 'josuelubaki@gmail.com',
-        password: 'Josue2022',
-        dob: new Date('Sept 2 1964'),
-        address: {
-          street: '3100 Boulevard des Forges',
-          apartment: '101',
-          zip: 'G8Z 1V5',
-          city: 'Trois-Rivières',
-          state: 'Québec',
-        },
-        phone: '+1 873 873 8738',
-        isAdmin: false,
-        isClient: true,
-        isBarber: false,
-      },
-      {
-        fname: 'Jonathan',
-        lname: 'Kanyinda',
-        email: 'jonathankanyinda@gmail.com',
-        imageURL:
-          'https://static.wikia.nocookie.net/marvelcentral/images/4/4a/Tony-Stark-iron-man-11234572-1485-2061.jpg',
-        password: 'Jonathan2022',
-        dob: new Date('April 04 1965'),
-        address: {
-          street: '1280 Rue de Terrière',
-          apartment: '1B',
-          zip: 'G8Z 3K2',
-          city: 'Trois-Rivières',
-          state: 'Québec',
-        },
-        phone: '+1 873 873 8738',
-        isAdmin: false,
-        isClient: true,
-        isBarber: false,
+  constructor(private localStorage: LocalStorageService, private http: HttpClient) {
+    this.getUsers().subscribe(users => {
+      this.users = users;
+      console.log('Services : Users List', this.users);
+
+      // get user from local storage, if exist
+      const email = this.localStorage.getVariable('email');
+      if (email) {
+        this.getUserByEmail(email).subscribe(user => {
+          this.userConnected = user;
+          this.userConnectedSuccefully.next(user);
+        });
       }
-    );
-
-
-    console.log('Services : Users List', this.users);
-
-    // get user from local storage, if exist
-    const email = this.localStorage.getVariable('email');
-    if (email) {
-      const userConnectedStorage = this.getUserByEmail(email) as UserDTO;
-
-      if (userConnectedStorage) {
-        // informer les autres services que l'utilisateur est connecté
-        this.userConnectedSuccefully.next(userConnectedStorage);
-
-        // set userConnected, conserver l'information
-        // pour une utilisation ultérieure par la Fonction getCurrentUser()
-        this.userConnected = userConnectedStorage;
-      }
-    }
+    });
   }
 
   /**
@@ -108,32 +43,53 @@ export class AuthUserService {
     })
   }
 
-  // get users
+  /**
+   * get all users
+   * @path https://api.mocki.io/v2/28339143/users/
+   * @returns Observable<UserDTO[]>
+   * */
   getUsers(): Observable<UserDTO[]> {
-    return new Observable<UserDTO[]>(observer => {
-      observer.next(this.users)
-    })
+    return this.http.get<UserDTO[]>(this.url).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
-  getUserById(idUser: string | number) {
-    return this.users.find((user) => user.id === idUser);
+  /**
+   * get user by ID
+   * @param idUser id of the user
+   * @path https://api.mocki.io/v2/28339143/users/{idUser}
+   * @returns Observable<UserDTO>
+   * */
+  getUserById(idUser: string | number) : Observable<UserDTO> {
+    return this.http.get<UserDTO>(this.url + '/' + idUser).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
    * create user into the array
+   * @path https://api.mocki.io/v2/28339143/users/
    * @param user User to create
    */
   createUser(user: UserDTO) : Observable<UserDTO> {
-    return new Observable<UserDTO>((observer) => {
-      user = this.configIdUser(user);
-      this.users.push(user);
-      observer.next(user);
-    })
+    return this.http.post<any>(this.url, user).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**
    * method to check if the user has an ID assigned, if not then assign one
    * @param user User to verify
+   * @deprecated
    * @returns UserDTO
    */
   configIdUser(user: UserDTO): UserDTO {
@@ -147,6 +103,7 @@ export class AuthUserService {
 
   /**
    * generate random id UUID
+   * @deprecated
    * @returns string
    */
   private _generateId(): string {
@@ -157,9 +114,12 @@ export class AuthUserService {
     });
   }
 
-  // create users into the array
+  /**
+   *  create users into the array
+   *  @param users array of Users to create
+   *  */
   createUsers(...users: UserDTO[]) {
-    users.forEach((user) => this.createUser(user).subscribe());
+    users.forEach((user: UserDTO) => this.createUser(user).subscribe());
   }
 
   /**
@@ -167,27 +127,22 @@ export class AuthUserService {
    * @param user User to login
    * @returns boolean
    */
-  login(user: loginModel): boolean {
+  login(user: loginModel) {
     // Chercher l'utilisateur dans la liste
-    const userFound = this.getUserByEmail(user.email);
+    this.getUserByEmail(user.email).subscribe(userFound => {
+      if (userFound) {
+        // Si l'utilisateur est trouvé, on vérifie le mot de passe
+        if (userFound.password === user.password) {
+          // Si le mot de passe est bon, on connecte l'utilisateur
+          this.userConnected = userFound;
+          this.userConnectedSuccefully.next(userFound);
+          this.localStorage.setVariable('email', userFound.email);
 
-    if (userFound) {
-      // Vérifier le mot de passe
-      if (userFound.password === user.password) {
-        // setter l'ID de l'utilisateur connecté dans le localStorage
-        this.localStorage.setUserCurrent(userFound.id);
-        // setter l'email de l'utilisateur
-        this.localStorage.setVariable('email', userFound.email);
-
-        // informer les observateurs que l'utilisateur est connecté
-        this.userConnectedSuccefully.next(userFound);
-        this.userConnected = userFound;
-
-        return true;
+          return true;
+        }
       }
-    }
-
-    return false;
+      return false;
+    });
   }
 
   // update user into the array
@@ -219,9 +174,18 @@ export class AuthUserService {
     })
   }
 
-  // get user by email
-  getUserByEmail(email: string) {
-    return this.users.find((user) => user.email === email);
+  /**
+   * get user by email
+   * @param email email of the user
+   * @returns Observable<UserDTO>
+   * */
+  getUserByEmail(email: string) : Observable<UserDTO> {
+    return new Observable<UserDTO>(observer => {
+      this.getUsers().subscribe((users : UserDTO[]) => {
+        const userFind = users.find((user: UserDTO) => user.email === email);
+        observer.next(userFind)
+      });
+    });
   }
 
   /**

@@ -92,7 +92,7 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
 
       if (idReservation) {
         this.reservationService
-          .getReservation(idReservation)
+          .getReservationById(idReservation)
           .pipe(takeUntil(this.endSubs$))
           .subscribe((reservation : ReservationDTO) => {
             this.reservation = reservation

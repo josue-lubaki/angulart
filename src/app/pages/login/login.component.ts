@@ -69,8 +69,8 @@ export class LoginComponent implements OnInit {
 
     this.isDisabled = true;
     const user: loginModel = this.form.value;
-
-    if (this.authUserService.login(user)) {
+    this.authUserService.login(user);
+    if (this.authUserService.getUserConnected()) {
       this.messageService.add({
         severity: 'success',
         summary: 'Login',

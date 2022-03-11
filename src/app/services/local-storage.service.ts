@@ -53,7 +53,6 @@ export class LocalStorageService {
   /**
    * Fonction qui permet de récupérer un token dans le localStorage
    * @param key la clé de l'objet à récupérer
-   * @param value la valeur de l'objet à récupérer
    */
   getVariable(key: string) {
     return localStorage.getItem(key);
