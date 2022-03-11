@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 // Path of component
 import { AdresseComponent } from './pages/signup/pages/adresse/adresse.component';
 import { ObjectifComponent } from './pages/signup/pages/objectif/objectif.component';
@@ -29,6 +30,7 @@ import { GMapModule } from 'primeng/gmap';
 
 // services
 import { MessageService } from 'primeng/api';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 const primengModule = [GMapModule]
 const allModules = [
@@ -63,7 +65,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [],
-  providers: [FormBuilder, MessageService],
+  providers: [FormBuilder, MessageService, HttpClient, HttpClientModule],
   imports: [
     RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
     ReactiveFormsModule,
@@ -71,7 +73,8 @@ const routes: Routes = [
     BrowserAnimationsModule,
     CommonModule,
     ...allModules,
-    ...primengModule
+    ...primengModule,
+    HttpClientModule
   ],
   exports: [RouterModule],
 })

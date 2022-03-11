@@ -1,105 +1,30 @@
 import { Injectable } from '@angular/core';
 import { ReservationDTO } from '../models/ReservationDTO';
 import {catchError, Observable, retry, Subscriber, throwError} from 'rxjs';
+import {environment} from "../../environments/environment.prod";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
-  reservations: ReservationDTO[] = [
-    {
-      id: '93a9-55d2d7dc-44aa-9352ab4e5-0076a1c89ba9',
-      reservationDate: new Date(),
-      reservationTime: {
-        hours: 18,
-        minutes: 30,
-      },
-      haircut: {
-        id: '6',
-        imageURL:
-          'https://i.pinimg.com/564x/17/bb/8d/17bb8d423273c7ee8ea3849d94c6692e.jpg',
-        price: 45,
-        title: 'la coupe à la new-yorkaise',
-        estimatingTime: '35 min',
-        description:
-          "La coupe de cheveux homme mi long la plus répandue ces derniers temps est la coupe Undercut, similaire de la coupe pompadour.",
-      },
-      status: 'En Attente',
-      client: {
-        fname: 'Josue',
-        lname: 'Lubaki',
-        imageURL:
-          'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg',
-        email: 'josuelubaki@gmail.com',
-        password: 'Josue2022',
-        dob: new Date('Sept 2 1964'),
-        address: {
-          street: '1010 Rue Richard',
-          apartment: '13C',
-          zip: 'G8Z 1V5',
-          city: 'Trois-Rivières',
-          state: 'Québec',
-        },
-      },
-      localisation: {
-        latitude: 46.348906,
-        longitude: -72.568547,
-      },
-    },
-    {
-      id: 'eb3e-7e5baa8d-4ea9-b494b05b4-6315a8aaa99b',
-      reservationDate: new Date(),
-      reservationTime: {
-        hours: 18,
-        minutes: 30,
-      },
-      haircut: {
-        id: '2',
-        imageURL:
-          'https://www.menshairstyletrends.com/wp-content/uploads/2020/12/Taper-Fade-with-Waves-braidsmasterdorian.jpg',
-        price: 100,
-        title: '360 Waves',
-        estimatingTime: '50 min',
-        description:
-          "La coupe de cheveux des vagues est une coupe à la mode. Pour des vagues complètes à 360°, obtenez un fondu effilé qui ne coupe que les favoris et le décolleté",
-      },
-      status: 'En Attente',
-      client: {
-        fname: 'Josue',
-        lname: 'Lubaki',
-        imageURL:
-          'https://assets-prd.ignimgs.com/2020/08/06/john-wick-button-1596757524663.jpg',
-        email: 'josuelubaki@gmail.com',
-        password: 'Josue2022',
-        dob: new Date('Sept 2 1964'),
-        address: {
-          street: '1010 Rue Richard',
-          apartment: '13C',
-          zip: 'G8Z 1V5',
-          city: 'Trois-Rivières',
-          state: 'Québec',
-        },
-      },
-      localisation: {
-        latitude: 46.350016,
-        longitude: -72.585497,
-      },
-    },
-  ];
+  private url = environment.urlAPI + '/reservations';
+  reservations: ReservationDTO[] = [];
 
-  constructor() {
+  constructor(private http: HttpClient) {
     // see all reservations
-    console.log('Reservations', this.reservations);
+    this.getReservations().subscribe((reservations) => {
+      this.reservations = reservations;
+      console.log('Reservations', this.reservations);
+    });
   }
 
   /**
    * Get All Reservations
-   * @returns ReservationDTO[]
+   * @returns Observable<ReservationDTO[]>
    */
   getReservations(): Observable<ReservationDTO[]> {
-    return new Observable((observer: Subscriber<ReservationDTO[]>) => {
-      observer.next(this.reservations);
-    }).pipe(
+    return this.http.get<ReservationDTO[]>(this.url).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
@@ -129,14 +54,15 @@ export class ReservationService {
   /**
    * Fonction qui permet de modifier une réservation
    * @param idReservation id de la réservation à modifier
-   * @param reservation
+   * @param reservation reservation à modifier
+   * @return Observable<ReservationDTO>
    */
   updateReservation(
     idReservation: string,
     reservation: ReservationDTO
   ): Observable<ReservationDTO> {
     return new Observable((observer: Subscriber<ReservationDTO>) => {
-      this.getReservation(idReservation).subscribe(
+      this.getReservationById(idReservation).subscribe(
         (rs: ReservationDTO) => {
           if (rs) {
             const index = this.reservations.indexOf(rs);
@@ -156,15 +82,10 @@ export class ReservationService {
   /**
    * Get an reservation by id
    * @param idReservation id de la réservation à récupérer
-   * @return ReservationDTO
+   * @return Observable<ReservationDTO>
    */
-  getReservation(idReservation: any): Observable<ReservationDTO> {
-    return new Observable<ReservationDTO>((observer) => {
-      const reservation = this.reservations.find(
-        (rs) => rs.id === idReservation
-      );
-      observer.next(reservation);
-    }).pipe(
+  getReservationById(idReservation: any): Observable<ReservationDTO> {
+    return this.http.get<ReservationDTO>(`${this.url}/${idReservation}`).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
@@ -175,13 +96,10 @@ export class ReservationService {
   /**
    * Fonction qui permet de créer une réservation
    * @param reservation reservation à créer
+   * @returns Observable<ReservationDTO>
    */
   createReservation(reservation: ReservationDTO): Observable<ReservationDTO[]> {
-    return new Observable<ReservationDTO[]>((observer) => {
-      reservation.id = this._generateUUID();
-      this.reservations.push(reservation);
-      observer.next(this.reservations);
-    }).pipe(
+    return this.http.post<ReservationDTO[]>(this.url, reservation).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
@@ -189,7 +107,10 @@ export class ReservationService {
       }));
   }
 
-  // Fonction qui permet de générer un UUID
+  /**
+  * Fonction qui permet de générer un UUID
+  * @deprecated
+  */
   private _generateUUID(): string {
     return 'xxxx-xxxxxxxx-4xyx-yxxxyxxxx-xxxxxxxxyyyy'.replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;
@@ -201,11 +122,11 @@ export class ReservationService {
   /**
    * Fonction permettant de supprimer une réservation
    * @param id ID de la réservation à supprimer
-   * @return void
+   * @return Observable<ReservationDTO>
    * */
   deleteReservation(id: string) : Observable<ReservationDTO> {
     return new Observable<ReservationDTO>(observer => {
-      this.getReservation(id).subscribe(reservation => {
+      this.getReservationById(id).subscribe(reservation => {
         if (reservation) {
           const index = this.reservations.indexOf(reservation);
           this.reservations.splice(index, 1);

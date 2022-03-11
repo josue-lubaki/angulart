@@ -52,9 +52,12 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
 
     // Retrieve the ID of the hairstyle then find its information
     this.route.paramMap.subscribe((params) => {
-      this.dataImService.getHaircuts().subscribe((haircuts) => {
-        this.haircut = haircuts.find((it) => it.id === params.get('id'));
-      });
+      const id = params.get('id');
+      if (id) {
+        this.dataImService.getHaircut(id).subscribe((haircut) => {
+          this.haircut = haircut
+        });
+      }
     });
 
     this.authUserService
@@ -106,7 +109,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
     if (params.get('modifyreservation')) {
       const idReservation = params.get('modifyreservation') as string;
 
-      this.reservationService.getReservation(idReservation).subscribe(res =>{
+      this.reservationService.getReservationById(idReservation).subscribe(res =>{
         res.reservationDate = timeString;
         this.reservationService
           .updateReservation(idReservation, res)
@@ -253,6 +256,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
       .createReservation(myReservation)
       .pipe(takeUntil(this.endSubs$))
       .subscribe(() => {
+        console.log('Reservation créée', myReservation);
         this.messageService.add({
           severity: 'success',
           summary: 'Réservation',
