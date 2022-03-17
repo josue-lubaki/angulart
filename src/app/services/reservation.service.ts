@@ -89,7 +89,7 @@ export class ReservationService {
    * @param idReservation id de la réservation à récupérer
    * @return Observable<ReservationDTO>
    */
-  getReservationById(idReservation: any): Observable<ReservationDTO> {
+  getReservationById(idReservation: string): Observable<ReservationDTO> {
     return this.http.get<ReservationDTO>(`${this.url}/${idReservation}`).pipe(
       retry(3),
       catchError((error) => {

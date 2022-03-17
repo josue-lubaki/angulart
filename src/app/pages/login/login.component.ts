@@ -84,8 +84,7 @@ export class LoginComponent implements OnInit {
         this.authUserService.getUserById(responseLogin.id).subscribe((user : UserDTO) => {
 
           // notifie les autres composants
-          this.authUserService.userConnected = user;
-          this.authUserService.userConnectedSuccefully.next(user);
+          this.authUserService.notifier(user);
 
           this.authUserService.getUserConnected().subscribe(userConnected => {
               if(userConnected){

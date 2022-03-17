@@ -114,18 +114,27 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
         this.reservationService
           .updateReservation(idReservation, res)
           .pipe(takeUntil(this.endSubs$))
-          .subscribe();
+          .subscribe(reservation => {
+            if(reservation){
+              // Toast
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Modification Réservation',
+                detail: 'Votre réservation a bien été modifiée',
+              });
+              // Redirection
+              this.router.navigate(['/reservations', idReservation]);
+            }
+            else{
+              // Toast
+              this.messageService.add({
+                severity: 'warn',
+                summary: 'Modification Réservation',
+                detail: 'Une erreur est survenue',
+              });
+            }
+          });
       })
-
-      // Toast
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Modification Réservation',
-        detail: 'Votre réservation a bien été modifiée',
-      });
-
-      // Redirection
-      this.router.navigate(['/reservations', idReservation]);
     }
   }
 

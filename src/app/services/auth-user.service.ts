@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError, filter, first, map, Observable, retry, Subject, throwError} from 'rxjs';
+import {catchError, Observable, retry, Subject, throwError} from 'rxjs';
 import { loginModel } from '../pages/login/models/loginModel';
 import { UserDTO } from '../models/UserDTO';
 import { LocalStorageService } from './local-storage.service';
@@ -12,7 +12,7 @@ import {environment} from "../../environments/environment.prod";
 export class AuthUserService {
   users: UserDTO[] = [];
   userConnected?: UserDTO;
-  userConnectedSuccefully = new Subject<any>();
+  private userConnectedSuccefully = new Subject<any>();
   userConnected$ =
     this.userConnectedSuccefully.asObservable() as Observable<UserDTO>;
   private url = environment.urlAPI + '/users';
@@ -23,7 +23,7 @@ export class AuthUserService {
       console.log('Services : Users List', this.users);
 
       // get user from local storage, if exist
-      let id = this.localStorage.getUserCurrent();
+      const id = this.localStorage.getUserCurrent();
       if (id) {
         this.getUserById(id).subscribe(user => {
           this.notifier(user)
