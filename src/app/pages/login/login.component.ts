@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { loginModel } from './models/loginModel';
 import { MessageService } from 'primeng/api';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import {UserDTO} from "../../models/UserDTO";
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,8 @@ export class LoginComponent implements OnInit {
     private authUserService: AuthUserService,
     private fb: FormBuilder,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private localStorage: LocalStorageService
   ) {
     this.submitted = false;
     this.form = this._initLoginForm();
@@ -69,22 +72,43 @@ export class LoginComponent implements OnInit {
 
     this.isDisabled = true;
     const user: loginModel = this.form.value;
-    this.authUserService.login(user);
-    if (this.authUserService.getUserConnected()) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Login',
-        detail: `Bienvenue`,
-      });
-      this.router.navigate(['/home']);
-    } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Login',
-        detail: 'Email ou mot de passe incorrect',
-      });
-      this.isDisabled = false;
-    }
+    this.authUserService.login(user).subscribe((responseLogin : any) => {
+
+      // Verifier si la responseLogin contient "email" et "token"
+      if(responseLogin.email === user.email && responseLogin.token) {
+        // save to LocalStorage
+        this.localStorage.setToken(responseLogin.token)
+        this.localStorage.setUserCurrent(responseLogin.id)
+        this.localStorage.setVariable("email", responseLogin.email)
+
+        this.authUserService.getUserById(responseLogin.id).subscribe((user : UserDTO) => {
+
+          // notifie les autres composants
+          this.authUserService.userConnected = user;
+          this.authUserService.userConnectedSuccefully.next(user);
+
+          this.authUserService.getUserConnected().subscribe(userConnected => {
+              if(userConnected){
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Login',
+                  detail: `Bienvenue`,
+                });
+                this.router.navigate(['/home']);
+              }
+              else{
+                this.messageService.add({
+                  severity: 'warn',
+                  summary: 'Login',
+                  detail: 'Email ou mot de passe incorrect',
+                });
+                this.isDisabled = false;
+              }
+            }
+          )
+        })
+      }
+    })
   }
 
   /**

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError, filter, map, Observable, retry, Subject, throwError} from 'rxjs';
+import {catchError, filter, first, map, Observable, retry, Subject, throwError} from 'rxjs';
 import { loginModel } from '../pages/login/models/loginModel';
 import { UserDTO } from '../models/UserDTO';
 import { LocalStorageService } from './local-storage.service';
@@ -12,7 +12,7 @@ import {environment} from "../../environments/environment.prod";
 export class AuthUserService {
   users: UserDTO[] = [];
   userConnected?: UserDTO;
-  private userConnectedSuccefully = new Subject<any>();
+  userConnectedSuccefully = new Subject<any>();
   userConnected$ =
     this.userConnectedSuccefully.asObservable() as Observable<UserDTO>;
   private url = environment.urlAPI + '/users';
@@ -23,14 +23,22 @@ export class AuthUserService {
       console.log('Services : Users List', this.users);
 
       // get user from local storage, if exist
-      const email = this.localStorage.getVariable('email');
-      if (email) {
-        this.getUserByEmail(email).subscribe(user => {
-          this.userConnected = user;
-          this.userConnectedSuccefully.next(user);
+      let id = this.localStorage.getUserCurrent();
+      if (id) {
+        this.getUserById(id).subscribe(user => {
+          this.notifier(user)
         });
       }
     });
+  }
+
+  /**
+   * Methode qui permet de notifier les autres composants que les données ont changé
+   * @return void
+   * */
+  public notifier(user: UserDTO){
+    this.userConnected = user;
+    this.userConnectedSuccefully.next(user);
   }
 
   /**
@@ -64,7 +72,7 @@ export class AuthUserService {
    * @returns Observable<UserDTO>
    * */
   getUserById(idUser: string | number) : Observable<UserDTO> {
-    return this.http.get<UserDTO>(this.url + '/' + idUser).pipe(
+    return this.http.get<UserDTO>(`${this.url}/${idUser}`).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
@@ -78,7 +86,7 @@ export class AuthUserService {
    * @param user User to create
    */
   createUser(user: UserDTO) : Observable<UserDTO> {
-    return this.http.post<any>(this.url, user).pipe(
+    return this.http.post<UserDTO>(this.url, user).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
@@ -127,22 +135,13 @@ export class AuthUserService {
    * @param user User to login
    * @returns boolean
    */
-  login(user: loginModel) {
-    // Chercher l'utilisateur dans la liste
-    this.getUserByEmail(user.email).subscribe(userFound => {
-      if (userFound) {
-        // Si l'utilisateur est trouvé, on vérifie le mot de passe
-        if (userFound.password === user.password) {
-          // Si le mot de passe est bon, on connecte l'utilisateur
-          this.userConnected = userFound;
-          this.userConnectedSuccefully.next(userFound);
-          this.localStorage.setVariable('email', userFound.email);
-
-          return true;
-        }
-      }
-      return false;
-    });
+  login(user: loginModel) : Observable<any>{
+    return this.http.post<any>(`${environment.urlAPI}/auth/login`, user).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   // update user into the array
@@ -172,20 +171,6 @@ export class AuthUserService {
         }
       });
     })
-  }
-
-  /**
-   * get user by email
-   * @param email email of the user
-   * @returns Observable<UserDTO>
-   * */
-  getUserByEmail(email: string) : Observable<UserDTO> {
-    return new Observable<UserDTO>(observer => {
-      this.getUsers().subscribe((users : UserDTO[]) => {
-        const userFind = users.find((user: UserDTO) => user.email === email);
-        observer.next(userFind)
-      });
-    });
   }
 
   /**
