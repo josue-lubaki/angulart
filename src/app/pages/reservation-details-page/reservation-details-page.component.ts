@@ -75,7 +75,7 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
         summary: `Requêtes de ${this.reservation.client?.fname}`,
         detail: 'Mission Acceptée',
       });
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }
     else {
       this.messageService.add({

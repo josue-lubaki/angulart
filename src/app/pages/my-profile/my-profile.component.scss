@@ -2,7 +2,7 @@
 
 .card-profile {
   width: 100%;
-  min-height: 70vh;
+  //min-height: 50vh; // 70vh before
 
   &-compte-content {
     //img {
@@ -196,5 +196,12 @@
         display: none;
       }
     }
+  }
+}
+
+@media only screen and (min-width: 2100px) {
+  .card-profile{
+    margin: 0 auto;
+    width: 65%;
   }
 }

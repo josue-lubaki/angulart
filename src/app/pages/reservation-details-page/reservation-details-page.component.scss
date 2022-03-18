@@ -119,3 +119,10 @@
     }
   }
 }
+
+@media only screen and (min-width: 2100px) {
+  .container{
+    margin: 0 auto;
+    width: 65%;
+  }
+}

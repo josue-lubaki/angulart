@@ -33,3 +33,9 @@ body {
     width: 85% !important;
   }
 }
+
+@media only screen and (min-width: 2100px) {
+  .p-dialog{
+    width: 60vw !important;
+  }
+}

@@ -77,7 +77,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       }
     }
     else{
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }
   }
 

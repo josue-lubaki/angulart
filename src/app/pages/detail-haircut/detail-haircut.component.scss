@@ -3,7 +3,7 @@
 .container {
   margin: 0 auto;
   padding: 0 1rem;
-  min-height: 75vh;
+  min-height: 50vh; // 75vh before
   display: flex;
   justify-content: space-evenly;
   background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
@@ -105,5 +105,12 @@
         }
       }
     }
+  }
+}
+
+@media only screen and (min-width: 2100px) {
+  .container{
+    margin: 0 auto;
+    width: 65%;
   }
 }

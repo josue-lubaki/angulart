@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
                   summary: 'Login',
                   detail: `Bienvenue`,
                 });
-                this.router.navigate(['/home']);
+                this.router.navigate(['/']);
               }
               else{
                 this.messageService.add({

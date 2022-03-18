@@ -70,3 +70,10 @@ $image0: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-
     }
   }
 }
+
+@media only screen and (min-width: 2100px) {
+  .card-signup{
+    margin: 0 auto;
+    width: 65%;
+  }
+}
