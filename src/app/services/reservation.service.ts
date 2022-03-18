@@ -52,6 +52,21 @@ export class ReservationService {
   }
 
   /**
+   * Fonction qui permet au Coiffeur d'Accepter une demande de coiffure
+   * @param id ID du coiffeur actuellement connecté
+   * @param reservation nouvelle reservation avec changement effectué
+   * @return void
+   **/
+  _acceptMission(id: string, reservation: ReservationDTO): Observable<ReservationDTO> {
+    return this.http.patch<ReservationDTO>(`${this.url}/${id}`, reservation).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
+  }
+
+  /**
    * Fonction qui permet de modifier une réservation
    * @param idReservation id de la réservation à modifier
    * @param reservation reservation à modifier
@@ -61,17 +76,7 @@ export class ReservationService {
     idReservation: string,
     reservation: ReservationDTO
   ): Observable<ReservationDTO> {
-    return new Observable((observer: Subscriber<ReservationDTO>) => {
-      this.getReservationById(idReservation).subscribe(
-        (rs: ReservationDTO) => {
-          if (rs) {
-            const index = this.reservations.indexOf(rs);
-            this.reservations[index] = reservation;
-            observer.next(this.reservations[index]);
-          }
-        }
-      );
-    }).pipe(
+    return this.http.put<ReservationDTO>(`${this.url}/${idReservation}`, reservation).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
@@ -80,11 +85,11 @@ export class ReservationService {
   }
 
   /**
-   * Get an reservation by id
+   * Get a reservation by id
    * @param idReservation id de la réservation à récupérer
    * @return Observable<ReservationDTO>
    */
-  getReservationById(idReservation: any): Observable<ReservationDTO> {
+  getReservationById(idReservation: string): Observable<ReservationDTO> {
     return this.http.get<ReservationDTO>(`${this.url}/${idReservation}`).pipe(
       retry(3),
       catchError((error) => {
@@ -98,8 +103,8 @@ export class ReservationService {
    * @param reservation reservation à créer
    * @returns Observable<ReservationDTO>
    */
-  createReservation(reservation: ReservationDTO): Observable<ReservationDTO[]> {
-    return this.http.post<ReservationDTO[]>(this.url, reservation).pipe(
+  createReservation(reservation: ReservationDTO): Observable<ReservationDTO> {
+    return this.http.post<ReservationDTO>(this.url, reservation).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
@@ -110,6 +115,7 @@ export class ReservationService {
   /**
   * Fonction qui permet de générer un UUID
   * @deprecated
+   * @return string
   */
   private _generateUUID(): string {
     return 'xxxx-xxxxxxxx-4xyx-yxxxyxxxx-xxxxxxxxyyyy'.replace(/[xy]/g, (c) => {
@@ -125,15 +131,7 @@ export class ReservationService {
    * @return Observable<ReservationDTO>
    * */
   deleteReservation(id: string) : Observable<ReservationDTO> {
-    return new Observable<ReservationDTO>(observer => {
-      this.getReservationById(id).subscribe(reservation => {
-        if (reservation) {
-          const index = this.reservations.indexOf(reservation);
-          this.reservations.splice(index, 1);
-          observer.next(reservation);
-        }
-      })
-    }).pipe(
+    return this.http.delete<ReservationDTO>(`${this.url}/${id}`).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);

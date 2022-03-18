@@ -2,6 +2,7 @@
 @import "../../../styles/colors.scss";
 
 .home-page-container {
+  transition: all 0.6s ease;
   margin: 0 !important;
   padding: 0.5rem 1.2rem !important;
   background: linear-gradient(-180deg, #bcc5ce 0%, #929ead 98%),
@@ -75,6 +76,7 @@
     &-haircut-card {
       padding: 0 !important;
       margin-bottom: 1rem !important;
+      transition: all 0.6s ease;
     }
   }
 }
@@ -84,6 +86,7 @@
     flex-direction: column;
     align-items: center;
     padding: 0.5rem 1rem !important;
+    transition: all 0.6s ease;
 
     &-haircut-card {
       width: 90%;
@@ -91,8 +94,25 @@
   }
 }
 
+@media only screen and (min-width: 2100px) {
+  .home-page-container {
+    transition: all 0.6s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem 1rem !important;
+    margin: 0 auto !important;
+    width: 80%;
+
+    &-haircut-card {
+      width: 25%;
+    }
+  }
+}
+
 @media (max-width: 830px) {
   .home-page-container {
+    transition: all 0.6s ease;
     &-section {
       &-reservation {
         transition: all 0.6s ease-in-out;
@@ -106,6 +126,7 @@
 @media (max-width: 500px) {
   .home-page-container {
     padding: 0;
+    transition: all 0.6s ease;
     &-section {
       flex-direction: column-reverse;
       align-items: center;
@@ -123,6 +144,7 @@
 
 @media (max-width: 426px) {
   .home-page-container {
+    transition: all 0.6s ease;
     padding: 0;
     &-section {
       flex-direction: column-reverse;

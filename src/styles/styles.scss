@@ -4,6 +4,10 @@
 @import "~animate.css/animate.css";
 @import "../app/pages/signup/signup.component.scss";
 
+html{
+  background-color: $color-dark-blue;
+}
+
 body {
   margin: 3px 5px;
   font-family: "poppins", sans-serif;
