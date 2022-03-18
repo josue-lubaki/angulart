@@ -89,6 +89,13 @@
   }
 }
 
+@media only screen and (min-width: 2100px) {
+  .login{
+    width: 65%;
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 960px) {
   .login {
     height: auto;

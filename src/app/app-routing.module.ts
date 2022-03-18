@@ -44,8 +44,7 @@ const allModules = [
 ]
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomePageComponent },
+  { path: '', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'details/:id', component: DetailHaircutComponent },
   { path: 'reservations/:id', component: ReservationDetailsPageComponent },
@@ -60,7 +59,7 @@ const routes: Routes = [
       { path: 'address', component: AdresseComponent },
     ],
   },
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

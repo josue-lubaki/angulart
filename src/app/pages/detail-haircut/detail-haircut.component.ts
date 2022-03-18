@@ -172,7 +172,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
                 summary: 'Réservation',
                 detail: 'Désolé, Veuillez activer votre localisation et actualisez la page',
               });
-              this.router.navigate(['/home']);
+              this.router.navigate(['/']);
             }
           },
           reject: () => {
@@ -272,7 +272,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
           detail: 'Réservation enregistrée',
         });
 
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       });
   }
 

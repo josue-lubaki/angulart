@@ -34,7 +34,6 @@ export class AdresseComponent implements OnInit {
     route.queryParamMap.subscribe(params => {
       if(params.get("update")){
         this.isUpdate = true;
-        console.log("this.isUpdate", params.get("update"))
       }
     })
   }
@@ -73,8 +72,6 @@ export class AdresseComponent implements OnInit {
 
       // setter les informations du form dans PersonalInformation variable
       this.addressInformation = this.form.value as Address;
-      console.log("Address ecrit", this.addressInformation)
-      console.log("update", this.isUpdate)
 
     if (
       this.ticketSignUpInformation.objectif &&
