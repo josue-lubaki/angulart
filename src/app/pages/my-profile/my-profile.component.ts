@@ -164,37 +164,37 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.endSubs$))
         .subscribe((res) => {
           if (res.client?.id === this.user?.id) {
-            // Get confirmation
-            this.confirmationService.confirm({
-              message: 'Êtes-vous sûr de vouloir supprimer cette réservation',
-              accept: () => {
-                // if accept, delete it
-                this.reservationService
-                  .deleteReservation(id)
-                  .pipe(takeUntil(this.endSubs$))
-                  .subscribe((reservation) => {
-                    // supprimer les overlays correspondant à la réservation
-                    this.googleMapService
-                      .removeMarker(reservation.localisation)
-                      .subscribe();
-                    // update page profile
-                    this.ngOnInit();
-                    // Message Toast
-                    this.messageService.add({
-                      severity: 'success',
-                      summary: 'Suppression Réservation',
-                      detail: ' Votre réservation a été supprimée',
+              // Get confirmation
+              this.confirmationService.confirm({
+                message: 'Êtes-vous sûr de vouloir supprimer cette réservation',
+                accept: () => {
+                  // if accept, delete it
+                  this.reservationService
+                    .deleteReservation(id)
+                    .pipe(takeUntil(this.endSubs$))
+                    .subscribe((reservation) => {
+                      // supprimer les overlays correspondant à la réservation
+                      this.googleMapService
+                        .removeMarker(reservation.localisation)
+                        .subscribe();
+                      // update page profile
+                      this.ngOnInit();
+                      // Message Toast
+                      this.messageService.add({
+                        severity: 'success',
+                        summary: 'Suppression Réservation',
+                        detail: ' Votre réservation a été supprimée',
+                      });
                     });
-                  });
-              },
-            });
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Suppression de la Reservation',
-              detail: "Désolé, vous n'êtes pas l'auteur",
-            });
-          }
+                },
+              });
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Suppression de la Reservation',
+                detail: "Désolé, vous n'êtes pas l'auteur",
+              });
+            }
         });
     }
   }
