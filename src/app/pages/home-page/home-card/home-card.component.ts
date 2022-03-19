@@ -5,6 +5,7 @@ import { ReservationDTO } from 'src/app/models/ReservationDTO';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import {Subject, takeUntil} from "rxjs";
 import {UserDTO} from "../../../models/UserDTO";
+import {LocalStorageService} from "../../../services/local-storage.service";
 
 @Component({
   selector: 'app-home-card',
@@ -22,9 +23,22 @@ export class HomeCardComponent implements OnInit {
   endSubs$: Subject<any> = new Subject();
   user?: UserDTO;
 
-  constructor(private router: Router, private authUserService: AuthUserService) {}
+  constructor(private router: Router, private authUserService: AuthUserService, private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
+
+    // // Retrieve id of logged user from local storage
+    // const idUserConnected = this.localStorageService.getUserCurrent();
+    // console.log("idUser", idUserConnected);
+    //
+    // // get actual user connected
+    // if (idUserConnected){
+    //   this.authUserService.getUserById(idUserConnected).subscribe((user) => {
+    //     this.user = user;
+    //     console.log("user", this.user);
+    //   });
+    // }
+
     this.authUserService
       .getUserConnected()
       .pipe(takeUntil(this.endSubs$))

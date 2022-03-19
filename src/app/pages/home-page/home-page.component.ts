@@ -8,6 +8,8 @@ import { Position } from './model/position';
 import { Subject, takeUntil } from 'rxjs';
 import { UserDTO } from '../../models/UserDTO';
 import {HaircutService} from "../../services/haircut.service";
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home-page',
@@ -32,13 +34,86 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private haircutService: HaircutService,
     private reservationService: ReservationService,
     private authUserService: AuthUserService,
-    private googleMapService: GoogleMapService
+    private googleMapService: GoogleMapService,
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {
     // init map
     this.options = {
       center: { lat: 46.3470097, lng: -72.5753559 },
       zoom: 14,
     };
+
+    this.authUserService.getUserConnected().subscribe(user => {
+      this.user = user;
+      if (this.user){
+        this.authUserService.notifier(this.user)
+        if (user && user.isBarber) {
+          this.isBarber = true;
+          this.location$ = this.googleMapService
+            .getOverlays()
+            .pipe(takeUntil(this.endSubs$))
+            .subscribe((markers) => {
+              this.overlays = markers;
+              this.googleMapService.clearMarkers()
+            });
+        }
+      }
+      else{
+        // Retrieve id of logged user from local storage
+        const idUser = this.localStorageService.getUserCurrent();
+
+        // get actual user connected
+        if (idUser){
+          this.authUserService.getUserById(idUser).subscribe((user) => {
+            if (user && user.isBarber) {
+              this.authUserService.notifier(user)
+              this.isBarber = true;
+              this.location$ = this.googleMapService
+                .getOverlays()
+                .pipe(takeUntil(this.endSubs$))
+                .subscribe((markers) => {
+                  this.overlays = markers;
+                  this.googleMapService.clearMarkers()
+                });
+            }
+          });
+        }
+        else{
+          // go to login page
+          this.router.navigate(['/']);
+        }
+      }
+    })
+
+
+    // Retrieve id of logged user from local storage
+    // const idUser = this.localStorageService.getUserCurrent();
+    // if(!idUser){
+    //   // go to login page
+    //   this.router.navigate(['/login']);
+    // }
+
+    // get actual user connected
+    // if (idUser){
+    //   this.authUserService.getUserById(idUser).subscribe((user) => {
+    //     this.user = user;
+    //     this.authUserService.notifier(user)
+    //     if (user && user.isBarber) {
+    //       this.isBarber = true;
+    //       this.location$ = this.googleMapService
+    //         .getOverlays()
+    //         .pipe(takeUntil(this.endSubs$))
+    //         .subscribe((markers) => {
+    //           this.overlays = markers;
+    //           this.googleMapService.clearMarkers()
+    //         });
+    //     }
+    //   });
+    // }else{
+    //   // go to login page
+    //   this.router.navigate(['/login']);
+    // }
 
     // initialisation du service de localisation
     this.location$ = this.googleMapService.initializeLocation();
@@ -60,13 +135,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
       center: { lat: 46.3470097, lng: -72.5753559 },
       zoom: 14,
     };
-
-    this.authUserService
-      .getUserConnected()
-      .pipe(takeUntil(this.endSubs$))
-      .subscribe((user) => {
-        this.user = user;
-      });
 
     // on récupère les réservations dont le coiffeur n'existe pas encore
     this.getReservationWithoutBarber();
