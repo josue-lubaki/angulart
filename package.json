@@ -1,12 +1,17 @@
 {
   "name": "angulart",
   "version": "1.0.0",
+  "description": "application web / frontend",
+  "engines": {
+    "node": "16.13.2",
+    "npm": "8.3.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "prod": "ng build --configuration production",
+    "prod": "ng build --configuration production --output-path ../docs",
     "test": "ng test",
     "lint": "eslint ."
   },
