@@ -8,14 +8,12 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
-    "serve": "ng serve",
+    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "prod": "ng build --configuration production --output-path ../docs",
     "test": "ng test",
-    "lint": "eslint .",
-    "heroku-postbuild": "ng build --prod"
+    "lint": "eslint ."
   },
   "private": true,
   "dependencies": {
@@ -35,10 +33,8 @@
     "bootstrap": "^5.1.3",
     "boxicons": "^2.1.1",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3",
     "jquery": "^3.6.0",
     "ngx-bootstrap": "^8.0.0",
-    "path": "^0.12.7",
     "popper": "^1.0.1",
     "prettier": "^2.5.1",
     "primeflex": "^2.0.0",
