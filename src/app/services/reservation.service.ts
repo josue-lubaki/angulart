@@ -38,11 +38,13 @@ export class ReservationService {
    */
   acceptMission(reservation: ReservationDTO): Observable<ReservationDTO> {
     return new Observable<ReservationDTO>((observer) => {
-      if (reservation) {
-        const index = this.reservations.indexOf(reservation);
-        this.reservations[index].barber = reservation.barber;
-        observer.next(this.reservations[index]);
-      }
+      this.getReservations().subscribe(rs => {
+        let newReservation = rs.find(r => r.id = reservation.id)
+        if(newReservation){
+          newReservation= reservation
+          observer.next(newReservation)
+        }
+      })
     }).pipe(
       retry(3),
       catchError((error) => {

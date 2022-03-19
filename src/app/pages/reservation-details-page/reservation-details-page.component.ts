@@ -44,6 +44,8 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
     })
 
     const isBarber = this.user?.isBarber;
+    console.log("My Reservation", this.reservation);
+
 
     if (isBarber && this.reservation) {
       // setter l'utilisateur courant étant que le Barber de la réservation
@@ -57,25 +59,27 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
       this.reservationService
         .acceptMission(this.reservation)
         .pipe(takeUntil(this.endSubs$))
-        .subscribe();
+        .subscribe(newResponse => {
+          if(newResponse){
+            this.canAcceptReservation = false;
+            this.hide = true;
 
-      this.canAcceptReservation = false;
-      this.hide = true;
+            // supprimer le marker de la map pour la réservation acceptée
+            // on passe la localisation du marker sur la carte
+            this.googleMapService
+              .removeMarker(newResponse.localisation)
+              .pipe(takeUntil(this.endSubs$))
+              .subscribe();
 
-      // supprimer le marker de la map pour la réservation acceptée
-      // on passe la localisation du marker sur la carte
-      this.googleMapService
-        .removeMarker(this.reservation.localisation)
-        .pipe(takeUntil(this.endSubs$))
-        .subscribe();
-
-      // si code 200
-      this.messageService.add({
-        severity: 'success',
-        summary: `Requêtes de ${this.reservation.client?.fname}`,
-        detail: 'Mission Acceptée',
-      });
-      this.router.navigate(['/']);
+            // si code 200
+            this.messageService.add({
+              severity: 'success',
+              summary: `Requêtes de ${newResponse.client?.fname}`,
+              detail: 'Mission Acceptée',
+            });
+            this.router.navigate(['/']);
+          }
+        });
     }
     else {
       this.messageService.add({
@@ -96,23 +100,23 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.endSubs$))
           .subscribe((reservation : ReservationDTO) => {
             this.reservation = reservation
+
+            if (this.reservation) {
+              this.authUserService
+                .getUserConnected()
+                .pipe(takeUntil(this.endSubs$))
+                .subscribe(user => {
+                  this.user = user;
+                })
+
+              if (this.user?.id == this.reservation.client?.id) {
+                this.canAcceptReservation = false;
+              }
+            }
+            else {
+              this.hide = true;
+            }
           })
-
-        if (this.reservation) {
-          this.authUserService
-            .getUserConnected()
-            .pipe(takeUntil(this.endSubs$))
-            .subscribe(user => {
-              this.user = user;
-            })
-
-          if (this.user?.id == this.reservation.client?.id) {
-            this.canAcceptReservation = false;
-          }
-        }
-        else {
-          this.hide = true;
-        }
       }
     });
   }
