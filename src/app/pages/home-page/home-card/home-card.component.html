@@ -1,7 +1,7 @@
 
 <!-- Si l'utilisateur est coiffeur et la réservation existe -->
-<div class="haircut-card" *ngIf="isBarber && reservation; else elseBlock" (click)="reservationSelected(reservation.id)">
-  <img [src]="reservation.haircut?.imageURL" />
+<div class="haircut-card" *ngIf="isBarber && reservation" (click)="reservationSelected(reservation.id)">
+  <img [src]="reservation.haircut?.imageURL"  alt="image coiffure" />
   <div class="haircut-card-info">
     <div></div>
     <div>{{ reservation.haircut?.title }}</div>
@@ -9,16 +9,12 @@
   </div>
 </div>
 
-<!-- Si l'utilisateur est un client -->
-<ng-template #elseBlock>
-  <div class="haircut-card" (click)="haircutSelected(haircut.id)">
-    <img [src]="haircut.imageURL" />
-    <div class="haircut-card-info">
-      <div></div>
-      <div>{{ haircut.title }}</div>
-      <h3>{{ haircut.price }} $</h3>
-    </div>
+<!-- si l'utilisateur est un client et haircut existe -->
+<div class="haircut-card"  *ngIf="!isBarber && haircut" (click)="haircutSelected(haircut.id)">
+  <img [src]="haircut.imageURL"  alt="image coiffure" />
+  <div class="haircut-card-info">
+    <div></div>
+    <div>{{ haircut.title }}</div>
+    <h3>{{ haircut.price }} $</h3>
   </div>
-</ng-template>
-
-
+</div>

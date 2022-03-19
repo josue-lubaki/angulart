@@ -60,25 +60,24 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.endSubs$))
       .subscribe(user => {
         this.user = user;
+        if(this.user){
+          if(this.user.imageURL instanceof ArrayBuffer || this.user.imageURL instanceof Blob) {
+            const file = this.user?.imageURL as unknown as Blob;
+            console.log('file', file);
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+              this.avatarBuffer = fileReader.result as string;
+            };
+          }
+          else {
+            this.avatar = this.user.imageURL;
+          }
+        }
+        else{
+          this.router.navigate(['/']);
+        }
     });
-
-    if(this.user){
-      if(this.user.imageURL instanceof ArrayBuffer || this.user.imageURL instanceof Blob) {
-        const file = this.user?.imageURL as unknown as Blob;
-        console.log('file', file);
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-          this.avatarBuffer = fileReader.result as string;
-        };
-      }
-      else {
-        this.avatar = this.user.imageURL;
-      }
-    }
-    else{
-      this.router.navigate(['/']);
-    }
   }
 
   /**
@@ -87,13 +86,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
   logoutUser() {
     this.authUserService.logoutUser();
     this.closeMenuBar();
-    this.router.navigate(['/']);
     this.messageService.add({
       severity: 'info',
       summary: 'Déconnexion',
       detail: 'Déconnexion réussi',
     });
-    this.ngOnInit()
+    this.router.navigate(['/login']);
   }
 
   ngOnDestroy(): void {
