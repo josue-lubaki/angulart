@@ -1,6 +1,6 @@
 {
   "name": "angulart",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "application web / frontend",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,7 @@
     "prod": "ng build --configuration production --output-path ../docs",
     "test": "ng test",
     "lint": "eslint .",
-    "heroku-postbuild": "ng build --configuration production"
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
