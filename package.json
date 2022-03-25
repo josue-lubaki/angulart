@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "nodemon server.js",
     "serve": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
     "prod": "ng build --configuration production --output-path ../docs",
     "test": "ng test",
