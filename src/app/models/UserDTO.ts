@@ -7,7 +7,7 @@ export interface UserDTO {
   lname?: string;
   imageURL?: any;
   email?: string;
-  password?: string;
+  password?: string; // à supprimer
   dob?: Date;
   phone?: string;
   address?: Address;
