@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
    */
   private _initLoginForm() {
     return this.fb.group({
-      email: [
+      username: [
         '',
         [
           Validators.required,
@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
     this.authUserService.login(user).subscribe((responseLogin : any) => {
 
       // Verifier si la responseLogin contient "email" et "token"
-      if(responseLogin.email === user.email && responseLogin.token) {
+      if(responseLogin.email === user.username && responseLogin.token) {
         // save to LocalStorage
         this.localStorage.setToken(responseLogin.token)
         this.localStorage.setUserCurrent(responseLogin.id)

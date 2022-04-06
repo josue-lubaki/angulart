@@ -119,8 +119,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.location$ = this.googleMapService.initializeLocation();
 
     // in the case of a client, we recover the hairstyles
+    console.log("get all haircuts - HomePageComponent")
     this.haircutService
-      .getHaircuts()
+      .getAllHaircuts()
       .pipe(takeUntil(this.endSubs$))
       .subscribe((haircuts: HaircutDTO[]) => {
         this.haircuts = haircuts;
@@ -137,7 +138,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     };
 
     // on récupère les réservations dont le coiffeur n'existe pas encore
-    this.getReservationWithoutBarber();
+    //this.getReservationWithoutBarber();
 
     // l'utilisateur est un coiffeur
     if (this.user?.isBarber) {

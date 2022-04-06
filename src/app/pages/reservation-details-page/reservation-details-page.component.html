@@ -49,7 +49,7 @@
     <div class="card-right">
       <span>{{ reservation.haircut?.description }}</span>
       <p class="card-right-price">${{ reservation.haircut?.price }}</p>
-      <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
+      <p>Temps estimé : {{ reservation.haircut?.estimatedTime }}</p>
       <p>
         Date Prévue : {{ reservation.reservationDate | date }}
         {{ reservation.reservationTime?.hours }}:{{

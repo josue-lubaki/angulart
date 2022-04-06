@@ -16,12 +16,13 @@ export class AuthUserService {
   userConnected$ =
     this.userConnectedSuccefully.asObservable() as Observable<UserDTO>;
   private url = environment.urlAPI + '/users';
+  private urlBase = environment.urlBase;
 
   constructor(private localStorage: LocalStorageService, private http: HttpClient) {
-    this.getUsers().subscribe(users => {
-      this.users = users;
-      console.log('Services : Users List', this.users);
-
+    // this.getUsers().subscribe(users => {
+    //   this.users = users;
+    //   console.log('Services : Users List', this.users);
+    // });
       // get user from local storage, if exist
       const id = this.localStorage.getUserCurrent();
       if (id) {
@@ -29,7 +30,6 @@ export class AuthUserService {
           this.notifier(user)
         });
       }
-    });
   }
 
   /**
@@ -136,7 +136,7 @@ export class AuthUserService {
    * @returns boolean
    */
   login(user: loginModel) : Observable<any>{
-    return this.http.post<any>(`${environment.urlAPI}/auth/login`, user).pipe(
+    return this.http.post<any>(`${environment.urlBase}/auth/login`, user).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
