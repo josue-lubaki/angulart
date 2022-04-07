@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // urlAPI: "https://springulart.herokuapp.com/api/v1"
-  urlAPI: "http://localhost:8080/api/v1"
+  urlAPI: "https://springulart.herokuapp.com/api/v1"
+  // urlAPI: "http://localhost:8080/api/v1"
 };
 
 /*

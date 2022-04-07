@@ -6,6 +6,7 @@ import { AuthUserService } from 'src/app/services/auth-user.service';
 import {Subject, takeUntil} from "rxjs";
 import {UserDTO} from "../../../models/UserDTO";
 import {LocalStorageService} from "../../../services/local-storage.service";
+import {COMPTE} from "../../../models/constantes/compte";
 
 @Component({
   selector: 'app-home-card',
@@ -48,7 +49,7 @@ export class HomeCardComponent implements OnInit {
 
     // Type de compte de l'utilisateur courant
     if(this.user){
-      this.isBarber = this.user.isBarber;
+      this.isBarber = this.user.role === COMPTE.BARBER;
     }
   }
 

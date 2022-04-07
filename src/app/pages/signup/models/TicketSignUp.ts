@@ -1,4 +1,4 @@
-import { Address } from 'src/app/models/Address';
+import {Address} from "../../../models/Address";
 
 export class TicketSignUpModel {
   objectif: ObjectifModel;

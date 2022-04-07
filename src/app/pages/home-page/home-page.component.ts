@@ -10,6 +10,7 @@ import { UserDTO } from '../../models/UserDTO';
 import {HaircutService} from "../../services/haircut.service";
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import {Router} from "@angular/router";
+import { COMPTE } from 'src/app/models/constantes/compte';
 
 @Component({
   selector: 'app-home-page',
@@ -48,7 +49,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.user = user;
       if (this.user){
         this.authUserService.notifier(this.user)
-        if (user && user.isBarber) {
+        if (user && user.role === COMPTE.BARBER) {
           this.isBarber = true;
           this.location$ = this.googleMapService
             .getOverlays()
@@ -66,7 +67,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         // get actual user connected
         if (idUser){
           this.authUserService.getUserById(idUser).subscribe((user) => {
-            if (user && user.isBarber) {
+            if (user && user.role === COMPTE.BARBER) {
               this.authUserService.notifier(user)
               this.isBarber = true;
               this.location$ = this.googleMapService
@@ -88,38 +89,37 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
 
     // Retrieve id of logged user from local storage
-    // const idUser = this.localStorageService.getUserCurrent();
-    // if(!idUser){
-    //   // go to login page
-    //   this.router.navigate(['/login']);
-    // }
+    const idUser = this.localStorageService.getUserCurrent();
+    if(!idUser){
+      // go to login page
+      this.router.navigate(['/login']);
+    }
 
     // get actual user connected
-    // if (idUser){
-    //   this.authUserService.getUserById(idUser).subscribe((user) => {
-    //     this.user = user;
-    //     this.authUserService.notifier(user)
-    //     if (user && user.isBarber) {
-    //       this.isBarber = true;
-    //       this.location$ = this.googleMapService
-    //         .getOverlays()
-    //         .pipe(takeUntil(this.endSubs$))
-    //         .subscribe((markers) => {
-    //           this.overlays = markers;
-    //           this.googleMapService.clearMarkers()
-    //         });
-    //     }
-    //   });
-    // }else{
-    //   // go to login page
-    //   this.router.navigate(['/login']);
-    // }
+    if (idUser){
+      this.authUserService.getUserById(idUser).subscribe((user) => {
+        this.user = user;
+        this.authUserService.notifier(user)
+        if (user && user.role === COMPTE.BARBER) {
+          this.isBarber = true;
+          this.location$ = this.googleMapService
+            .getOverlays()
+            .pipe(takeUntil(this.endSubs$))
+            .subscribe((markers) => {
+              this.overlays = markers;
+              this.googleMapService.clearMarkers()
+            });
+        }
+      });
+    }else{
+      // go to login page
+      this.router.navigate(['/login']);
+    }
 
     // initialisation du service de localisation
     this.location$ = this.googleMapService.initializeLocation();
 
     // in the case of a client, we recover the hairstyles
-    console.log("get all haircuts - HomePageComponent")
     this.haircutService
       .getAllHaircuts()
       .pipe(takeUntil(this.endSubs$))
@@ -141,7 +141,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     //this.getReservationWithoutBarber();
 
     // l'utilisateur est un coiffeur
-    if (this.user?.isBarber) {
+    if (this.user?.role === COMPTE.BARBER) {
       this.isBarber = true;
       this.listenLocationObservable();
 
@@ -212,7 +212,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.clientPosition = location;
 
       // create a Marker of barber
-      if (this.user?.isBarber) {
+      if (this.user?.role === COMPTE.BARBER) {
         this.googleMapService.addMarkerUser(
           location.coords.latitude as number,
           location.coords.longitude as number

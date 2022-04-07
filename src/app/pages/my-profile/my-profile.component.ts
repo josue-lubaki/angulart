@@ -41,7 +41,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.user = user;
         if (user) {
-          if (user.isClient) {
+          if (user.role === COMPTE.CLIENT) {
             this.typeCompte = COMPTE.CLIENT;
           } else {
             this.typeCompte = COMPTE.BARBER;
@@ -77,29 +77,25 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     }
 
     // si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
-    this.authUserService
-      .getUsers()
-      .pipe(takeUntil(this.endSubs$))
-      .subscribe((users: UserDTO[]) => {
-        users.find((user : UserDTO) => {
-          if (user.id === this.user?.id) {
-            // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
-            if (
-              this.user?.imageURL instanceof ArrayBuffer ||
-              this.user?.imageURL instanceof Blob
-            ) {
-              const file = this.user?.imageURL as unknown as Blob;
-              const fileReader = new FileReader();
-              fileReader.readAsDataURL(file);
-              fileReader.onload = () => {
-                this.avatarBuffer = fileReader.result as string;
-              };
-            } else {
-              this.avatar = this.user?.imageURL;
-            }
-          }
-        });
+    if(this.user?.id){
+      this.authUserService.getUserById(this.user?.id).subscribe((user) => {
+        // vérifier si user.imageURL est un objet Blob ou ArrayBuffer
+        if (user.imageURL instanceof ArrayBuffer || user.imageURL instanceof Blob) {
+          const file = user.imageURL as unknown as Blob;
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = () => {
+            this.avatarBuffer = fileReader.result as string;
+          };
+        } else {
+          this.avatar = user.imageURL;
+        }
       });
+    }
+    else{
+      this.router.navigate(['/login']);
+    }
+
   }
 
   /**
@@ -157,7 +153,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
    * @return void
    * */
   deleteReservation(id: any) {
-    if (this.user && this.user.isClient) {
+    if (this.user && this.user.role === COMPTE.CLIENT) {
       // Get reservation
       this.reservationService
         .getReservationById(id)

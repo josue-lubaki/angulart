@@ -56,7 +56,7 @@ export class AuthUserService {
    * @path https://api.mocki.io/v2/28339143/users/
    * @returns Observable<UserDTO[]>
    * */
-  getUsers(): Observable<UserDTO[]> {
+  getAllUsers(): Observable<UserDTO[]> {
     return this.http.get<UserDTO[]>(this.url).pipe(
       retry(3),
       catchError((error) => {

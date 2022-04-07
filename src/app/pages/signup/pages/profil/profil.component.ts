@@ -9,7 +9,9 @@ import {
 } from '../../models/TicketSignUp';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { Subject, takeUntil } from 'rxjs';
-import { Address } from '../../../../models/Address';
+import {Address} from "../../../../models/Address";
+import {COMPTE} from "../../../../models/constantes/compte";
+
 
 @Component({
   selector: 'app-profil',
@@ -53,8 +55,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
           .subscribe((user) => {
           // pré-remplir le profilInformation, objectif et adresse
           const obj = new ObjectifModel();
-          if (user.isClient) obj.isClient = user.isClient;
-          else if (user.isBarber) obj.isBarber = user.isBarber;
+          if (user.role === COMPTE.CLIENT) obj.isClient = true;
+          else if (user.role === COMPTE.BARBER) obj.isBarber = true;
 
           const personnal = new PersonalInformationModel(
             user.fname,
@@ -66,7 +68,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
             user.phone
           );
 
-          const adresse = new Address(
+          const address = new Address(
+            user.address?.id,
             user.address?.street,
             user.address?.apartment,
             user.address?.zip,
@@ -75,7 +78,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
           );
 
           this.ticketSignUpInformation.objectif = obj;
-          this.ticketSignUpInformation.address = adresse;
+          this.ticketSignUpInformation.address = address;
           this.ticketSignUpInformation.personalInformation = personnal;
           this.signupService.setSignUpInformation(this.ticketSignUpInformation)
           this.form.patchValue(

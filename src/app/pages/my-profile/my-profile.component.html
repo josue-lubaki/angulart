@@ -62,7 +62,7 @@
             <p>
               <span>Type de compte</span> :
               {{
-                user.isClient ? "Client" : user.isBarber ? "Coiffeur" : "Admin"
+                user.role === 'ROLE_CLIENT'  ? "Client" : user.role === 'ROLE_BARBER' ? "Coiffeur" : "Admin"
               }}
             </p>
           </div>
@@ -120,7 +120,7 @@
     [toggleable]="true"
     styleClass="p-my-4"
     class="card-profile-compte"
-    *ngIf="user?.isClient && !user?.isBarber"
+    *ngIf="user?.role === 'ROLE_CLIENT' && user?.role !== 'ROLE_BARBER'"
   >
     <div class="container">
       <div
@@ -185,7 +185,7 @@
     [toggleable]="true"
     styleClass="p-my-4"
     class="card-profile-compte"
-    *ngIf="user?.isBarber && !user?.isClient"
+    *ngIf="user?.role === 'ROLE_BARBER' && user?.role !== 'ROLE_CLIENT'"
   >
     <div class="container">
       <div

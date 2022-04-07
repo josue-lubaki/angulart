@@ -95,7 +95,7 @@
   >
     <button
       pButton
-      [disabled]="!reservation && !canAcceptReservation && user?.isBarber"
+      [disabled]="!reservation && !canAcceptReservation && user?.role === 'ROLE_BARBER'"
       type="button"
       label="Accepter la Mission"
       class="p-button-success Button-i"

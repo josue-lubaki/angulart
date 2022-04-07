@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Router } from '@angular/router';
-import { Address } from 'src/app/models/Address';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
 import { SignUpService } from '../../signup.service';
 import { UserDTO } from '../../../../models/UserDTO';
 import { MessageService } from 'primeng/api';
+import {Address} from "../../../../models/Address";
+import {COMPTE} from "../../../../models/constantes/compte";
 
 @Component({
   selector: 'app-adresse',
@@ -97,6 +98,7 @@ export class AdresseComponent implements OnInit {
       ticketSignUpInformation.personalInformation &&
       ticketSignUpInformation.objectif
     ) {
+
       const user: UserDTO = {
         fname: ticketSignUpInformation.personalInformation.fname,
         lname: ticketSignUpInformation.personalInformation.lname,
@@ -106,10 +108,14 @@ export class AdresseComponent implements OnInit {
         dob: ticketSignUpInformation.personalInformation.dob,
         phone: ticketSignUpInformation.personalInformation.phone,
         address: ticketSignUpInformation.address,
-        isClient: ticketSignUpInformation.objectif.isClient,
-        isBarber: ticketSignUpInformation.objectif.isBarber,
-        isAdmin: false,
+        // isClient: ticketSignUpInformation.objectif.isClient,
+        // isBarber: ticketSignUpInformation.objectif.isBarber,
+        // isAdmin: false,
       };
+
+      if(ticketSignUpInformation.objectif.isClient) user.role = COMPTE.CLIENT
+      else if(ticketSignUpInformation.objectif.isBarber) user.role = COMPTE.BARBER
+      else user.role = COMPTE.ADMIN
 
       this.authUserService.createUser(user).subscribe(user => {
         this.messageService.add({
@@ -174,9 +180,13 @@ export class AdresseComponent implements OnInit {
           dob: ticketSignUpInformation.personalInformation.dob,
           phone: ticketSignUpInformation.personalInformation.phone,
           address: ticketSignUpInformation.address,
-          isClient: ticketSignUpInformation.objectif.isClient,
-          isBarber: ticketSignUpInformation.objectif.isBarber,
-          isAdmin: false,
+          role: user.role,
+          created : user.created,
+          // get Date now
+          updated : new Date(),
+          // isClient: ticketSignUpInformation.objectif.isClient,
+          // isBarber: ticketSignUpInformation.objectif.isBarber,
+          // isAdmin: false,
         };
 
         if (user.id) {
