@@ -95,42 +95,6 @@ export class AuthUserService {
   }
 
   /**
-   * method to check if the user has an ID assigned, if not then assign one
-   * @param user User to verify
-   * @deprecated
-   * @returns UserDTO
-   */
-  configIdUser(user: UserDTO): UserDTO {
-    if (!user.id) {
-      // Si l'utilisateur n'a pas d'ID, on le créer
-      user.id = this._generateId();
-      this.updateUser(user.id, user);
-    }
-    return user;
-  }
-
-  /**
-   * generate random id UUID
-   * @deprecated
-   * @returns string
-   */
-  private _generateId(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = (Math.random() * 16) | 0;
-      const v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
-
-  /**
-   *  create users into the array
-   *  @param users array of Users to create
-   *  */
-  createUsers(...users: UserDTO[]) {
-    users.forEach((user: UserDTO) => this.createUser(user).subscribe());
-  }
-
-  /**
    * Method to login user by email and password
    * @param user User to login
    * @returns boolean
@@ -149,7 +113,7 @@ export class AuthUserService {
     return this.http.put<UserDTO>(`${this.url}/${id}`, userUpdated).pipe(
       retry(3),
       map((user: UserDTO) => {
-        this.userConnected = userUpdated;
+        this.userConnected = user;
         return user;
       }),
       catchError((error) => {

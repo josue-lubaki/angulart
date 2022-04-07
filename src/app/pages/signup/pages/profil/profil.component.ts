@@ -135,7 +135,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
         ],
       ],
       password: ['password', [Validators.minLength(8)]],
-      image: [''],
+      imageURL: [''],
       phone: [
         '',
         [
@@ -201,8 +201,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
   onImageUpdload(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.form.patchValue({ image: file });
-      this.form.get('image')?.updateValueAndValidity();
+      this.form.patchValue({ imageURL: file });
+      this.form.get('imageURL')?.updateValueAndValidity();
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {

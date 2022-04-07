@@ -34,7 +34,7 @@ export class ObjectifModel {
 export class PersonalInformationModel {
   fname?: string;
   lname?: string;
-  image?: string;
+  imageURL?: string;
   email?: string;
   password?: string;
   dob?: Date;
@@ -51,7 +51,7 @@ export class PersonalInformationModel {
   ) {
     this.fname = fname;
     this.lname = lname;
-    this.image = image;
+    this.imageURL = image;
     this.email = email;
     this.password = password;
     this.dob = dob;

@@ -115,7 +115,7 @@ export class AdresseComponent implements OnInit {
       const user: UserDTO = {
         fname: ticketSignUpInformation.personalInformation.fname,
         lname: ticketSignUpInformation.personalInformation.lname,
-        imageURL: ticketSignUpInformation.personalInformation.image,
+        imageURL: ticketSignUpInformation.personalInformation.imageURL,
         email: ticketSignUpInformation.personalInformation.email,
         password: ticketSignUpInformation.personalInformation.password,
         dob: ticketSignUpInformation.personalInformation.dob,
@@ -188,7 +188,7 @@ export class AdresseComponent implements OnInit {
           id: user.id,
           fname: ticketSignUpInformation.personalInformation.fname,
           lname: ticketSignUpInformation.personalInformation.lname,
-          imageURL: ticketSignUpInformation.personalInformation.image,
+          imageURL: ticketSignUpInformation.personalInformation.imageURL,
           email: ticketSignUpInformation.personalInformation.email,
           password: ticketSignUpInformation.personalInformation.password,
           dob: ticketSignUpInformation.personalInformation.dob,
@@ -198,11 +198,14 @@ export class AdresseComponent implements OnInit {
           created : user.created
         };
 
-        console.log("New User", newUser);
+        // copy newUser into formGroup
+        this.form.patchValue(newUser);
+
+        // remove imageURL
+        delete newUser.imageURL;
 
         if (user.id) {
           this.authUserService.updateUser(user.id, newUser).subscribe(() => {
-            console.log("Je suis là")
             // message (Toast)
             this.messageService.add({
               severity: 'success',
