@@ -3,12 +3,19 @@ import {Address} from "../../../models/Address";
 export class TicketSignUpModel {
   objectif: ObjectifModel;
   personalInformation: PersonalInformationModel;
-  address: Address;
+  address?: Address;
 
   constructor() {
     this.objectif = new ObjectifModel();
     this.personalInformation = new PersonalInformationModel();
-    this.address = new Address();
+    // address interface initialisation
+    this.address = {
+      id : 0,
+      street: '',
+      city: '',
+      zip: '',
+      state: ''
+    };
   }
 }
 

@@ -4,10 +4,10 @@ import {ActivatedRoute, Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
 import { SignUpService } from '../../signup.service';
-import { UserDTO } from '../../../../models/UserDTO';
 import { MessageService } from 'primeng/api';
 import {Address} from "../../../../models/Address";
 import {COMPTE} from "../../../../models/constantes/compte";
+import {UserDTO} from "../../../../models/UserDTO";
 
 @Component({
   selector: 'app-adresse',
@@ -20,6 +20,7 @@ export class AdresseComponent implements OnInit {
   addressInformation?: Address;
   ticketSignUpInformation: TicketSignUpModel;
   private isUpdate = false;
+  private idUser?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +36,8 @@ export class AdresseComponent implements OnInit {
     route.queryParamMap.subscribe(params => {
       if(params.get("update")){
         this.isUpdate = true;
+        this.idUser = params.get('update') ?? undefined;
+        this.form = this._initAdresseFormUpdated();
       }
     })
   }
@@ -47,12 +50,22 @@ export class AdresseComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern(`^[A-Za-z][0-9][A-Za-z]\\s[0-9][A-Za-z][0-9]`),
+          Validators.pattern(`^([A-Za-z][0-9][A-Za-z]\\s[0-9][A-Za-z][0-9]|[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9])`),
           Validators.minLength(6),
         ],
       ],
       state: ['', Validators.required],
-      apartment: ['', Validators.required],
+      apartement: ['', Validators.required],
+    });
+  }
+
+  private _initAdresseFormUpdated() {
+    return this.fb.group({
+      street: [''],
+      city: [''],
+      zip: [''],
+      state: [''],
+      apartement: [''],
     });
   }
 
@@ -66,13 +79,12 @@ export class AdresseComponent implements OnInit {
 
   nextPage() {
     this.submitted = true;
-
     if (this.form.invalid) {
       return;
     }
 
       // setter les informations du form dans PersonalInformation variable
-      this.addressInformation = this.form.value as Address;
+    this.addressInformation = this.form.value as Address;
 
     if (
       this.ticketSignUpInformation.objectif &&
@@ -83,8 +95,9 @@ export class AdresseComponent implements OnInit {
       this.signupService.complete();
       if (!this.isUpdate)
         this.createUser(this.ticketSignUpInformation);
-      else
+      else {
         this.updateUser(this.ticketSignUpInformation);
+      }
     }
   }
 
@@ -107,10 +120,7 @@ export class AdresseComponent implements OnInit {
         password: ticketSignUpInformation.personalInformation.password,
         dob: ticketSignUpInformation.personalInformation.dob,
         phone: ticketSignUpInformation.personalInformation.phone,
-        address: ticketSignUpInformation.address,
-        // isClient: ticketSignUpInformation.objectif.isClient,
-        // isBarber: ticketSignUpInformation.objectif.isBarber,
-        // isAdmin: false,
+        address: ticketSignUpInformation.address
       };
 
       if(ticketSignUpInformation.objectif.isClient) user.role = COMPTE.CLIENT
@@ -135,7 +145,11 @@ export class AdresseComponent implements OnInit {
    * @return void
    */
   prevPage() {
-    this.router.navigate(['/signup/profile']);
+    // this.router.navigate(['/signup/profile']);
+    if(this.isUpdate)
+      this.router.navigate(['/signup/profile'],{queryParams: { update: this.idUser}});
+    else
+      this.router.navigate(['/signup/profile']);
   }
 
   ngOnInit(): void {
@@ -181,16 +195,14 @@ export class AdresseComponent implements OnInit {
           phone: ticketSignUpInformation.personalInformation.phone,
           address: ticketSignUpInformation.address,
           role: user.role,
-          created : user.created,
-          // get Date now
-          updated : new Date(),
-          // isClient: ticketSignUpInformation.objectif.isClient,
-          // isBarber: ticketSignUpInformation.objectif.isBarber,
-          // isAdmin: false,
+          created : user.created
         };
+
+        console.log("New User", newUser);
 
         if (user.id) {
           this.authUserService.updateUser(user.id, newUser).subscribe(() => {
+            console.log("Je suis là")
             // message (Toast)
             this.messageService.add({
               severity: 'success',

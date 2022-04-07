@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, retry, Subject, throwError} from 'rxjs';
-import { loginModel } from '../pages/login/models/loginModel';
+import {catchError, map, Observable, retry, Subject, throwError} from 'rxjs';
 import { UserDTO } from '../models/UserDTO';
 import { LocalStorageService } from './local-storage.service';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
+import {loginModel} from "../pages/login/models/loginModel";
 
 @Injectable({
   providedIn: 'root',
@@ -146,15 +146,16 @@ export class AuthUserService {
 
   // update user into the array
   updateUser(id: string, userUpdated: UserDTO) : Observable<UserDTO>{
-   return new Observable<UserDTO>(observer => {
-     this.users.forEach((user, index) => {
-       if (user.id === id) {
-         this.users[index] = userUpdated;
-         this.userConnected = userUpdated;
-         observer.next(this.users[index]);
-       }
-     });
-   })
+    return this.http.put<UserDTO>(`${this.url}/${id}`, userUpdated).pipe(
+      retry(3),
+      map((user: UserDTO) => {
+        this.userConnected = userUpdated;
+        return user;
+      }),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
   }
 
   /**

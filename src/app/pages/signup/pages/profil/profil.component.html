@@ -63,7 +63,7 @@
                   >Email valide obligatoire</small
                 >
               </div>
-              <div class="p-field p-sm-6">
+              <div class="p-field p-sm-6" *ngIf="!isUpdated">
                 <label for="password">Mot de passe</label>
                 <p-password
                   formControlName="password"

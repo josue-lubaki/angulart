@@ -6,11 +6,11 @@ import { AuthUserService } from '../../services/auth-user.service';
 import { GoogleMapService } from 'src/app/services/google-map.service';
 import { Position } from './model/position';
 import { Subject, takeUntil } from 'rxjs';
-import { UserDTO } from '../../models/UserDTO';
 import {HaircutService} from "../../services/haircut.service";
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import {Router} from "@angular/router";
 import { COMPTE } from 'src/app/models/constantes/compte';
+import {UserDTO} from "../../models/UserDTO";
 
 @Component({
   selector: 'app-home-page',

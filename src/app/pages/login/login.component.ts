@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthUserService } from 'src/app/services/auth-user.service';
-import { loginModel } from './models/loginModel';
 import { MessageService } from 'primeng/api';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import {loginModel} from "./models/loginModel";
 import {UserDTO} from "../../models/UserDTO";
 
 @Component({
@@ -71,7 +71,10 @@ export class LoginComponent implements OnInit {
     }
 
     this.isDisabled = true;
-    const user: loginModel = this.form.value;
+    const user: loginModel = {
+      username: this.form.value.username,
+      password: this.form.value.password,
+    };
     this.authUserService.login(user).subscribe((responseLogin : any) => {
 
       // Verifier si la responseLogin contient "email" et "token"

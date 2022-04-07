@@ -4,12 +4,12 @@ import { ReservationDTO } from 'src/app/models/ReservationDTO';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ReservationService } from 'src/app/services/reservation.service';
-import { UserDTO } from '../../models/UserDTO';
 import { COMPTE } from '../../models/constantes/compte';
 import { Subject, takeUntil } from 'rxjs';
 import { STATUS } from '../../models/constantes/Status';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { GoogleMapService } from 'src/app/services/google-map.service';
+import {UserDTO} from "../../models/UserDTO";
 
 @Component({
   selector: 'app-my-profile',
@@ -171,7 +171,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
                     .subscribe((reservation) => {
                       // supprimer les overlays correspondant à la réservation
                       this.googleMapService
-                        .removeMarker(reservation.localisation)
+                        .removeMarker(reservation.location)
                         .subscribe();
                       // update page profile
                       this.ngOnInit();
@@ -202,7 +202,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
   /**
    * Fonction qui permet de mettre à jour les informations de l'utilisateur
-   * @retun void
+   * @return void
    * */
   updateInformationsUser() {
     this.router.navigate(['/signup/profile'], {

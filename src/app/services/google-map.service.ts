@@ -123,8 +123,8 @@ export class GoogleMapService {
         if (
           !this.overlays.find(
             (mk: google.maps.Marker) =>
-              mk.getPosition()?.lat() === rs.localisation.latitude &&
-              mk.getPosition()?.lng() === rs.localisation.longitude
+              mk.getPosition()?.lat() === rs.location.latitude &&
+              mk.getPosition()?.lng() === rs.location.longitude
           )
         ) {
           if (rs) this.addMarkerReservation(rs);
@@ -160,8 +160,8 @@ export class GoogleMapService {
     this.overlays.push(
       new google.maps.Marker({
         position: {
-          lat: reservation.localisation.latitude as number,
-          lng: reservation.localisation.longitude as number,
+          lat: reservation.location.latitude as number,
+          lng: reservation.location.longitude as number,
         },
         label: reservation.haircut?.title[0] ?? 'R',
         title: reservation.haircut?.title ?? 'coupe',
