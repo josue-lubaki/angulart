@@ -273,7 +273,6 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
       .createReservation(myReservation)
       .pipe(takeUntil(this.endSubs$))
       .subscribe(() => {
-        console.log('Reservation créée', myReservation);
         this.messageService.add({
           severity: 'success',
           summary: 'Réservation',
