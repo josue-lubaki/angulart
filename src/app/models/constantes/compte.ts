@@ -1,5 +1,5 @@
 export const COMPTE = {
-  CLIENT : 'client',
-  BARBER : 'barber',
-  ADMIN : 'admin'
+  CLIENT : 'ROLE_CLIENT',
+  BARBER : 'ROLE_BARBER',
+  ADMIN: 'ROLE_ADMIN'
 }

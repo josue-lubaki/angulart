@@ -15,20 +15,20 @@
         <form [formGroup]="form">
           <div class="p-fluid p-formgrid p-grid p-flex-column" id="login-field">
             <div class="p-field p-sm-12">
-              <label for="email">Email</label>
+              <label for="username">Email</label>
               <input
-                formControlName="email"
-                id="email"
+                formControlName="username"
+                id="username"
                 type="text"
                 pInputText
                 placeholder="johnDoe@gmail.com"
               />
               <small
                 *ngIf="
-                  (this.loginForm['email'].invalid &&
-                    this.loginForm['email'].dirty &&
-                    this.loginForm['email'].touched) ||
-                  (this.loginForm['email'].invalid && submitted)
+                  (this.loginForm['username'].invalid &&
+                    this.loginForm['username'].dirty &&
+                    this.loginForm['username'].touched) ||
+                  (this.loginForm['username'].invalid && submitted)
                 "
                 class="p-error"
                 style="color: red"

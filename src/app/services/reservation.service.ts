@@ -13,10 +13,10 @@ export class ReservationService {
 
   constructor(private http: HttpClient) {
     // see all reservations
-    this.getReservations().subscribe((reservations) => {
-      this.reservations = reservations;
-      console.log('Reservations', this.reservations);
-    });
+    // this.getReservations().subscribe((reservations) => {
+    //   this.reservations = reservations;
+    //   console.log('Reservations', this.reservations);
+    // });
   }
 
   /**

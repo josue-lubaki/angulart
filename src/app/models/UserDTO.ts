@@ -1,5 +1,4 @@
-import { Address } from 'src/app/models/Address';
-import { ReservationDTO } from 'src/app/models/ReservationDTO';
+import {Address} from "./Address";
 
 export interface UserDTO {
   id?: string;
@@ -11,8 +10,9 @@ export interface UserDTO {
   dob?: Date;
   phone?: string;
   address?: Address;
-  reservations?: ReservationDTO[];
-  isClient?: boolean;
-  isBarber?: boolean;
-  isAdmin?: boolean;
+  created? : Date;
+  updated? : Date;
+  deleted? : boolean;
+  fullName?: string;
+  role?: string;
 }

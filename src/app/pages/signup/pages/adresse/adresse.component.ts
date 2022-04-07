@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Router } from '@angular/router';
-import { Address } from 'src/app/models/Address';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { TicketSignUpModel } from '../../models/TicketSignUp';
 import { SignUpService } from '../../signup.service';
-import { UserDTO } from '../../../../models/UserDTO';
 import { MessageService } from 'primeng/api';
+import {Address} from "../../../../models/Address";
+import {COMPTE} from "../../../../models/constantes/compte";
+import {UserDTO} from "../../../../models/UserDTO";
 
 @Component({
   selector: 'app-adresse',
@@ -19,6 +20,7 @@ export class AdresseComponent implements OnInit {
   addressInformation?: Address;
   ticketSignUpInformation: TicketSignUpModel;
   private isUpdate = false;
+  private idUser?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +36,8 @@ export class AdresseComponent implements OnInit {
     route.queryParamMap.subscribe(params => {
       if(params.get("update")){
         this.isUpdate = true;
+        this.idUser = params.get('update') ?? undefined;
+        this.form = this._initAdresseFormUpdated();
       }
     })
   }
@@ -46,12 +50,22 @@ export class AdresseComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern(`^[A-Za-z][0-9][A-Za-z]\\s[0-9][A-Za-z][0-9]`),
+          Validators.pattern(`^([A-Za-z][0-9][A-Za-z]\\s[0-9][A-Za-z][0-9]|[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9])`),
           Validators.minLength(6),
         ],
       ],
       state: ['', Validators.required],
-      apartment: ['', Validators.required],
+      apartement: ['', Validators.required],
+    });
+  }
+
+  private _initAdresseFormUpdated() {
+    return this.fb.group({
+      street: [''],
+      city: [''],
+      zip: [''],
+      state: [''],
+      apartement: [''],
     });
   }
 
@@ -65,13 +79,12 @@ export class AdresseComponent implements OnInit {
 
   nextPage() {
     this.submitted = true;
-
     if (this.form.invalid) {
       return;
     }
 
       // setter les informations du form dans PersonalInformation variable
-      this.addressInformation = this.form.value as Address;
+    this.addressInformation = this.form.value as Address;
 
     if (
       this.ticketSignUpInformation.objectif &&
@@ -82,8 +95,9 @@ export class AdresseComponent implements OnInit {
       this.signupService.complete();
       if (!this.isUpdate)
         this.createUser(this.ticketSignUpInformation);
-      else
+      else {
         this.updateUser(this.ticketSignUpInformation);
+      }
     }
   }
 
@@ -97,19 +111,21 @@ export class AdresseComponent implements OnInit {
       ticketSignUpInformation.personalInformation &&
       ticketSignUpInformation.objectif
     ) {
+
       const user: UserDTO = {
         fname: ticketSignUpInformation.personalInformation.fname,
         lname: ticketSignUpInformation.personalInformation.lname,
-        imageURL: ticketSignUpInformation.personalInformation.image,
+        imageURL: ticketSignUpInformation.personalInformation.imageURL,
         email: ticketSignUpInformation.personalInformation.email,
         password: ticketSignUpInformation.personalInformation.password,
         dob: ticketSignUpInformation.personalInformation.dob,
         phone: ticketSignUpInformation.personalInformation.phone,
-        address: ticketSignUpInformation.address,
-        isClient: ticketSignUpInformation.objectif.isClient,
-        isBarber: ticketSignUpInformation.objectif.isBarber,
-        isAdmin: false,
+        address: ticketSignUpInformation.address
       };
+
+      if(ticketSignUpInformation.objectif.isClient) user.role = COMPTE.CLIENT
+      else if(ticketSignUpInformation.objectif.isBarber) user.role = COMPTE.BARBER
+      else user.role = COMPTE.ADMIN
 
       this.authUserService.createUser(user).subscribe(user => {
         this.messageService.add({
@@ -129,7 +145,11 @@ export class AdresseComponent implements OnInit {
    * @return void
    */
   prevPage() {
-    this.router.navigate(['/signup/profile']);
+    // this.router.navigate(['/signup/profile']);
+    if(this.isUpdate)
+      this.router.navigate(['/signup/profile'],{queryParams: { update: this.idUser}});
+    else
+      this.router.navigate(['/signup/profile']);
   }
 
   ngOnInit(): void {
@@ -168,16 +188,21 @@ export class AdresseComponent implements OnInit {
           id: user.id,
           fname: ticketSignUpInformation.personalInformation.fname,
           lname: ticketSignUpInformation.personalInformation.lname,
-          imageURL: ticketSignUpInformation.personalInformation.image,
+          imageURL: ticketSignUpInformation.personalInformation.imageURL,
           email: ticketSignUpInformation.personalInformation.email,
           password: ticketSignUpInformation.personalInformation.password,
           dob: ticketSignUpInformation.personalInformation.dob,
           phone: ticketSignUpInformation.personalInformation.phone,
           address: ticketSignUpInformation.address,
-          isClient: ticketSignUpInformation.objectif.isClient,
-          isBarber: ticketSignUpInformation.objectif.isBarber,
-          isAdmin: false,
+          role: user.role,
+          created : user.created
         };
+
+        // copy newUser into formGroup
+        this.form.patchValue(newUser);
+
+        // remove imageURL
+        delete newUser.imageURL;
 
         if (user.id) {
           this.authUserService.updateUser(user.id, newUser).subscribe(() => {
