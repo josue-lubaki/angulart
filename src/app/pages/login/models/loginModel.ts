@@ -1,3 +1,4 @@
-export class loginModel {
-  constructor(public email: string, public password: string) {}
+export interface loginModel {
+  username: string;
+  password: string;
 }

@@ -11,13 +11,13 @@ export class HaircutService {
   haircuts: HaircutDTO[] = [];
   private url = environment.urlAPI + '/haircuts';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Method to get all haircuts
    * @returns Observable<HaircutDTO[]>
    */
-  getHaircuts(): Observable<HaircutDTO[]> {
+  getAllHaircuts(): Observable<HaircutDTO[]> {
     return this.http.get<HaircutDTO[]>(this.url).pipe(
       retry(3),
       catchError((error) => {

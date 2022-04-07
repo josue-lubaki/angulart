@@ -9,7 +9,10 @@ import {
 } from '../../models/TicketSignUp';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { Subject, takeUntil } from 'rxjs';
-import { Address } from '../../../../models/Address';
+import {Address} from "../../../../models/Address";
+import {COMPTE} from "../../../../models/constantes/compte";
+import { UserDTO } from 'src/app/models/UserDTO';
+
 
 @Component({
   selector: 'app-profil',
@@ -24,7 +27,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
   imageDisplay: string | ArrayBuffer | null | undefined;
   endSubs$: Subject<any> = new Subject();
   value: Date;
-  private isUpdated = false;
+  isUpdated = false;
   private idUser?: string;
 
   constructor(
@@ -50,32 +53,41 @@ export class ProfilComponent implements OnInit, OnDestroy {
         this.authUserService
           .getUserConnected()
           .pipe(takeUntil(this.endSubs$))
-          .subscribe((user) => {
+          .subscribe((user:UserDTO) => {
           // pré-remplir le profilInformation, objectif et adresse
           const obj = new ObjectifModel();
-          if (user.isClient) obj.isClient = user.isClient;
-          else if (user.isBarber) obj.isBarber = user.isBarber;
+          if (user.role === COMPTE.CLIENT) obj.isClient = true;
+          else if (user.role === COMPTE.BARBER) obj.isBarber = true;
+
+          // // convert tableau user.dob [year, month, day] to Date
+          // if(user.dob){
+          //   const date = new Date(user.dob[0], user.dob[1], user.dob[2]);
+          //   this.value = date;
+          // }
 
           const personnal = new PersonalInformationModel(
             user.fname,
             user.lname,
             user.imageURL,
             user.email,
-            user.password,
-            user.dob,
+            "",
+            this.value,
             user.phone
           );
 
-          const adresse = new Address(
-            user.address?.street,
-            user.address?.apartment,
-            user.address?.zip,
-            user.address?.city,
-            user.address?.state
-          );
+          this.imageDisplay = user.imageURL;
+
+          const address : Address = {
+            id : user.address?.id,
+            street : user.address?.street,
+            apartement : user.address?.apartement,
+            zip : user.address?.zip,
+            city : user.address?.city,
+            state : user.address?.state
+          };
 
           this.ticketSignUpInformation.objectif = obj;
-          this.ticketSignUpInformation.address = adresse;
+          this.ticketSignUpInformation.address = address;
           this.ticketSignUpInformation.personalInformation = personnal;
           this.signupService.setSignUpInformation(this.ticketSignUpInformation)
           this.form.patchValue(
@@ -122,8 +134,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ],
       ],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      image: [''],
+      password: ['password', [Validators.minLength(8)]],
+      imageURL: [''],
       phone: [
         '',
         [
@@ -174,7 +186,10 @@ export class ProfilComponent implements OnInit, OnDestroy {
    * @return void
    */
   prevPage() {
-    this.router.navigate(['/signup/objectif']);
+    if(this.isUpdated)
+      this.router.navigate(['/profile']);
+    else
+      this.router.navigate(['/signup/objectif']);
   }
 
   /**
@@ -186,8 +201,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
   onImageUpdload(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.form.patchValue({ image: file });
-      this.form.get('image')?.updateValueAndValidity();
+      this.form.patchValue({ imageURL: file });
+      this.form.get('imageURL')?.updateValueAndValidity();
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {

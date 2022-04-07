@@ -1,14 +1,21 @@
-import { Address } from 'src/app/models/Address';
+import {Address} from "../../../models/Address";
 
 export class TicketSignUpModel {
   objectif: ObjectifModel;
   personalInformation: PersonalInformationModel;
-  address: Address;
+  address?: Address;
 
   constructor() {
     this.objectif = new ObjectifModel();
     this.personalInformation = new PersonalInformationModel();
-    this.address = new Address();
+    // address interface initialisation
+    this.address = {
+      id : 0,
+      street: '',
+      city: '',
+      zip: '',
+      state: ''
+    };
   }
 }
 
@@ -27,7 +34,7 @@ export class ObjectifModel {
 export class PersonalInformationModel {
   fname?: string;
   lname?: string;
-  image?: string;
+  imageURL?: string;
   email?: string;
   password?: string;
   dob?: Date;
@@ -44,7 +51,7 @@ export class PersonalInformationModel {
   ) {
     this.fname = fname;
     this.lname = lname;
-    this.image = image;
+    this.imageURL = image;
     this.email = email;
     this.password = password;
     this.dob = dob;

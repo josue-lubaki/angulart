@@ -16,8 +16,8 @@
     <div class="card-right">
       <span>
         Salut, Si tu es intéressé pour me coiffer, je serai sur cette adresse : <br>
-        <span *ngIf="reservation.client?.address?.apartment">
-          #{{ reservation.client?.address?.apartment }},
+        <span *ngIf="reservation.client?.address?.apartement">
+          #{{ reservation.client?.address?.apartement }},
         </span>
         Rue {{ reservation.client?.address?.street }} dans la ville de
         {{ reservation.client?.address?.city }}/{{ reservation.client?.address?.state }}<br>
@@ -49,7 +49,7 @@
     <div class="card-right">
       <span>{{ reservation.haircut?.description }}</span>
       <p class="card-right-price">${{ reservation.haircut?.price }}</p>
-      <p>Temps estimé : {{ reservation.haircut?.estimatingTime }}</p>
+      <p>Temps estimé : {{ reservation.haircut?.estimatedTime }}</p>
       <p>
         Date Prévue : {{ reservation.reservationDate | date }}
         {{ reservation.reservationTime?.hours }}:{{
@@ -95,7 +95,7 @@
   >
     <button
       pButton
-      [disabled]="!reservation && !canAcceptReservation && user?.isBarber"
+      [disabled]="!reservation && !canAcceptReservation && user?.role === 'ROLE_BARBER'"
       type="button"
       label="Accepter la Mission"
       class="p-button-success Button-i"

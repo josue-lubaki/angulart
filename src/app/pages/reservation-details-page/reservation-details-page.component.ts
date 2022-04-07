@@ -5,9 +5,10 @@ import { ReservationService } from 'src/app/services/reservation.service';
 import { MessageService } from 'primeng/api';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { STATUS } from '../../models/constantes/Status';
-import { UserDTO } from '../../models/UserDTO';
 import { GoogleMapService } from 'src/app/services/google-map.service';
 import {Subject, takeUntil} from "rxjs";
+import {COMPTE} from "../../models/constantes/compte";
+import {UserDTO} from "../../models/UserDTO";
 
 @Component({
   selector: 'app-reservation-details-page',
@@ -43,7 +44,7 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
       this.user = user;
     })
 
-    const isBarber = this.user?.isBarber;
+    const isBarber = this.user?.role === COMPTE.BARBER;
     console.log("My Reservation", this.reservation);
 
 
@@ -67,7 +68,7 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
             // supprimer le marker de la map pour la réservation acceptée
             // on passe la localisation du marker sur la carte
             this.googleMapService
-              .removeMarker(newResponse.localisation)
+              .removeMarker(newResponse.location)
               .pipe(takeUntil(this.endSubs$))
               .subscribe();
 

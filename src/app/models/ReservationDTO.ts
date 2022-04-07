@@ -2,7 +2,7 @@ import { Time } from '@angular/common';
 import { UserDTO } from './UserDTO';
 import { HaircutDTO } from './HaircutDTO';
 
-interface Localisation {
+interface Location {
   latitude: number;
   longitude: number;
 }
@@ -15,5 +15,5 @@ export interface ReservationDTO {
   status?: string,
   client?: UserDTO,
   barber?: UserDTO,
-  localisation: Localisation
+  location: Location
 }

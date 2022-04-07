@@ -10,10 +10,10 @@ import { STATUS } from '../../models/constantes/Status';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ReservationDTO } from '../../models/ReservationDTO';
 import { Subject, takeUntil } from 'rxjs';
-import { UserDTO } from '../../models/UserDTO';
 import { Position } from '../home-page/model/position';
 import { PrimeNGConfig } from 'primeng/api';
 import { GoogleMapService } from 'src/app/services/google-map.service';
+import {UserDTO} from "../../models/UserDTO";
 
 @Component({
   selector: 'app-detail-haircut',
@@ -248,7 +248,7 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
       status: STATUS.PENDING,
       reservationDate: timeString,
       reservationTime: reservationTime,
-      localisation: {
+      location: {
         latitude: position.latitude,
         longitude: position.longitude,
       },
