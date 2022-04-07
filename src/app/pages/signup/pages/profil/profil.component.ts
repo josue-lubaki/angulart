@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignUpService } from '../../signup.service';
+
 import {
   ObjectifModel,
   PersonalInformationModel,
@@ -35,7 +36,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
     private signupService: SignUpService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private authUserService: AuthUserService
+    private authUserService: AuthUserService,
   ) {
     this.form = this._initUserForm();
     this.profilInformation = new PersonalInformationModel();

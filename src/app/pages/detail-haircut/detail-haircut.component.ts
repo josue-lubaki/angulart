@@ -8,7 +8,7 @@ import { ReservationService } from 'src/app/services/reservation.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import { STATUS } from '../../models/constantes/Status';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { ReservationDTO } from '../../models/ReservationDTO';
+import {ReservationDTO, ReservationTimeDTO} from '../../models/ReservationDTO';
 import { Subject, takeUntil } from 'rxjs';
 import { Position } from '../home-page/model/position';
 import { PrimeNGConfig } from 'primeng/api';
@@ -110,7 +110,15 @@ export class DetailHaircutComponent implements OnInit, OnDestroy {
       const idReservation = params.get('modifyreservation') as string;
 
       this.reservationService.getReservationById(idReservation).subscribe(res =>{
+        // create ReservationTimeDTO object
+        const reservationTimeDTO : ReservationTimeDTO = {
+          // get hours and minutes from timeString
+          hours: this.value.getHours(),
+          minutes: this.value.getMinutes()
+        };
+
         res.reservationDate = timeString;
+        res.reservationTime = reservationTimeDTO;
         this.reservationService
           .updateReservation(idReservation, res)
           .pipe(takeUntil(this.endSubs$))

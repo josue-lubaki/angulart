@@ -7,6 +7,11 @@ interface Location {
   longitude: number;
 }
 
+export interface ReservationTimeDTO {
+  hours: number;
+  minutes: number;
+}
+
 export interface ReservationDTO {
   id?: string,
   reservationDate?: Date,

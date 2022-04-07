@@ -127,15 +127,25 @@ export class AuthUserService {
    * @param id ID du compte à supprimer
    */
   deleteUser(id: string) : Observable<UserDTO> {
-    return new Observable<UserDTO>(observer => {
-      this.users.forEach((user, index) => {
-        if (user.id === id) {
-          this.users.splice(index, 1);
-          this.userConnected = undefined
-          observer.next(user)
-        }
-      });
-    })
+    return this.http.delete<UserDTO>(`${this.url}/${id}`).pipe(
+      retry(3),
+      map((user: UserDTO) => {
+        this.userConnected = undefined;
+        return user;
+      }),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
+    // return new Observable<UserDTO>(observer => {
+    //   this.users.forEach((user, index) => {
+    //     if (user.id === id) {
+    //       this.users.splice(index, 1);
+    //       this.userConnected = undefined
+    //       observer.next(user)
+    //     }
+    //   });
+    // })
   }
 
   /**

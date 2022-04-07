@@ -78,6 +78,7 @@ export class ReservationService {
     idReservation: string,
     reservation: ReservationDTO
   ): Observable<ReservationDTO> {
+    console.log('updateReservation', reservation);
     return this.http.put<ReservationDTO>(`${this.url}/${idReservation}`, reservation).pipe(
       retry(3),
       catchError((error) => {
