@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReservationDTO } from '../models/ReservationDTO';
-import {catchError, Observable, retry, Subscriber, throwError} from 'rxjs';
+import {catchError, map, Observable, retry, Subscriber, throwError} from 'rxjs';
 import {environment} from "../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
 
@@ -78,6 +78,7 @@ export class ReservationService {
     idReservation: string,
     reservation: ReservationDTO
   ): Observable<ReservationDTO> {
+    console.log('updateReservation', reservation);
     return this.http.put<ReservationDTO>(`${this.url}/${idReservation}`, reservation).pipe(
       retry(3),
       catchError((error) => {
@@ -135,6 +136,9 @@ export class ReservationService {
   deleteReservation(id: string) : Observable<ReservationDTO> {
     return this.http.delete<ReservationDTO>(`${this.url}/${id}`).pipe(
       retry(3),
+      map((res) => {
+        return res;
+      }),
       catchError((error) => {
         console.log(error);
         return throwError(error);

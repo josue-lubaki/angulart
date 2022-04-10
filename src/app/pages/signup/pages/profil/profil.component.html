@@ -42,7 +42,7 @@
                   >Nom est obligatoire</small
                 >
               </div>
-              <div class="p-field p-sm-6" *ngIf="!isUpdated">
+              <div class="p-field p-sm-6" *ngIf="!editMode">
                 <label for="email">Email</label>
                 <input
                   formControlName="email"
@@ -63,7 +63,7 @@
                   >Email valide obligatoire</small
                 >
               </div>
-              <div class="p-field p-sm-6" *ngIf="!isUpdated">
+              <div class="p-field p-sm-6" *ngIf="!editMode">
                 <label for="password">Mot de passe</label>
                 <p-password
                   formControlName="password"
@@ -104,7 +104,7 @@
                 >
               </div>
 
-              <div class="p-field p-sm-6" *ngIf="!isUpdated">
+              <div class="p-field p-sm-6" *ngIf="!editMode">
                 <label for="imageURL">Photo de profil</label><br />
                 <input
                   type="file"
