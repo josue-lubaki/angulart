@@ -171,7 +171,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
                     .subscribe((reservation) => {
                       // supprimer les overlays correspondant à la réservation
                       this.googleMapService
-                        .removeMarker(reservation.location)
+                        .removeMarker(reservation?.location)
                         .subscribe();
                       // update page profile
                       this.ngOnInit();
