@@ -49,7 +49,17 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.user = user;
       if (this.user){
         this.authUserService.notifier(this.user)
-        this.configPanelBarber(user);
+        if (user && user.role === COMPTE.BARBER) {
+          this.isBarber = true;
+          this.getReservationWithoutBarber();
+          this.location$ = this.googleMapService
+            .getOverlays()
+            .pipe(takeUntil(this.endSubs$))
+            .subscribe((markers) => {
+              this.overlays = markers;
+              this.googleMapService.clearMarkers()
+            });
+        }
       }
       else{
         // Retrieve id of logged user from local storage
@@ -58,7 +68,18 @@ export class HomePageComponent implements OnInit, OnDestroy {
         // get actual user connected
         if (idUser){
           this.authUserService.getUserById(idUser).subscribe((user) => {
-            this.configPanelBarber(user);
+            if (user && user.role === COMPTE.BARBER) {
+              this.authUserService.notifier(user)
+              this.isBarber = true;
+              this.getReservationWithoutBarber();
+              this.location$ = this.googleMapService
+                .getOverlays()
+                .pipe(takeUntil(this.endSubs$))
+                .subscribe((markers) => {
+                  this.overlays = markers;
+                  this.googleMapService.clearMarkers()
+                });
+            }
           });
         }
         else{
@@ -81,11 +102,20 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.authUserService.getUserById(idUser).subscribe((user) => {
         this.user = user;
         this.authUserService.notifier(user)
-        this.configPanelBarber(user);
+        if (user && user.role === COMPTE.BARBER) {
+          this.isBarber = true;
+          this.location$ = this.googleMapService
+            .getOverlays()
+            .pipe(takeUntil(this.endSubs$))
+            .subscribe((markers) => {
+              this.overlays = markers;
+              this.googleMapService.clearMarkers()
+            });
+        }
       });
     }else{
       // go to login page
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     }
 
     // initialisation du service de localisation
@@ -116,7 +146,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     if (this.user?.role === COMPTE.BARBER) {
       this.isBarber = true;
       this.listenLocationObservable();
-      this.getReservationWithoutBarber()
 
       // Récupération des markers pour l'affichage
       this.googleMapService
@@ -202,20 +231,5 @@ export class HomePageComponent implements OnInit, OnDestroy {
         localStorage.setItem('clientPosition', JSON.stringify(position));
       }
     });
-  }
-
-  private configPanelBarber(user: UserDTO) {
-    if (user && user.role === COMPTE.BARBER) {
-      this.authUserService.notifier(user)
-      this.isBarber = true;
-      this.getReservationWithoutBarber();
-      this.location$ = this.googleMapService
-        .getOverlays()
-        .pipe(takeUntil(this.endSubs$))
-        .subscribe((markers) => {
-          this.overlays = markers;
-          this.googleMapService.clearMarkers()
-        });
-    }
   }
 }

@@ -13,12 +13,12 @@ export interface ReservationTimeDTO {
 }
 
 export interface ReservationDTO {
-  id?: string,
-  reservationDate?: Date,
-  reservationTime?: Time,
-  haircut?: HaircutDTO,
-  status?: string,
-  client?: UserDTO,
-  barber?: UserDTO,
-  location: Location
+  id?: number | string;
+  reservationDate?: Date;
+  reservationTime?: Time;
+  haircut?: HaircutDTO;
+  status?: string;
+  client?: UserDTO;
+  barber?: UserDTO | null;
+  location: Location;
 }
