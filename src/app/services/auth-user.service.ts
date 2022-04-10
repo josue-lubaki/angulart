@@ -138,15 +138,6 @@ export class AuthUserService {
         console.log(error);
         return throwError(error);
       }));
-    // return new Observable<UserDTO>(observer => {
-    //   this.users.forEach((user, index) => {
-    //     if (user.id === id) {
-    //       this.users.splice(index, 1);
-    //       this.userConnected = undefined
-    //       observer.next(user)
-    //     }
-    //   });
-    // })
   }
 
   /**
@@ -162,4 +153,12 @@ export class AuthUserService {
     this.userConnectedSuccefully.next(null);
   }
 
+  forgotPassword(form : {username: string, password: string}) : Observable<any> {
+    return this.http.post<any>(`${this.urlBase}/auth/reset-password`, form).pipe(
+      retry(3),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      }));
+  }
 }

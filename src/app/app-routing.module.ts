@@ -14,6 +14,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { DetailHaircutComponent } from './pages/detail-haircut/detail-haircut.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
+import { PasswordForgotComponent } from './pages/password-forget/password-forgot.component';
 
 // All modules
 import { HomePageModule } from './pages/home-page/home-page.module';
@@ -24,6 +25,7 @@ import { FooterModule } from "./pages/footer/footer.module";
 import { ReservationDetailsPageModule } from "./pages/reservation-details-page/reservation-details-page.module";
 import { DetailHaircutModule } from "./pages/detail-haircut/detail-haircut.module";
 import { MyProfileModule } from "./pages/my-profile/my-profile.module";
+import {PasswordForgotModule} from "./pages/password-forget/password-forgot.module";
 
 // Primeng - Module
 import { GMapModule } from 'primeng/gmap';
@@ -41,6 +43,7 @@ const allModules = [
   ReservationDetailsPageModule,
   DetailHaircutModule,
   MyProfileModule,
+  PasswordForgotModule
 ]
 
 const routes: Routes = [
@@ -49,6 +52,7 @@ const routes: Routes = [
   { path: 'details/:id', component: DetailHaircutComponent },
   { path: 'reservations/:id', component: ReservationDetailsPageComponent },
   { path: 'profile', component: MyProfileComponent },
+  {path: 'forgot-password', component: PasswordForgotComponent},
   {
     path: 'signup',
     component: SignupComponent,

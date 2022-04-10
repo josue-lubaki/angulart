@@ -7,7 +7,7 @@
   </div>
   <div class="login-right">
     <div class="login-right-top">
-      <h1>Login</h1>
+      <h2>Login</h2>
       <hr />
     </div>
     <div class="login-right-bottom">
@@ -21,7 +21,7 @@
                 id="username"
                 type="text"
                 pInputText
-                placeholder="johnDoe@gmail.com"
+                placeholder="johnDoe@angulart.xyz"
               />
               <small
                 *ngIf="
@@ -70,6 +70,15 @@
                 styleClass="p-button-raised p-button-rounded p-button-warning"
                 label="Vous n'avez pas de compte ?"
                 (click)="goToLogin()"
+              ></p-button>
+            </div>
+            <div class="p-field p-md-8 p-md-offset-2 p-xl-offset-3 p-xl-6 p-mb-3 p-jc-center">
+              <!-- Mot de passe oublié ? -->
+              <p-button
+                type="button"
+                styleClass="p-button-raised p-button-rounded p-button-secondary"
+                label="Mot de passe oublié ?"
+                (click)="goToForgotPassword()"
               ></p-button>
             </div>
           </div>
