@@ -123,8 +123,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         .subscribe((reservation) => {
           if (this.user && reservation) {
             // remove barber in Reservation et changer le status de la reservation
-            reservation.barber = undefined;
-            reservation.status = STATUS.PENDING;
+            reservation.barber = null;
+            reservation.status = STATUS.PENDING.toString();
 
             // update reservation
             this.reservationService
