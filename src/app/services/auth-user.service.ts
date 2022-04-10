@@ -110,7 +110,7 @@ export class AuthUserService {
   }
 
   // update user into the array
-  updateUser(id: string, userUpdated: UserDTO) : Observable<UserDTO>{
+  updateUser(id: string, userUpdated: FormData) : Observable<UserDTO>{
     return this.http.put<UserDTO>(`${this.url}/${id}`, userUpdated).pipe(
       retry(3),
       map((user: UserDTO) => {

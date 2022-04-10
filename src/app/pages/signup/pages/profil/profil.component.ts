@@ -3,15 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignUpService } from '../../signup.service';
 
-import {
-  ObjectifModel,
-  PersonalInformationModel,
-  TicketSignUpModel
-} from '../../models/TicketSignUp';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { Subject, takeUntil } from 'rxjs';
-import {Address} from "../../../../models/Address";
-import {COMPTE} from "../../../../models/constantes/compte";
 import { UserDTO } from 'src/app/models/UserDTO';
 import {SignUpDto} from "../../models/SignupDto";
 
@@ -31,7 +24,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
   value: Date;
   editMode = false;
   private idUser?: string;
-  private readonly role?: string;
+  private role?: string;
 
   constructor(
     private router: Router,
@@ -72,38 +65,26 @@ export class ProfilComponent implements OnInit, OnDestroy {
           .getUserConnected()
           .pipe(takeUntil(this.endSubs$))
           .subscribe((user:UserDTO) => {
-            // pre-remplir role client
-            this.userForm['role'].setValue(user.role);
-            this.userForm['email'].setValue(user.email);
-            this.userForm['phone'].setValue(user.phone);
-            this.userForm['fname'].setValue(user.fname);
-            this.userForm['lname'].setValue(user.lname);
-            this.userForm['imageURL'].setValue(user.imageURL);
+            console.log("user", user);
+            this.role = user.role;
             this.imageDisplay = user.imageURL;
-            this.userForm['dob'].setValue(user.dob);
-            this.userForm['street'].setValue(user.address?.street);
-            this.userForm['apartement'].setValue(user.address?.apartement);
-            this.userForm['zip'].setValue(user.address?.zip);
-            this.userForm['city'].setValue(user.address?.city);
-            this.userForm['state'].setValue(user.address?.state);
+            // pre-remplir les champs du formulaire
+            this.form.patchValue({
+              fname: user.fname,
+              lname: user.lname,
+              email: user.email,
+              phone: user.phone,
+              imageURL: user.imageURL,
+              role: user.role,
+              dob: user.dob,
+              street: user.address?.street,
+              city: user.address?.city,
+              zip: user.address?.zip,
+              state: user.address?.state,
+              apartement: user.address?.apartement,
+            });
 
-            // change Validator
-            this.userForm['street'].setValidators([]);
-            this.userForm['apartement'].setValidators([]);
-            this.userForm['zip'].setValidators([]);
-            this.userForm['city'].setValidators([]);
-            this.userForm['state'].setValidators([]);
-            this.userForm['password'].setValidators([]);
-
-            // update form value Validation
-            this.userForm['password'].updateValueAndValidity();
-            this.userForm['street'].updateValueAndValidity();
-            this.userForm['apartement'].updateValueAndValidity();
-            this.userForm['zip'].updateValueAndValidity();
-            this.userForm['city'].updateValueAndValidity();
-            this.userForm['state'].updateValueAndValidity();
-
-            this.ticketSignUpInformation = this.userForm;
+            this.ticketSignUpInformation = this.form.value;
 
             // set ticketSignUpInformation to service
             this.signupService.setSignUpInformation(this.ticketSignUpInformation);
@@ -173,18 +154,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
 
 
     console.log("This.ticket", this.ticketSignUpInformation);
-
-    // setter les informations du form dans PersonalInformation variable
-    // this.profilInformation = this.form.value as PersonalInformationModel;
-    // this.profilInformation.dob = this.value;
-    // this.ticketSignUpInformation.personalInformation = this.profilInformation;
-
-    // if (
-    //   this.ticketSignUpInformation.objectif &&
-    //   this.ticketSignUpInformation.personalInformation
-    // ) {
-    //   this.ticketSignUpInformation.personalInformation = this.profilInformation;
-      this.signupService.setSignUpInformation(this.ticketSignUpInformation);
+    this.signupService.setSignUpInformation(this.ticketSignUpInformation);
 
     console.log("NEXT PROFIL", this.ticketSignUpInformation);
 

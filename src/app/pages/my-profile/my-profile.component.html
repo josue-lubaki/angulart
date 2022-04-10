@@ -51,7 +51,7 @@
             <p><span>Nom</span> : {{ user.lname }}</p>
             <p>
               <span *ngIf="user.dob"
-                >Age : <span class="infoAge">{{ user.dob | age }}</span>
+                >Age : <span class="infoAge">{{ user.dob | age }} ans</span>
               </span>
               <span *ngIf="!user.dob"
                 >Age : <span class="infoAgeEmpty"> non renseigné </span></span
