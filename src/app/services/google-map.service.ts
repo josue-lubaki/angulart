@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReservationDTO } from '../models/ReservationDTO';
-import {catchError, Observable, retry, throwError} from 'rxjs';
+import {catchError, Observable, retry, Subscriber, throwError} from 'rxjs';
 import { Position } from '../pages/home-page/model/position';
 
 const pinSVGFilled =
@@ -42,7 +42,7 @@ export class GoogleMapService {
    */
   initializeLocation() {
     // Observer pour la localisation
-    return (this.location$ = new Observable((observer) => {
+    return (this.location$ = new Observable((observer: Subscriber<Position>) => {
       const onSuccess: PositionCallback = (pos: any) => {
         observer.next(pos);
       };
@@ -121,12 +121,10 @@ export class GoogleMapService {
       reservations.forEach((rs) => {
         // éviter les doublons
         if (
-          !this.overlays.find(
-            (mk: google.maps.Marker) =>
+          !this.overlays.find((mk: google.maps.Marker) =>
               mk.getPosition()?.lat() === rs.location.latitude &&
               mk.getPosition()?.lng() === rs.location.longitude
-          )
-        ) {
+          )) {
           if (rs) this.addMarkerReservation(rs);
         }
       });

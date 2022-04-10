@@ -45,37 +45,29 @@ export class ReservationDetailsPageComponent implements OnInit, OnDestroy {
     })
 
     const isBarber = this.user?.role === COMPTE.BARBER;
-    console.log("My Reservation", this.reservation);
 
 
     if (isBarber && this.reservation) {
-      // setter l'utilisateur courant étant que le Barber de la réservation
-      this.reservation.barber = this.user
 
-      // Get informtion client
-      this.client = this.reservation.client;
-
-      // changer le status de la réservation
-      this.reservation.status = STATUS.ACCEPTED;
       this.reservationService
-        .acceptMission(this.reservation)
+        .acceptMission(this.reservation.id as number, this.reservation)
         .pipe(takeUntil(this.endSubs$))
-        .subscribe(newResponse => {
-          if(newResponse){
+        .subscribe((reservationDTO : ReservationDTO)=> {
+          if(reservationDTO){
             this.canAcceptReservation = false;
             this.hide = true;
 
             // supprimer le marker de la map pour la réservation acceptée
             // on passe la localisation du marker sur la carte
             this.googleMapService
-              .removeMarker(newResponse.location)
+              .removeMarker(reservationDTO.location)
               .pipe(takeUntil(this.endSubs$))
               .subscribe();
 
             // si code 200
             this.messageService.add({
               severity: 'success',
-              summary: `Requêtes de ${newResponse.client?.fname}`,
+              summary: `Requêtes de ${reservationDTO.client?.fname}`,
               detail: 'Mission Acceptée',
             });
             this.router.navigate(['/']);

@@ -34,23 +34,30 @@ export class ReservationService {
 
   /**
    * Remplacer la nouvelle reservation assignée à un barber
+   * @param id id de la reservation
    * @param reservation reservation accepter par le barber
    */
-  acceptMission(reservation: ReservationDTO): Observable<ReservationDTO> {
-    return new Observable<ReservationDTO>((observer) => {
-      this.getReservations().subscribe(rs => {
-        let newReservation = rs.find(r => r.id = reservation.id)
-        if(newReservation){
-          newReservation= reservation
-          observer.next(newReservation)
-        }
-      })
-    }).pipe(
+  acceptMission(id : number, reservation: ReservationDTO): Observable<ReservationDTO> {
+    return this.http.patch<ReservationDTO>(`${this.url + '/accept/' + id}`, reservation).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);
         return throwError(error);
       }));
+    // return new Observable<ReservationDTO>((observer) => {
+    //   this.getReservations().subscribe(rs => {
+    //     let newReservation = rs.find(r => r.id = reservation.id)
+    //     if(newReservation){
+    //       newReservation= reservation
+    //       observer.next(newReservation)
+    //     }
+    //   })
+    // }).pipe(
+    //   retry(3),
+    //   catchError((error) => {
+    //     console.log(error);
+    //     return throwError(error);
+    //   }));
   }
 
   /**
