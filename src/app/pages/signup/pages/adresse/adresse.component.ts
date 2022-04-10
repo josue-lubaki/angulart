@@ -54,24 +54,24 @@ export class AdresseComponent implements OnInit {
     //   this.adresseForm['state'].patchValue(this.ticketSignUpInformation.state);
     //   this.adresseForm['apartement'].patchValue(this.ticketSignUpInformation.apartement);
     // }
-
+    this.ticketSignUpInformation = this.signupService.getSignUpInformation();
     console.log("After ckeck Edit Mode (role = ", this.ticketSignUpInformation.role, ")");
 
     // Si l'utilisateur n'a aucun objectif, on le redirige vers la page d'objectif
     // sinon si une information personnelle est manquante, on le redirige vers la page d'information personnelle
-    if (!this.ticketSignUpInformation.role) {
-      console.log("Redirection vers la page d'objectif");
-      this.router.navigate(['/signup/objectif']);
-    } else if (
-      this.ticketSignUpInformation.fname == undefined ||
-      this.ticketSignUpInformation.lname == undefined ||
-      this.ticketSignUpInformation.email == undefined ||
-      this.ticketSignUpInformation.password == undefined ||
-      this.ticketSignUpInformation.phone == undefined
-    ) {
-      console.log("Redirection vers la page profile");
-      this.router.navigate(['/signup/profile']);
-    }
+    // if (!this.ticketSignUpInformation.role) {
+    //   console.log("Redirection vers la page d'objectif");
+    //   this.router.navigate(['/signup/objectif']);
+    // } else if (
+    //   this.ticketSignUpInformation.fname == undefined ||
+    //   this.ticketSignUpInformation.lname == undefined ||
+    //   this.ticketSignUpInformation.email == undefined ||
+    //   this.ticketSignUpInformation.password == undefined ||
+    //   this.ticketSignUpInformation.phone == undefined
+    // ) {
+    //   console.log("Redirection vers la page profile");
+    //   this.router.navigate(['/signup/profile']);
+    // }
   }
 
   private _initAdresseForm() {
@@ -113,7 +113,6 @@ export class AdresseComponent implements OnInit {
 
     if (
       this.ticketSignUpInformation.email &&
-      this.ticketSignUpInformation.password &&
       this.ticketSignUpInformation.fname &&
       this.ticketSignUpInformation.lname &&
       this.ticketSignUpInformation.phone &&
@@ -229,37 +228,24 @@ export class AdresseComponent implements OnInit {
     // ) {
       this.authUserService.getUserConnected().subscribe((user) => {
 
-        const addressUser = {
-          street: ticketSignUpInformation.street,
-          city: ticketSignUpInformation.city,
-          zip: ticketSignUpInformation.zip,
-          state: ticketSignUpInformation.state,
-          apartement: ticketSignUpInformation.apartement
-        }
-
-        const newUser: UserDTO = {
-          // type User
-          id: user.id,
-          fname: ticketSignUpInformation.fname,
-          lname: ticketSignUpInformation.lname,
-          imageURL: ticketSignUpInformation.imageURL,
-          email: ticketSignUpInformation.email,
-          password: ticketSignUpInformation.password,
-          dob: ticketSignUpInformation.dob,
-          phone: ticketSignUpInformation.phone,
-          address: addressUser,
-          role: user.role,
-          created : user.created
-        };
-
-        // copy newUser into formGroup
-        this.form.patchValue(newUser);
-
-        // remove imageURL
-        delete newUser.imageURL;
+        // put all information of ticketSignUpInformation into new formData
+        const formData = new FormData();
+        formData.append('id', user.id?.toString() || '');
+        formData.append('fname', ticketSignUpInformation.fname || '');
+        formData.append('lname', ticketSignUpInformation.lname || '');
+        formData.append('imageURL', ticketSignUpInformation.imageURL || '');
+        formData.append('phone', ticketSignUpInformation.phone || '');
+        formData.append('street', ticketSignUpInformation.street || '');
+        formData.append('city', ticketSignUpInformation.city || '');
+        formData.append('zip', ticketSignUpInformation.zip || '');
+        formData.append('state', ticketSignUpInformation.state || '');
+        formData.append('apartement', ticketSignUpInformation.apartement || '');
 
         if (user.id) {
-          this.authUserService.updateUser(user.id, newUser).subscribe(() => {
+          this.authUserService.updateUser(user.id, formData).subscribe((userDTO: UserDTO) => {
+            // notify other components that user has been updated
+            this.authUserService.notifier(userDTO);
+
             // message (Toast)
             this.messageService.add({
               severity: 'success',
@@ -281,18 +267,34 @@ export class AdresseComponent implements OnInit {
         this.isUpdate = true;
         this.idUser = params.get('update') ?? undefined;
         this.authUserService.getUserConnected().subscribe(user => {
-          this.adresseForm['fname'].setValue(user.fname);
-          this.adresseForm['lname'].setValue(user.lname);
-          this.adresseForm['email'].setValue(user.email);
-          this.adresseForm['phone'].setValue(user.phone);
-          this.adresseForm['dob'].setValue(user.dob);
-          this.adresseForm['imageURL'].setValue(user.imageURL);
-          this.adresseForm['role'].setValue(user.role);
-          this.adresseForm['street'].setValue(user.address?.street);
-          this.adresseForm['city'].setValue(user.address?.city);
-          this.adresseForm['zip'].setValue(user.address?.zip);
-          this.adresseForm['state'].setValue(user.address?.state);
-          this.adresseForm['apartement'].setValue(user.address?.apartement);
+          // this.form.patchValue(user);
+          console.log("user", user);
+          this.form.patchValue({
+            fname: user.fname,
+            lname: user.lname,
+            email: user.email,
+            phone: user.phone,
+            imageURL: user.imageURL,
+            role: user.role,
+            dob: user.dob,
+            street: user.address?.street,
+            city: user.address?.city,
+            zip: user.address?.zip,
+            state: user.address?.state,
+            apartement: user.address?.apartement,
+          });
+          // this.adresseForm['fname'].setValue(user.fname);
+          // this.adresseForm['lname'].setValue(user.lname);
+          // this.adresseForm['email'].setValue(user.email);
+          // this.adresseForm['phone'].setValue(user.phone);
+          // this.adresseForm['dob'].setValue(user.dob);
+          // this.adresseForm['imageURL'].setValue(user.imageURL);
+          // this.adresseForm['role'].setValue(user.role);
+          // this.adresseForm['street'].setValue(user.address?.street);
+          // this.adresseForm['city'].setValue(user.address?.city);
+          // this.adresseForm['zip'].setValue(user.address?.zip);
+          // this.adresseForm['state'].setValue(user.address?.state);
+          // this.adresseForm['apartement'].setValue(user.address?.apartement);
         });
       }
     })

@@ -104,7 +104,7 @@
                 >
               </div>
 
-              <div class="p-field p-sm-6" *ngIf="!editMode">
+              <div class="p-field p-sm-6">
                 <label for="imageURL">Photo de profil</label><br />
                 <input
                   type="file"
@@ -122,7 +122,7 @@
                   <img [src]="imageDisplay" style="width: 100%" />
                 </div>
 
-                <div class="p-field p-col-12 p-md:col-4">
+                <div class="p-field p-col-12 p-md:col-4" *ngIf="!editMode">
                   <label>Date de naissance</label>
                   <p-calendar
                     [(ngModel)]="value"
