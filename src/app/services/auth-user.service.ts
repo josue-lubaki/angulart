@@ -5,6 +5,7 @@ import { LocalStorageService } from './local-storage.service';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
 import {loginModel} from "../pages/login/models/loginModel";
+import {SignUpDto} from "../pages/signup/models/SignupDto";
 
 @Injectable({
   providedIn: 'root',
@@ -85,8 +86,8 @@ export class AuthUserService {
    * @path https://api.mocki.io/v2/28339143/users/
    * @param user User to create
    */
-  createUser(user: UserDTO) : Observable<UserDTO> {
-    return this.http.post<UserDTO>(this.url, user).pipe(
+  createUser(user: FormData) : Observable<UserDTO> {
+    return this.http.post<SignUpDto>(`${this.urlBase}/auth/register`, user).pipe(
       retry(3),
       catchError((error) => {
         console.log(error);

@@ -6,13 +6,14 @@ import { SignUpService } from '../../signup.service';
 import {
   ObjectifModel,
   PersonalInformationModel,
-  TicketSignUpModel,
+  TicketSignUpModel
 } from '../../models/TicketSignUp';
 import { AuthUserService } from 'src/app/services/auth-user.service';
 import { Subject, takeUntil } from 'rxjs';
 import {Address} from "../../../../models/Address";
 import {COMPTE} from "../../../../models/constantes/compte";
 import { UserDTO } from 'src/app/models/UserDTO';
+import {SignUpDto} from "../../models/SignupDto";
 
 
 @Component({
@@ -21,15 +22,16 @@ import { UserDTO } from 'src/app/models/UserDTO';
   styleUrls: ['./profil.component.scss'],
 })
 export class ProfilComponent implements OnInit, OnDestroy {
-  form: FormGroup;
-  profilInformation: PersonalInformationModel;
+  form!: FormGroup;
+  // profilInformation: PersonalInformationModel;
   submitted = false;
-  ticketSignUpInformation: TicketSignUpModel;
+  ticketSignUpInformation: SignUpDto;
   imageDisplay: string | ArrayBuffer | null | undefined;
   endSubs$: Subject<any> = new Subject();
   value: Date;
-  isUpdated = false;
+  editMode = false;
   private idUser?: string;
+  private readonly role?: string;
 
   constructor(
     private router: Router,
@@ -38,85 +40,76 @@ export class ProfilComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authUserService: AuthUserService,
   ) {
-    this.form = this._initUserForm();
-    this.profilInformation = new PersonalInformationModel();
+
+    //this.profilInformation = new PersonalInformationModel();
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
+    console.log("OnInt Profil, get role", this.ticketSignUpInformation.role);
+    this.role = this.ticketSignUpInformation.role;
     this.value = new Date();
   }
 
   ngOnInit() {
-    // Vérifier si le queryParams contient 'update'
+    // init form
+    this._initUserForm();
+
+    // edit Form when update
+    this._checkUpdateMode();
+
+    // initialisation des champs du formulaire avec les données du ticket
+    this._initFormFields();
+  }
+
+
+  private _checkUpdateMode(){
+    // if user want update information
     this.route.queryParamMap.subscribe((params) => {
       if (params.get('update')) {
-        this.isUpdated = true;
+        this.editMode = true;
         this.idUser = params.get('update') ?? undefined;
-        // get information of user current
+
+        // set old data
         this.authUserService
           .getUserConnected()
           .pipe(takeUntil(this.endSubs$))
           .subscribe((user:UserDTO) => {
-          // pré-remplir le profilInformation, objectif et adresse
-          const obj = new ObjectifModel();
-          if (user.role === COMPTE.CLIENT) obj.isClient = true;
-          else if (user.role === COMPTE.BARBER) obj.isBarber = true;
+            // pre-remplir role client
+            this.userForm['role'].setValue(user.role);
+            this.userForm['email'].setValue(user.email);
+            this.userForm['phone'].setValue(user.phone);
+            this.userForm['fname'].setValue(user.fname);
+            this.userForm['lname'].setValue(user.lname);
+            this.userForm['imageURL'].setValue(user.imageURL);
+            this.imageDisplay = user.imageURL;
+            this.userForm['dob'].setValue(user.dob);
+            this.userForm['street'].setValue(user.address?.street);
+            this.userForm['apartement'].setValue(user.address?.apartement);
+            this.userForm['zip'].setValue(user.address?.zip);
+            this.userForm['city'].setValue(user.address?.city);
+            this.userForm['state'].setValue(user.address?.state);
 
-          // // convert tableau user.dob [year, month, day] to Date
-          // if(user.dob){
-          //   const date = new Date(user.dob[0], user.dob[1], user.dob[2]);
-          //   this.value = date;
-          // }
+            // change Validator
+            this.userForm['street'].setValidators([]);
+            this.userForm['apartement'].setValidators([]);
+            this.userForm['zip'].setValidators([]);
+            this.userForm['city'].setValidators([]);
+            this.userForm['state'].setValidators([]);
+            this.userForm['password'].setValidators([]);
 
-          const personnal = new PersonalInformationModel(
-            user.fname,
-            user.lname,
-            user.imageURL,
-            user.email,
-            "",
-            this.value,
-            user.phone
-          );
+            // update form value Validation
+            this.userForm['password'].updateValueAndValidity();
+            this.userForm['street'].updateValueAndValidity();
+            this.userForm['apartement'].updateValueAndValidity();
+            this.userForm['zip'].updateValueAndValidity();
+            this.userForm['city'].updateValueAndValidity();
+            this.userForm['state'].updateValueAndValidity();
 
-          this.imageDisplay = user.imageURL;
+            this.ticketSignUpInformation = this.userForm;
 
-          const address : Address = {
-            id : user.address?.id,
-            street : user.address?.street,
-            apartement : user.address?.apartement,
-            zip : user.address?.zip,
-            city : user.address?.city,
-            state : user.address?.state
-          };
-
-          this.ticketSignUpInformation.objectif = obj;
-          this.ticketSignUpInformation.address = address;
-          this.ticketSignUpInformation.personalInformation = personnal;
-          this.signupService.setSignUpInformation(this.ticketSignUpInformation)
-          this.form.patchValue(
-            this.ticketSignUpInformation.personalInformation
-          );
-          if(personnal.dob)
-            this.value = personnal.dob
-        });
-      } else {
-        // Pré-remplir les données du formulaire
-        if (this.ticketSignUpInformation.personalInformation) {
-          this.form.patchValue(
-            this.ticketSignUpInformation.personalInformation
-          );
-
-          if (this.ticketSignUpInformation.personalInformation.dob)
-            this.value = this.ticketSignUpInformation.personalInformation.dob;
-        }
-
-        // Si l'utilisateur n'a aucun objectif, on le redirige vers la page d'objectif
-        if (
-          !this.ticketSignUpInformation.objectif.isClient &&
-          !this.ticketSignUpInformation.objectif.isBarber
-        ) {
-          this.router.navigate(['/signup/objectif']);
-        }
+            // set ticketSignUpInformation to service
+            this.signupService.setSignUpInformation(this.ticketSignUpInformation);
+          })
       }
-    });
+    })
   }
 
   /**
@@ -125,7 +118,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
    * @return FormGroup
    */
   private _initUserForm() {
-    return this.fb.group({
+    this.form = this.fb.group({
       fname: ['', Validators.required],
       lname: ['', Validators.required],
       email: [
@@ -135,7 +128,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ],
       ],
-      password: ['password', [Validators.minLength(8)]],
+      password: ['', [Validators.minLength(8)]],
       imageURL: [''],
       phone: [
         '',
@@ -163,23 +156,43 @@ export class ProfilComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // setter les informations du form dans PersonalInformation variable
-    this.profilInformation = this.form.value as PersonalInformationModel;
-    this.profilInformation.dob = this.value;
-    this.ticketSignUpInformation.personalInformation = this.profilInformation;
+    // set all information on ticketSignUpInformation
+    this.ticketSignUpInformation.role = this.role;
+    this.ticketSignUpInformation.email = this.form.value.email;
+    this.ticketSignUpInformation.phone = this.form.value.phone;
+    this.ticketSignUpInformation.fname = this.form.value.fname;
+    this.ticketSignUpInformation.lname = this.form.value.lname;
+    this.ticketSignUpInformation.imageURL = this.form.value.imageURL;
+    this.ticketSignUpInformation.dob = this.value;
+    this.ticketSignUpInformation.street = this.form.value.street;
+    this.ticketSignUpInformation.apartement = this.form.value.apartement;
+    this.ticketSignUpInformation.zip = this.form.value.zip;
+    this.ticketSignUpInformation.city = this.form.value.city;
+    this.ticketSignUpInformation.state = this.form.value.state;
+    this.ticketSignUpInformation.password = this.form.value.password;
 
-    if (
-      this.ticketSignUpInformation.objectif &&
-      this.ticketSignUpInformation.personalInformation
-    ) {
-      this.ticketSignUpInformation.personalInformation = this.profilInformation;
+
+    console.log("This.ticket", this.ticketSignUpInformation);
+
+    // setter les informations du form dans PersonalInformation variable
+    // this.profilInformation = this.form.value as PersonalInformationModel;
+    // this.profilInformation.dob = this.value;
+    // this.ticketSignUpInformation.personalInformation = this.profilInformation;
+
+    // if (
+    //   this.ticketSignUpInformation.objectif &&
+    //   this.ticketSignUpInformation.personalInformation
+    // ) {
+    //   this.ticketSignUpInformation.personalInformation = this.profilInformation;
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
 
-      if(this.isUpdated)
+    console.log("NEXT PROFIL", this.ticketSignUpInformation);
+
+      if(this.editMode)
         this.router.navigate(['/signup/address'], {queryParams: { update: this.idUser}});
       else
         this.router.navigate(['/signup/address']);
-    }
+    // }
   }
 
   /**
@@ -187,7 +200,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
    * @return void
    */
   prevPage() {
-    if(this.isUpdated)
+    if(this.editMode)
       this.router.navigate(['/profile']);
     else
       this.router.navigate(['/signup/objectif']);
@@ -215,5 +228,23 @@ export class ProfilComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.endSubs$.next(null)
     this.endSubs$.complete()
+  }
+
+  private _initFormFields() {
+    if(this.ticketSignUpInformation){
+      this.form.patchValue({
+        fname: this.ticketSignUpInformation.fname,
+        lname: this.ticketSignUpInformation.lname,
+        email: this.ticketSignUpInformation.email,
+        phone: this.ticketSignUpInformation.phone,
+        imageURL: this.ticketSignUpInformation.imageURL,
+        street: this.ticketSignUpInformation.street,
+        apartement: this.ticketSignUpInformation.apartement,
+        zip: this.ticketSignUpInformation.zip,
+        city: this.ticketSignUpInformation.city,
+        state: this.ticketSignUpInformation.state,
+        password: this.ticketSignUpInformation.password,
+      });
+    }
   }
 }
