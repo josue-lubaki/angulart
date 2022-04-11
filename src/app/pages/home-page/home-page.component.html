@@ -1,17 +1,32 @@
+<!-- Si l'Utilisateur est un Client -->
 <div
   class="p-grid p-grid-column p-fluid p-formgrid p-jc-evenly home-page-container"
-  *ngIf="!isBarber"
->
-  <!-- Si l'Utilisateur est un Client -->
+  *ngIf="!isBarber">
+<!-- Si les données sur les coiffures existent -->
   <app-home-card
     class="p-col-6 p-md-4 p-lg-3 p-xl-3 p-mb-3 home-page-container-haircut-card"
     *ngFor="let hc of haircuts"
     [haircut]="hc"
   ></app-home-card>
+<!-- Sinon -->
+  <div
+    class="p-col-12 p-md-12 p-lg-12 p-xl-12 p-mb-3 home-page-container-no-haircut-card"
+    *ngIf="!haircuts.length"
+  >
+    <div class="p-grid p-formgrid p-fluid p-jc-center">
+      <div class="p-col-12 p-md-12 p-lg-12 p-xl-12 p-text-center">
+        <h3>
+          <i class="pi pi-info-circle"></i>
+          {{ 'Serveur démarre dans ' }} <span style="color:#ff0000"> {{timer}} </span>  {{ " secondes" }}
+        </h3>
+        <img src="assets/loader.gif" alt="loader"/>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- Si l'Utilisateur est un Coiffeur -->
 <div class="home-page-container" *ngIf="isBarber">
-  <!-- Si l'Utilisateur est un Coiffeur -->
   <div
     *ngIf="reservations.length == 0"
     class="p-col-12 p-md-12 p-lg-12 p-xl-12 p-mb-12 p-text-center home-page-container-haircut-card"
