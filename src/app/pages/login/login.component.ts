@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import {loginModel} from "./models/loginModel";
 import {UserDTO} from "../../models/UserDTO";
+import {LoginResponse} from "./models/LoginResponse";
 
 @Component({
   selector: 'app-login',
@@ -70,21 +71,42 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    // verifier si la connexion internet est disponible
+    if (!window.navigator.onLine) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Vérifier votre connexion internet',
+      });
+      this.isDisabled = false;
+    }
+
     this.isDisabled = true;
     const user: loginModel = {
       username: this.form.value.username,
       password: this.form.value.password,
     };
-    this.authUserService.login(user).subscribe((responseLogin : any) => {
+    this.authUserService.login(user).subscribe((response : LoginResponse) => {
 
-      // Verifier si la responseLogin contient "email" et "token"
-      if(responseLogin.email === user.username && responseLogin.token) {
+      // si mauvais identifiant
+      if (response.email !== user.username || response.status == 'error') {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Identifiant ou mot de passe incorrect',
+        });
+        this.isDisabled = false;
+        return;
+      }
+
+      // Verifier si la response contient "email" et "token"
+      if(response.email === user.username && response.token) {
         // save to LocalStorage
-        this.localStorage.setToken(responseLogin.token)
-        this.localStorage.setUserCurrent(responseLogin.id)
-        this.localStorage.setVariable("email", responseLogin.email)
+        this.localStorage.setToken(response.token)
+        this.localStorage.setUserCurrent(response.id)
+        this.localStorage.setVariable("email", response.email)
 
-        this.authUserService.getUserById(responseLogin.id).subscribe((user : UserDTO) => {
+        this.authUserService.getUserById(response.id).subscribe((user : UserDTO) => {
 
           // notifie les autres composants
           this.authUserService.notifier(user);

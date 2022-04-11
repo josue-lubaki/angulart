@@ -50,8 +50,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "300kb",
-                  "maximumError": "400kb"
+                  "maximumWarning": "900kb",
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -68,7 +68,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "namedChunks": true,
-              "sourceMap": false
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"

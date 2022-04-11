@@ -30,6 +30,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   location$: any;
   endSubs$: Subject<any> = new Subject();
   user?: UserDTO;
+  timer: number;
 
   constructor(
     private haircutService: HaircutService,
@@ -44,6 +45,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
       center: { lat: 46.3470097, lng: -72.5753559 },
       zoom: 14,
     };
+
+    // créer un compteur de 20sec à 0sec
+    this.timer = 21;
 
     this.authUserService.getUserConnected().subscribe(user => {
       this.user = user;
@@ -115,7 +119,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       });
     }else{
       // go to login page
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     }
 
     // initialisation du service de localisation
@@ -138,6 +142,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
       center: { lat: 46.3470097, lng: -72.5753559 },
       zoom: 14,
     };
+
+    setInterval(() => {
+      if(this.haircuts.length == 0){
+        this.timer--;
+        if(this.timer == 0){
+          this.timer = 21;
+        }
+      }
+    }, 1000);
 
     // on récupère les réservations dont le coiffeur n'existe pas encore
     //this.getReservationWithoutBarber();
