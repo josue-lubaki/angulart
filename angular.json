@@ -45,13 +45,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "8mb",
-                  "maximumError": "10mb"
+                  "maximumWarning": "15mb",
+                  "maximumError": "20mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "280kb",
-                  "maximumError": "300kb"
+                  "maximumWarning": "300kb",
+                  "maximumError": "400kb"
                 }
               ],
               "fileReplacements": [
@@ -68,7 +68,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "namedChunks": true,
-              "sourceMap": true
+              "sourceMap": false
             }
           },
           "defaultConfiguration": "production"

@@ -20,10 +20,6 @@ export class AuthUserService {
   private urlBase = environment.urlBase;
 
   constructor(private localStorage: LocalStorageService, private http: HttpClient) {
-    // this.getUsers().subscribe(users => {
-    //   this.users = users;
-    //   console.log('Services : Users List', this.users);
-    // });
       // get user from local storage, if exist
       const id = this.localStorage.getUserCurrent();
       if (id) {
