@@ -33,6 +33,7 @@ import { GMapModule } from 'primeng/gmap';
 // services
 import { MessageService } from 'primeng/api';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import { AuthGuard } from './services/auth.guard';
 
 const primengModule = [GMapModule]
 const allModules = [
@@ -49,10 +50,22 @@ const allModules = [
 const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'details/:id', component: DetailHaircutComponent },
-  { path: 'reservations/:id', component: ReservationDetailsPageComponent },
-  { path: 'profile', component: MyProfileComponent },
-  {path: 'forgot-password', component: PasswordForgotComponent},
+  {
+    path: 'details/:id',
+    component: DetailHaircutComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'reservations/:id',
+    component: ReservationDetailsPageComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'profile',
+    component: MyProfileComponent,
+    canActivate : [AuthGuard]
+  },
+  { path: 'forgot-password', component: PasswordForgotComponent},
   {
     path: 'signup',
     component: SignupComponent,

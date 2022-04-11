@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReservationDTO } from '../models/ReservationDTO';
-import {catchError, map, Observable, retry, Subscriber, throwError} from 'rxjs';
+import {catchError, map, Observable, retry, throwError} from 'rxjs';
 import {environment} from "../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
 
@@ -11,13 +11,7 @@ export class ReservationService {
   private url = environment.urlAPI + '/reservations';
   reservations: ReservationDTO[] = [];
 
-  constructor(private http: HttpClient) {
-    // see all reservations
-    // this.getReservations().subscribe((reservations) => {
-    //   this.reservations = reservations;
-    //   console.log('Reservations', this.reservations);
-    // });
-  }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get All Reservations
@@ -44,20 +38,6 @@ export class ReservationService {
         console.log(error);
         return throwError(error);
       }));
-    // return new Observable<ReservationDTO>((observer) => {
-    //   this.getReservations().subscribe(rs => {
-    //     let newReservation = rs.find(r => r.id = reservation.id)
-    //     if(newReservation){
-    //       newReservation= reservation
-    //       observer.next(newReservation)
-    //     }
-    //   })
-    // }).pipe(
-    //   retry(3),
-    //   catchError((error) => {
-    //     console.log(error);
-    //     return throwError(error);
-    //   }));
   }
 
   /**
@@ -120,19 +100,6 @@ export class ReservationService {
         console.log(error);
         return throwError(error);
       }));
-  }
-
-  /**
-  * Fonction qui permet de générer un UUID
-  * @deprecated
-   * @return string
-  */
-  private _generateUUID(): string {
-    return 'xxxx-xxxxxxxx-4xyx-yxxxyxxxx-xxxxxxxxyyyy'.replace(/[xy]/g, (c) => {
-      const r = (Math.random() * 16) | 0;
-      const v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
   }
 
   /**
