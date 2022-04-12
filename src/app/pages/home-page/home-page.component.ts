@@ -11,6 +11,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import {Router} from "@angular/router";
 import { COMPTE } from 'src/app/models/constantes/compte';
 import {UserDTO} from "../../models/UserDTO";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-home-page',
@@ -38,7 +39,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private authUserService: AuthUserService,
     private googleMapService: GoogleMapService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     // init map
     this.options = {
@@ -148,6 +150,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.timer--;
         if(this.timer == 0){
           this.timer = 21;
+          // message d'alerte
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Alerte',
+            detail: 'Actualisez la page'
+          });
         }
       }
     }, 1000);

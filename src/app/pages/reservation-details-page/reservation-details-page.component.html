@@ -51,10 +51,11 @@
       <p class="card-right-price">${{ reservation.haircut?.price }}</p>
       <p>Temps estimé : {{ reservation.haircut?.estimatedTime }}</p>
       <p>
-        Date Prévue : {{ reservation.reservationDate | date }}
-        {{ reservation.reservationTime?.hours }}:{{
-          reservation.reservationTime?.minutes
-        }}
+        Date Prévue : {{ reservation.reservationDate | date }} à
+        {{ reservation.reservationTime?.hours }}:<span *ngIf="reservation.reservationTime">
+        <span *ngIf="reservation.reservationTime.minutes < 10">0{{reservation.reservationTime.minutes}}</span>
+        <span *ngIf="reservation.reservationTime.minutes >= 10">{{reservation.reservationTime.minutes}}</span>
+      </span>
       </p>
       <p *ngIf="reservation?.status == STATUS.PENDING" style="margin: 0 auto">
         <button
