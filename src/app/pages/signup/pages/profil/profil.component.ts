@@ -16,7 +16,6 @@ import {SignUpDto} from "../../models/SignupDto";
 })
 export class ProfilComponent implements OnInit, OnDestroy {
   form!: FormGroup;
-  // profilInformation: PersonalInformationModel;
   submitted = false;
   ticketSignUpInformation: SignUpDto;
   imageDisplay: string | ArrayBuffer | null | undefined;
@@ -34,7 +33,6 @@ export class ProfilComponent implements OnInit, OnDestroy {
     private authUserService: AuthUserService,
   ) {
 
-    //this.profilInformation = new PersonalInformationModel();
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
     console.log("OnInt Profil, get role", this.ticketSignUpInformation.role);
     this.role = this.ticketSignUpInformation.role;
@@ -110,7 +108,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
         ],
       ],
       password: ['', [Validators.minLength(8)]],
-      imageURL: [''],
+      imageURL: ['', Validators.required],
       phone: [
         '',
         [
@@ -143,7 +141,6 @@ export class ProfilComponent implements OnInit, OnDestroy {
     this.ticketSignUpInformation.phone = this.form.value.phone;
     this.ticketSignUpInformation.fname = this.form.value.fname;
     this.ticketSignUpInformation.lname = this.form.value.lname;
-    this.ticketSignUpInformation.imageURL = this.form.value.imageURL;
     this.ticketSignUpInformation.dob = this.value;
     this.ticketSignUpInformation.street = this.form.value.street;
     this.ticketSignUpInformation.apartement = this.form.value.apartement;
@@ -151,6 +148,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
     this.ticketSignUpInformation.city = this.form.value.city;
     this.ticketSignUpInformation.state = this.form.value.state;
     this.ticketSignUpInformation.password = this.form.value.password;
+    this.ticketSignUpInformation.imageURL = this.form.value.imageURL;
 
 
     console.log("This.ticket", this.ticketSignUpInformation);

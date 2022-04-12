@@ -61,7 +61,7 @@ export class SignupComponent implements OnInit {
       lname: ['', Validators.required],
       email: ['', Validators.required, Validators.email],
       password: ['', Validators.required, Validators.minLength(8)],
-      imageURL: ['', Validators.required],
+      imageURL: ['./assets/user.png', Validators.required],
       dob: ['', Validators.required],
       address: this.formBuilder.group({
         // nested form group (address)
