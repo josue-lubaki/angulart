@@ -15,7 +15,7 @@ export interface ReservationTimeDTO {
 export interface ReservationDTO {
   id?: number | string;
   reservationDate?: Date;
-  reservationTime?: Time;
+  reservationTime: Time;
   haircut?: HaircutDTO;
   status?: string;
   client?: UserDTO;
