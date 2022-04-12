@@ -34,7 +34,6 @@ export class ProfilComponent implements OnInit, OnDestroy {
   ) {
 
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
-    console.log("OnInt Profil, get role", this.ticketSignUpInformation.role);
     this.role = this.ticketSignUpInformation.role;
     this.value = new Date();
   }
@@ -63,7 +62,6 @@ export class ProfilComponent implements OnInit, OnDestroy {
           .getUserConnected()
           .pipe(takeUntil(this.endSubs$))
           .subscribe((user:UserDTO) => {
-            console.log("user", user);
             this.role = user.role;
             this.imageDisplay = user.imageURL;
             // pre-remplir les champs du formulaire
@@ -73,6 +71,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
               email: user.email,
               phone: user.phone,
               imageURL: user.imageURL,
+              password: user.password,
               role: user.role,
               dob: user.dob,
               street: user.address?.street,
@@ -150,11 +149,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
     this.ticketSignUpInformation.password = this.form.value.password;
     this.ticketSignUpInformation.imageURL = this.form.value.imageURL;
 
-
-    console.log("This.ticket", this.ticketSignUpInformation);
     this.signupService.setSignUpInformation(this.ticketSignUpInformation);
-
-    console.log("NEXT PROFIL", this.ticketSignUpInformation);
 
       if(this.editMode)
         this.router.navigate(['/signup/address'], {queryParams: { update: this.idUser}});
@@ -178,7 +173,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
    * Fonction qui pemet de uploader une image
    * @method patchValue() ajouter un champ une valeur dans un FormGroup
    * @method updateValueAndValidity notifie s'il y a eu changement dans le formulaire
-   * @param event : le fichier image à upload
+   * @param event le fichier image à upload
    */
   onImageUpdload(event: any) {
     const file = event.target.files[0];

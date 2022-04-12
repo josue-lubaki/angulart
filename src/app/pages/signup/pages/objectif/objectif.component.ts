@@ -31,14 +31,10 @@ export class ObjectifComponent implements OnInit {
 
   ngOnInit(): void {
     this.ticketSignUpInformation = this.signupService.getSignUpInformation();
-    console.log("OnInit",this.ticketSignUpInformation);
     const objectif = this.ticketSignUpInformation?.role;
     // identifier si l'utilisateur veut modifier son type de compte
     if (this.role && objectif != this.role) {
       this.isModified = true;
-      // this.role = this.ticketSignUpInformation.role;
-      // this.isModified =
-      //   this.role != this.objectifInformation.isBarber;
     }
   }
 
@@ -70,16 +66,7 @@ export class ObjectifComponent implements OnInit {
   createClient() {
       this.role = COMPTE.CLIENT;
       this.ticketSignUpInformation.role = COMPTE.CLIENT;
-    // if (this.isModified) {
-    //   // this.objectifInformation = new ObjectifModel();
-    //   // this.objectifInformation.isClient = true;
-    //   // this.nextPage();
-    //   // return;
-    // }
 
-    console.log("CREATE CLIENT", this.ticketSignUpInformation);
-
-    //this.objectifInformation.isClient = true;
     this.nextPage();
   }
 
@@ -89,15 +76,6 @@ export class ObjectifComponent implements OnInit {
   createBarber() {
     this.role = COMPTE.BARBER;
     this.ticketSignUpInformation.role = COMPTE.BARBER;
-    // if (this.isModified) {
-    //   this.objectifInformation = new ObjectifModel();
-    //   this.objectifInformation.isBarber = true;
-    //   this.nextPage();
-    //   return;
-    // }
-    //
-    // this.objectifInformation.isBarber = true;
-    console.log("CREATE BARBER", this.ticketSignUpInformation);
     this.nextPage();
   }
 }
