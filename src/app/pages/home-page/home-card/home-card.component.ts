@@ -28,18 +28,6 @@ export class HomeCardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // // Retrieve id of logged user from local storage
-    // const idUserConnected = this.localStorageService.getUserCurrent();
-    // console.log("idUser", idUserConnected);
-    //
-    // // get actual user connected
-    // if (idUserConnected){
-    //   this.authUserService.getUserById(idUserConnected).subscribe((user) => {
-    //     this.user = user;
-    //     console.log("user", this.user);
-    //   });
-    // }
-
     this.authUserService
       .getUserConnected()
       .pipe(takeUntil(this.endSubs$))

@@ -63,7 +63,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if(this.user){
           if(this.user.imageURL instanceof ArrayBuffer || this.user.imageURL instanceof Blob) {
             const file = this.user?.imageURL as unknown as Blob;
-            console.log('file', file);
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
