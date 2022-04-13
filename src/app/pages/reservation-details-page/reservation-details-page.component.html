@@ -16,8 +16,8 @@
     <div class="card-right">
       <span>
         Salut, Si tu es intéressé pour me coiffer, je serai sur cette adresse : <br>
-        <span *ngIf="reservation.client?.address?.apartement">
-          #{{ reservation.client?.address?.apartement }},
+        <span *ngIf="reservation.client?.address?.apartment">
+          #{{ reservation.client?.address?.apartment }},
         </span>
         Rue {{ reservation.client?.address?.street }} dans la ville de
         {{ reservation.client?.address?.city }}/{{ reservation.client?.address?.state }}<br>

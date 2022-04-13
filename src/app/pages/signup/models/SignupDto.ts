@@ -14,7 +14,7 @@ export interface SignUpDto{
 
   // address information
   street? : string;
-  apartement?: string;
+  apartment?: string;
   zip? : string;
   city? : string;
   state? : string;
