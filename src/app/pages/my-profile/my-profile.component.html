@@ -68,11 +68,11 @@
                 <b>Adresse</b>
               </div>
             </p-divider>
-            <p *ngIf="user.address.apartement">
-              <span>Rue</span> : #{{ user.address.apartement }},
+            <p *ngIf="user.address.apartment">
+              <span>Rue</span> : #{{ user.address.apartment }},
               {{ user.address.street }}
             </p>
-            <p *ngIf="!user.address.apartement">
+            <p *ngIf="!user.address.apartment">
               <span>Rue</span> : {{ user.address.street }}
             </p>
             <p><span>Ville</span>: {{ user.address.city }}</p>

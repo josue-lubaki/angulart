@@ -78,7 +78,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
               city: user.address?.city,
               zip: user.address?.zip,
               state: user.address?.state,
-              apartement: user.address?.apartement,
+              apartment: user.address?.apartment,
             });
 
             this.ticketSignUpInformation = this.form.value;
@@ -142,7 +142,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
     this.ticketSignUpInformation.lname = this.form.value.lname;
     this.ticketSignUpInformation.dob = this.value;
     this.ticketSignUpInformation.street = this.form.value.street;
-    this.ticketSignUpInformation.apartement = this.form.value.apartement;
+    this.ticketSignUpInformation.apartment = this.form.value.apartment;
     this.ticketSignUpInformation.zip = this.form.value.zip;
     this.ticketSignUpInformation.city = this.form.value.city;
     this.ticketSignUpInformation.state = this.form.value.state;
@@ -202,7 +202,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
         phone: this.ticketSignUpInformation.phone,
         imageURL: this.ticketSignUpInformation.imageURL,
         street: this.ticketSignUpInformation.street,
-        apartement: this.ticketSignUpInformation.apartement,
+        apartment: this.ticketSignUpInformation.apartment,
         zip: this.ticketSignUpInformation.zip,
         city: this.ticketSignUpInformation.city,
         state: this.ticketSignUpInformation.state,

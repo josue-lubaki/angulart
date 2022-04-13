@@ -56,7 +56,7 @@ export class AdresseComponent implements OnInit {
         ],
       ],
       state: ['', Validators.required],
-      apartement: ['', Validators.required],
+      apartment: ['', Validators.required],
     });
   }
 
@@ -91,7 +91,7 @@ export class AdresseComponent implements OnInit {
     this.ticketSignUpInformation.city = this.addressInformation.city;
     this.ticketSignUpInformation.zip = this.addressInformation.zip;
     this.ticketSignUpInformation.state = this.addressInformation.state;
-    this.ticketSignUpInformation.apartement = this.addressInformation.apartement;
+    this.ticketSignUpInformation.apartment = this.addressInformation.apartment;
 
       this.signupService.setSignUpInformation(this.ticketSignUpInformation);
       this.signupService.complete();
@@ -123,7 +123,7 @@ export class AdresseComponent implements OnInit {
     formData.append('city', ticketSignUpInformation.city || '');
     formData.append('zip', ticketSignUpInformation.zip || '');
     formData.append('state', ticketSignUpInformation.state || '');
-    formData.append('apartement', ticketSignUpInformation.apartement || '');
+    formData.append('apartment', ticketSignUpInformation.apartment || '');
     formData.append('role', ticketSignUpInformation.role || '');
 
     this.authUserService.createUser(formData).subscribe(user => {
@@ -166,7 +166,7 @@ export class AdresseComponent implements OnInit {
         formData.append('city', ticketSignUpInformation.city || '');
         formData.append('zip', ticketSignUpInformation.zip || '');
         formData.append('state', ticketSignUpInformation.state || '');
-        formData.append('apartement', ticketSignUpInformation.apartement || '');
+        formData.append('apartment', ticketSignUpInformation.apartment || '');
 
         if (user.id) {
           this.authUserService.updateUser(user.id, formData).subscribe((userDTO: UserDTO) => {
@@ -205,7 +205,7 @@ export class AdresseComponent implements OnInit {
             city: user.address?.city,
             zip: user.address?.zip,
             state: user.address?.state,
-            apartement: user.address?.apartement,
+            apartment: user.address?.apartment,
           });
         });
       }

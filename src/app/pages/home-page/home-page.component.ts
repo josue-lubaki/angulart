@@ -148,14 +148,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     setInterval(() => {
       if(this.haircuts.length == 0){
         this.timer--;
-        if(this.timer == 0){
+        if(this.timer == 0 && this.haircuts.length == 0){
           this.timer = 21;
           // message d'alerte
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Alerte',
-            detail: 'Actualisez la page'
-          });
+          // this.messageService.add({
+          //   severity: 'warn',
+          //   summary: 'Alerte',
+          //   detail: 'Actualisez la page'
+          // });
         }
       }
     }, 1000);
