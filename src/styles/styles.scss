@@ -5,7 +5,8 @@
 @import "../app/pages/signup/signup.component.scss";
 
 html{
-  background-color: $color-dark-blue;
+  //background-color: $color-dark-blue;
+  background-image: $color-primary;
 }
 
 body {
@@ -24,6 +25,11 @@ body {
     ) !important;
     color: black !important;
   }
+
+  .container:not(.p-fluid) {
+    border-radius: 20px;
+    box-shadow: 0 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
 }
 
 // Réduire la taille du Toast pour la version mobile
@@ -37,5 +43,19 @@ body {
 @media only screen and (min-width: 2100px) {
   .p-dialog{
     width: 60vw !important;
+  }
+
+  body{
+    width: 65vw !important;
+    margin: .75% auto !important;
+    transition: all .5s ease-in-out;
+  }
+}
+// width entre 1025 et 1800px
+@media only screen and (min-width: 1025px) and (max-width: 2099px) {
+  body{
+    width: 85vw !important;
+    margin: .75% auto !important;
+    transition: all .5s ease-in-out;
   }
 }
