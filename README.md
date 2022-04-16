@@ -13,7 +13,10 @@ it's the hairdresser who comes to you.
 ### Responsive Design
 <p>
 <img src="https://i.imgur.com/59bZxCq.png" width=280 height=480 style="border: 3px solid black" alt="HomePage image mobile"/>&emsp;
-<img src="https://imgur.com/Wbp9t9j.png" width=280 height=480 style="border: 3px solid black" alt="Profile image mobile"/>&emsp;
+<img src="https://imgur.com/Wbp9t9j.png" width=280 height=480 style="border: 3px solid black" alt="Profile image mobile"/>
+</p>
+<p>
+<img src="https://imgur.com/oTelS1K.png" width=280 height=480 style="border: 3px solid black" alt="Login image mobile"/>&emsp;
 <img src="https://imgur.com/e2huiqt.png" width=280 height=480 style="border: 3px solid black" alt="Reservation image mobile"/>
 </p>
 
