@@ -18,9 +18,10 @@
       <h3>Nos Liens importants</h3>
       <ul>
         <li><a routerLink="/profile">Mon Profil</a></li>
-        <li><a routerLink="/login">Se Connecter</a></li>
-        <li><a routerLink="/signup">Devenir Barber</a></li>
-        <li><a routerLink="/signup">Créer un compte</a></li>
+        <li *ngIf="!isVisible"><a routerLink="/login">Se Connecter</a></li>
+        <li *ngIf="!isVisible"><a routerLink="/signup" >Devenir Barber</a></li>
+        <li *ngIf="!isVisible"><a routerLink="/signup">Créer un compte</a></li>
+        <li><a href="https://springulart.herokuapp.com/" target="_blank">Notre API</a></li>
       </ul>
     </div>
   </div>
