@@ -48,8 +48,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
       zoom: 14,
     };
 
-    // créer un compteur de 20sec à 0sec
-    this.timer = 21;
+    // créer un compteur de 30sec à 0sec
+    this.timer = 30;
 
     this.authUserService.getUserConnected().subscribe(user => {
       this.user = user;
@@ -149,7 +149,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       if(this.haircuts.length == 0){
         this.timer--;
         if(this.timer == 0 && this.haircuts.length == 0){
-          this.timer = 21;
+          this.timer = 30;
           // message d'alerte
           // this.messageService.add({
           //   severity: 'warn',
