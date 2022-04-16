@@ -55,9 +55,7 @@
       background-color: #fff;
       margin-right: 0.5rem;
       margin-bottom: 0.5rem;
-      margin-bottom: 0.5rem;
       padding: 0.5rem !important;
-      overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
       -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -97,13 +95,6 @@
 @media only screen and (min-width: 2100px) {
   .home-page-container {
     transition: all 0.6s ease;
-    //display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0.5rem 1rem !important;
-    margin: 0 auto !important;
-    width: 65%;
-
     &-haircut-card {
       width: 25%;
     }

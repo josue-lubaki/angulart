@@ -52,8 +52,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'details/:id',
-    component: DetailHaircutComponent,
-    canActivate : [AuthGuard]
+    component: DetailHaircutComponent
   },
   {
     path: 'reservations/:id',

@@ -113,16 +113,10 @@
 
         button {
           width: 50%;
-          margin: 5px 0px;
+          margin: 5px 0;
         }
       }
     }
   }
 }
 
-@media only screen and (min-width: 2100px) {
-  .container{
-    margin: 0 auto;
-    width: 65%;
-  }
-}
