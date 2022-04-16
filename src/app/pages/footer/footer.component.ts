@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthUserService } from 'src/app/services/auth-user.service';
+import {UserDTO} from "../../models/UserDTO";
 
 @Component({
   selector: 'app-footer',
@@ -7,8 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  ngOnInit(): void {
-    // ngOnInit Method
-  }
+  isVisible = false;
 
+  constructor(private authUserService : AuthUserService) {}
+
+  ngOnInit(): void {
+    // verifier si l'utilisateur est connecté
+    this.authUserService.userConnected$.subscribe(
+      ((user: UserDTO) => {
+        this.isVisible = !!user;
+      })
+    );
+  }
 }
